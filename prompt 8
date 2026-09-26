@@ -1,0 +1,925 @@
+EXECUTE THIS AS A HARD, SINGLE-MILESTONE ENGINEERING TASK.
+
+============================================================
+MANDATORY: TRUE MULTI-AGENT ORCHESTRATED EXECUTION
+============================================================
+
+You MUST use a multi-agent/subagent system for this task.
+
+Do NOT treat agents as independent workers that randomly edit files.
+
+Use ONE ORCHESTRATOR AGENT plus SPECIALIST AGENTS.
+
+The orchestrator owns:
+- task decomposition
+- agent coordination
+- dependency ordering
+- conflict resolution
+- integration decisions
+- final validation
+- final report
+
+Specialist agents provide focused analysis/implementation and report back
+to the orchestrator.
+
+IMPORTANT:
+- Agents must not duplicate each other's work.
+- Agents must not silently overwrite another agent's architectural decisions.
+- Agents must communicate findings before downstream implementation begins.
+- The orchestrator must inspect specialist outputs before integration.
+- The orchestrator has final authority over code integration.
+- No agent may commit or push.
+
+============================================================
+AGENT SYSTEM
+============================================================
+
+ORCHESTRATOR AGENT
+Role:
+Lead engineer / integration owner.
+
+Responsibilities:
+1. Establish the current repository state.
+2. Assign specialist tasks below.
+3. Collect their findings.
+4. Resolve architectural conflicts.
+5. Define the implementation order.
+6. Ensure existing working systems are preserved.
+7. Integrate the Organic Chemistry vertical slice.
+8. Run final tests/build/lint/typecheck.
+9. Inspect rendered UI.
+10. Produce final milestone report.
+
+Do NOT start writing major implementation code before receiving
+the architecture audit and chemistry/design outputs.
+
+------------------------------------------------------------
+
+AGENT 1 — REPOSITORY + ARCHITECTURE AUDITOR
+------------------------------------------------------------
+
+Read the repository efficiently.
+
+Inspect ONLY relevant areas.
+
+Find and report:
+
+1. topic entry flow
+2. topic plan API
+3. topic plan types/schema
+4. KnowledgeGraph engine
+5. mastery engine
+6. diagnostic engine
+7. current topic-experience-shell.tsx
+8. current student-learning-canvas.tsx
+9. existing learning workspace components
+10. fraction-specific components
+11. reusable graph/state primitives
+12. current mock/zero-API mode
+13. existing evidence structures
+14. current documentation state
+
+Determine:
+
+A. Which systems are already generic and reusable.
+B. Which systems are still fraction-specific.
+C. Which components should be extended.
+D. Which components should be isolated.
+E. The smallest safe integration path for Organic Chemistry.
+
+DO NOT:
+- rewrite the mastery engine
+- rewrite the graph engine
+- rewrite the AI planner
+- redesign backend architecture unnecessarily
+
+OUTPUT TO ORCHESTRATOR:
+
+ARCHITECTURE_FINDINGS:
+- reusable systems
+- fraction-coupled systems
+- files requiring change
+- files that must remain untouched
+- integration risks
+- recommended implementation boundaries
+
+STOP after reporting findings.
+
+Do not implement major features in this phase.
+
+------------------------------------------------------------
+
+AGENT 2 — ORGANIC CHEMISTRY CURRICULUM SPECIALIST
+------------------------------------------------------------
+
+Create the canonical Organic Chemistry demo learning route.
+
+Primary demo topic:
+
+"Organic Chemistry — From Carbon to Organic Molecules"
+
+Design this as a DEMO CURRICULUM layered on top of the generic KEA
+topic-to-mastery system.
+
+ROUTE:
+
+STAGE 1 — Carbon Fundamentals
+- carbon valency / tetravalency
+- four bonding capacity
+- covalent bonding
+- catenation
+- carbon-carbon bonds
+- structural representation
+
+STAGE 2 — Hydrocarbon Foundations
+- alkanes
+- alkenes
+- alkynes
+- saturated vs unsaturated
+- single/double/triple bonds
+- carbon chains
+
+STAGE 3 — Functional Groups
+- alcohol
+- aldehyde
+- ketone
+- carboxylic acid
+- amine
+- visual identification
+
+STAGE 4 — Structure & Isomerism
+- structural formula
+- molecular connectivity
+- chain isomerism
+- positional differences
+- visual structural comparison
+
+STAGE 5 — Reactions & Application
+- bond changes
+- reaction type recognition
+- reactant → transformation → product
+- application problems
+- mastery checkpoint
+
+For every stage provide:
+
+- stage objective
+- concepts
+- prerequisite relationships
+- suggested visual activities
+- evidence that can be produced
+- eventual mastery condition
+
+IMPORTANT:
+
+Keep the data topic-agnostic in architecture.
+
+Organic Chemistry is the demonstration domain, not the entire product.
+
+OUTPUT TO ORCHESTRATOR:
+
+CURRICULUM_SPEC:
+- stage structure
+- concept IDs
+- prerequisite relationships
+- visual activity mapping
+- evidence mapping
+- demo fallback structure
+
+STOP after reporting.
+
+------------------------------------------------------------
+
+AGENT 3 — VISUAL LEARNING EXPERIENCE DESIGNER
+------------------------------------------------------------
+
+Design the actual visual teaching experience.
+
+Use the uploaded titration experience as the QUALITY BAR where available.
+
+The product must visually TEACH.
+
+Avoid:
+- paragraph-heavy pages
+- generic dashboards
+- static illustrations
+- emoji molecules
+- fake screenshots
+- decorative cards with no learning function
+
+Prefer:
+- SVG
+- animated bonds
+- interactive atoms
+- live molecular states
+- manipulatives
+- visual comparisons
+- dynamic labels
+- live calculations
+- graph transitions
+- scientific diagrams
+- interactive controls
+
+Design these Stage 1 modules:
+
+MODULE A — WHY CARBON?
+
+Large interactive carbon visualization.
+
+Show:
+Carbon atom
++
+four bonding positions
+
+Interaction:
+0 → 1 → 2 → 3 → 4 bonds
+
+At each state:
+- visual changes
+- bond slots update
+- explanatory state changes
+
+At 4:
+show a clear completion state.
+
+Include reset.
+
+------------------------------------------------------------
+
+MODULE B — CARBON BUILDS WITH CARBON
+
+Interactive chain builder.
+
+Example progression:
+
+C
+
+C — C
+
+C — C — C
+
+C — C — C — C
+
+Requirements:
+- add/remove carbon
+- animated bonds
+- dynamic carbon count
+- formula updates where appropriate
+- valency protection
+- invalid states blocked
+
+This must feel like a miniature molecular construction tool.
+
+------------------------------------------------------------
+
+MODULE C — SINGLE / DOUBLE / TRIPLE
+
+Interactive molecule state switcher.
+
+States:
+
+C — C
+SINGLE
+
+C = C
+DOUBLE
+
+C ≡ C
+TRIPLE
+
+Use:
+ethane
+ethene
+ethyne
+
+When switching:
+- molecular drawing changes
+- bond rendering changes
+- bond count changes
+- explanation changes
+- labels change
+
+Do NOT fake this by changing text only.
+
+------------------------------------------------------------
+
+MODULE D — CARBON GEOMETRY
+
+Interactive:
+
+sp3 → tetrahedral
+sp2 → trigonal planar
+sp → linear
+
+Switching must visibly alter geometry.
+
+Use SVG/CSS.
+
+Where scientifically appropriate:
+show approximate bond-angle information.
+
+Keep it visually understandable.
+
+------------------------------------------------------------
+
+MODULE E — BUILD ETHENE
+
+Interactive molecule construction challenge.
+
+LEFT:
+target ethene structure
+
+RIGHT:
+student construction workspace
+
+Validate:
+
+- correct atom count
+- correct connectivity
+- correct bond order
+- valence validity
+- target structure equality
+
+Success:
+- visual success animation
+- "Concept demonstrated"
+- structured evidence generated
+
+Failure:
+- invalid atom/bond highlighted
+- visual hint shown
+- answer NOT immediately revealed
+
+OUTPUT TO ORCHESTRATOR:
+
+VISUAL_SPEC:
+- component boundaries
+- interaction model
+- visual state model
+- accessibility considerations
+- reusable visual primitives
+
+STOP after reporting.
+
+------------------------------------------------------------
+
+AGENT 4 — MOLECULAR DATA + DETERMINISTIC VALIDATION ENGINEER
+------------------------------------------------------------
+
+Design and implement the chemistry domain model.
+
+Create reusable structures for:
+
+Atom
+Bond
+Molecule
+BondOrder
+HybridizationState
+MoleculeTarget
+LearningEvidence
+
+Support at minimum:
+
+Carbon
+Hydrogen
+Oxygen
+Nitrogen
+
+Bond orders:
+
+single
+double
+triple
+
+Implement deterministic molecule validation.
+
+Required rules:
+
+1. carbon cannot exceed valence 4
+2. oxygen cannot exceed appropriate ordinary valence in the supported demo model
+3. nitrogen cannot exceed the supported demo valence model
+4. bond order contributes to valence
+5. invalid structures rejected
+6. target molecule matching deterministic
+7. ethene validation works
+8. invalid ethene rejected
+
+IMPORTANT:
+
+Keep the validation model appropriately scoped for this demo.
+
+Do NOT attempt to build a complete chemistry engine.
+
+The purpose is reliable educational interaction.
+
+OUTPUT TO ORCHESTRATOR:
+
+DOMAIN_SPEC:
+- types
+- validation rules
+- target matching approach
+- evidence schema
+- test cases
+
+Then implement the domain/model layer ONLY.
+
+Do not build the major UI.
+
+------------------------------------------------------------
+
+AGENT 5 — FRONTEND IMPLEMENTATION AGENT
+------------------------------------------------------------
+
+After receiving:
+
+- ARCHITECTURE_FINDINGS
+- CURRICULUM_SPEC
+- VISUAL_SPEC
+- DOMAIN_SPEC
+
+implement the frontend.
+
+Preferred boundaries:
+
+src/
+  components/
+    chemistry/
+      organic-chemistry-map.tsx
+      carbon-atom-visualizer.tsx
+      carbon-bond-builder.tsx
+      bond-order-visualizer.tsx
+      hybridization-visualizer.tsx
+      molecule-builder.tsx
+
+    learning/
+      visual-learning-workspace.tsx
+
+  lib/
+    chemistry/
+      organic-chemistry-demo.ts
+      molecule-validator.ts
+      types.ts
+
+  types/
+    chemistry.ts
+
+Names may be adapted to existing conventions.
+
+IMPORTANT:
+
+Do NOT put all chemistry logic inside
+topic-experience-shell.tsx.
+
+topic-experience-shell.tsx should orchestrate the experience,
+not contain the molecular simulation engine.
+
+Build:
+
+1. Organic Chemistry learning map
+2. stage route
+3. Stage 1 learning workspace
+4. all five visual modules
+5. responsive behavior
+6. learning evidence emission
+
+Integrate with existing KEA UI primitives.
+
+Do NOT add unnecessary dependencies.
+
+------------------------------------------------------------
+
+AGENT 6 — KEA INTEGRATION AGENT
+------------------------------------------------------------
+
+Integrate the new chemistry experience with the existing KEA systems.
+
+Required flow:
+
+USER TOPIC
+    ↓
+"Organic Chemistry"
+    ↓
+existing topic planner
+    ↓
+Organic Chemistry canonical demo route
+    ↓
+KnowledgeGraph
+    ↓
+current learning stage
+    ↓
+visual activity
+    ↓
+learning evidence
+    ↓
+existing mastery engine
+    ↓
+stage progression
+
+Rules:
+
+AI PERSONALIZES / INTERPRETS.
+
+DETERMINISTIC CODE VALIDATES / CONTROLS.
+
+AI MUST NEVER:
+- directly set mastery
+- bypass prerequisite gating
+- declare a molecule correct without deterministic validation
+- directly unlock stages
+
+Use the existing KnowledgeGraph engine.
+
+Use the existing mastery engine.
+
+Do not create duplicate progression logic.
+
+Zero-API/mock mode must still provide a reliable Organic Chemistry demo.
+
+------------------------------------------------------------
+
+AGENT 7 — FRACTION DECOUPLING AGENT
+------------------------------------------------------------
+
+Inspect current fraction components.
+
+Do NOT delete working functionality unnecessarily.
+
+Classify each relevant file as:
+
+A. Generic and reusable
+B. Organic Chemistry-independent legacy demo
+C. Fraction-specific presentation
+D. Fraction-specific data/logic
+
+Refactor only where necessary so that:
+
+PRIMARY JUDGE FLOW
+= Organic Chemistry
+
+not:
+
+PRIMARY JUDGE FLOW
+= Fractions
+
+Fractions may remain as:
+- regression fixtures
+- legacy components
+- tests
+- internal demo content
+
+But they must not dominate the visible landing/learning experience.
+
+------------------------------------------------------------
+
+AGENT 8 — QA / ACCESSIBILITY / RESPONSIVENESS
+------------------------------------------------------------
+
+Run after implementation.
+
+Test:
+
+FUNCTIONALITY
+- topic entry
+- Organic Chemistry route
+- stage state
+- carbon interaction
+- chain builder
+- bond switching
+- geometry switching
+- molecule builder
+- correct/incorrect validation
+- evidence generation
+
+ACCESSIBILITY
+- keyboard interaction
+- labels
+- focus states
+- screen-reader-friendly state descriptions
+- no color-only meaning
+
+RESPONSIVENESS
+- desktop
+- tablet
+- mobile
+- no horizontal overflow
+- touch-friendly controls
+
+REGRESSION
+- topic planner
+- graph engine
+- mastery engine
+- diagnostics
+- existing tests
+
+Report failures to orchestrator.
+
+Do NOT silently fix architectural problems outside scope.
+
+------------------------------------------------------------
+
+AGENT 9 — VISUAL REVIEW / JUDGE EXPERIENCE AGENT
+------------------------------------------------------------
+
+This agent acts as a final visual critic.
+
+Open the actual application.
+
+Review it as if you are a hackathon judge seeing it for the first time.
+
+Evaluate:
+
+1. Is it immediately obvious what KEA does?
+2. Does Organic Chemistry look like the primary demo?
+3. Is the learning path visually understandable?
+4. Are the molecules genuinely interactive?
+5. Does the interface visually teach?
+6. Are state changes obvious?
+7. Does the experience feel significantly different from a chatbot?
+8. Does the product visibly connect:
+   topic → graph → visual learning → evidence → mastery?
+9. Are there still obvious Fractions leftovers?
+10. Does the experience look polished enough for a live demo?
+
+Do NOT invent a score/ranking.
+
+Provide concrete defects and fixes.
+
+------------------------------------------------------------
+MULTI-AGENT EXECUTION ORDER
+------------------------------------------------------------
+
+PHASE 0 — DISCOVERY
+
+Run:
+
+Agent 1 — Architecture Audit
+Agent 2 — Curriculum
+Agent 3 — Visual Design
+Agent 4 — Chemistry Domain
+
+These four may work in parallel because they are primarily analytical/design
+tasks.
+
+Orchestrator collects all outputs.
+
+Do not move forward until their findings are reconciled.
+
+------------------------------------------------------------
+
+PHASE 1 — IMPLEMENTATION
+
+Run:
+
+Agent 4
+→ implement molecular domain/validation
+
+Then:
+
+Agent 5
+→ implement visual frontend
+
+Then:
+
+Agent 6
+→ integrate with KEA engine
+
+Then:
+
+Agent 7
+→ isolate fraction-specific presentation
+
+The orchestrator resolves conflicts between changes.
+
+------------------------------------------------------------
+
+PHASE 2 — VALIDATION
+
+Run:
+
+Agent 8
+→ technical QA
+
+Agent 9
+→ visual/judge review
+
+Run them independently.
+
+If failures are found:
+
+Orchestrator sends ONLY the necessary fixes back to the responsible
+specialist agent.
+
+Do not restart the entire project.
+
+------------------------------------------------------------
+
+PHASE 3 — FINAL INTEGRATION
+
+Orchestrator:
+
+1. inspect git diff
+2. inspect changed files
+3. run tests
+4. run typecheck
+5. run lint
+6. run production build
+7. inspect rendered UI
+8. verify Organic Chemistry primary flow
+9. verify zero-API mode
+10. verify no architecture regression
+
+============================================================
+PROJECT REQUIREMENTS
+============================================================
+
+Keep:
+
+Next.js
+TypeScript
+React
+Tailwind
+shadcn/ui
+Lucide
+Google GenAI
+
+Do NOT introduce:
+
+Python
+FastAPI
+Neo4j
+PostgreSQL
+RAG
+vector database
+large visualization framework
+
+unless already required by an existing system.
+
+SVG/CSS is preferred for chemistry visualization.
+
+============================================================
+ORGANIC CHEMISTRY LEARNING ROUTE
+============================================================
+
+Show visually:
+
+1. Carbon Fundamentals          CURRENT
+2. Hydrocarbon Foundations      LOCKED
+3. Functional Groups            LOCKED
+4. Structure & Isomerism        LOCKED
+5. Reactions & Application      LOCKED
+
+The route must represent actual graph/progression state.
+
+Locked stages must explain their prerequisite.
+
+The graph engine remains the authority.
+
+============================================================
+EVIDENCE + MASTERY
+============================================================
+
+Interactive activities produce evidence.
+
+Example:
+
+{
+  conceptId,
+  activityId,
+  evidenceType,
+  score,
+  attempts,
+  timestamp
+}
+
+The visual activity does NOT itself declare mastery.
+
+The existing deterministic mastery engine consumes evidence.
+
+AI does NOT directly set mastery.
+
+============================================================
+TEST REQUIREMENTS
+============================================================
+
+Add deterministic tests for:
+
+1. carbon valence limit
+2. valid single bond
+3. valid double bond
+4. valid triple bond
+5. valid carbon chain
+6. over-bonded carbon rejected
+7. ethene accepted
+8. incorrect ethene rejected
+9. hybridization mapping
+10. evidence structure
+11. stage prerequisite state
+12. locked stage behavior
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+EVERYTHING MUST PASS.
+
+============================================================
+DOCUMENTATION
+============================================================
+
+After implementation is working:
+
+Update:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Update:
+
+docs/ARCHITECTURE.md
+
+ONLY if the architecture genuinely changed.
+
+Do not unnecessarily rewrite PRD.md.
+
+Document:
+
+- Organic Chemistry demo domain
+- reusable visual learning architecture
+- molecular validation
+- learning evidence flow
+- graph/mastery integration
+- fraction isolation
+
+============================================================
+OFFICIAL GOOGLE SKILLS
+============================================================
+
+Inspect:
+
+https://github.com/google/skills
+
+Use/install ONLY a relevant official Google skill if one genuinely helps
+this implementation.
+
+Do not install irrelevant skills.
+
+============================================================
+HARD CONSTRAINTS
+============================================================
+
+DO NOT:
+
+- rewrite working backend engines
+- create duplicate mastery logic
+- create duplicate prerequisite logic
+- create duplicate topic-planning logic
+- replace the generic architecture with a chemistry-only architecture
+- add unnecessary dependencies
+- commit
+- push
+- expand into unrelated features
+
+============================================================
+STOP CONDITION
+============================================================
+
+STOP after the Organic Chemistry visual learning vertical slice is
+fully implemented, integrated, tested, and visually reviewed.
+
+Do NOT continue into:
+
+- database
+- authentication
+- RAG
+- Neo4j
+- PostgreSQL
+- additional subjects
+- advanced analytics
+- new facilitator systems
+- new intervention algorithms
+- deployment
+- mobile app
+
+The milestone is complete ONLY when:
+
+"KEA can take Organic Chemistry as the learner's topic and visibly teach
+the learner through an interactive, graph-aware, mastery-aware
+Organic Chemistry experience."
+
+FINAL REPORT MUST INCLUDE:
+
+1. agents used
+2. work performed by each agent
+3. files changed
+4. architecture changes
+5. chemistry validation behavior
+6. visual modules implemented
+7. integration behavior
+8. tests passed
+9. lint/typecheck/build results
+10. remaining limitations
+
+DO NOT COMMIT OR PUSH.
