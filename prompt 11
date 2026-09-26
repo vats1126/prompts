@@ -1,0 +1,385 @@
+# HARD TASK — KEA STAGE 4: STRUCTURE & ISOMERISM
+
+You are the implementation team for KEA (AI-powered topic-to-mastery adaptive learning platform).
+
+CURRENT STATE:
+- Stage 1 — Carbon Fundamentals: COMPLETE
+- Stage 2 — Hydrocarbon Foundations: COMPLETE
+- Stage 3 — Functional Groups: COMPLETE
+- Stage 4 — Structure & Isomerism: LOCKED / NOT BUILT
+- Stage 5 — Reactions & Practical Application: LOCKED / NOT BUILT
+- 116/116 tests passing
+- TypeScript clean
+- lint clean
+- build clean
+- Stage 1→2→3 deterministic mastery gating must remain intact
+- Do NOT commit or push
+
+IMPORTANT:
+This is a VISUAL-FIRST learning product.
+Do not build Stage 4 as a text-heavy chatbot/page.
+The learner must manipulate, inspect, compare, and reason about molecular structures.
+
+==================================================
+1. REQUIRED MULTI-AGENT EXECUTION
+==================================================
+
+Use real subagents/delegation if available.
+
+Create these specialists:
+
+AGENT 1 — CHEMISTRY MODEL
+- Inspect existing chemistry domain models/validators from Stages 1–3.
+- Design the deterministic data model for:
+  - molecular structure
+  - connectivity
+  - bond order
+  - molecular formula
+  - constitutional/structural isomers
+  - stereochemical representation where safely supported
+- Reuse existing molecule primitives.
+- Do not invent a disconnected chemistry architecture.
+
+AGENT 2 — VISUAL INTERACTION
+Design the Stage 4 learning interactions.
+Required:
+- structure builder/editor
+- atom/bond manipulation
+- molecule comparison
+- isomer identification
+- structural relationship visualization
+- clear visual feedback for valid/invalid structures
+- responsive layout
+- polished chemistry-lab visual language
+
+AGENT 3 — KEA INTEGRATION
+Inspect:
+- TopicExperienceShell
+- OrganicChemistryMap
+- StageCardsList
+- existing mastery/evidence pipeline
+- Stage 1/2/3 workspaces
+
+Define exactly how Stage 4:
+- unlocks only when Stage 3 mastery >= 80%
+- reports learning evidence
+- updates mastery through the existing MasteryEngine
+- remains locked when prerequisites are unmet
+- integrates with existing route/state management
+
+AGENT 4 — QA / REGRESSION
+Inspect Stage 1–3 behavior and produce a regression checklist.
+Cover:
+- graph gating
+- mastery updates
+- stage navigation
+- workspace state
+- chemistry invariants
+- existing tests
+- responsive UI assumptions
+
+Then the ORCHESTRATOR must synthesize the reports before implementation.
+
+Do NOT simulate agents by writing fake agent reports.
+If the environment cannot launch a required subagent, explicitly record that limitation and continue with bounded validation.
+
+==================================================
+2. BUILD STAGE 4
+==================================================
+
+Primary stage:
+
+Stage 4 — Structure & Isomerism
+
+Learning progression should cover, at minimum:
+
+A. Molecular Structure
+- molecular formula vs structural representation
+- connectivity
+- bond arrangement
+
+B. Constitutional Isomerism
+- same molecular formula
+- different connectivity
+- visual comparison
+
+C. Structure Comparison
+- compare two molecules side-by-side
+- highlight changed connectivity
+- explain why they are/are not isomers
+
+D. Basic Stereochemical Awareness
+- introduce spatial arrangement visually where appropriate
+- avoid pretending to provide advanced stereochemistry if the deterministic model does not support it
+- use a constrained, reliable representation rather than fake 3D chemistry
+
+E. Challenge / Assessment
+- identify structural relationships
+- construct a valid isomer
+- distinguish identical molecule vs isomer
+- detect invalid structures
+- justify an answer through structured interaction and/or short response
+
+==================================================
+3. REQUIRED VISUAL COMPONENTS
+==================================================
+
+Create reusable Stage 4 components, for example:
+
+src/lib/chemistry/isomerism.ts
+
+src/components/chemistry/
+- molecule-structure-editor.tsx
+- isomer-comparison.tsx
+- connectivity-diff-view.tsx
+- isomer-builder.tsx
+- stereochemistry-visualizer.tsx   (only if deterministic model supports it)
+- isomer-challenge.tsx
+
+src/components/learning/
+- structure-isomerism-workspace.tsx
+
+Use the existing chemistry visual system and styling conventions.
+
+The main workspace should feel like an interactive molecular laboratory.
+
+Avoid:
+- giant paragraphs
+- static cards with no interaction
+- placeholder graphics
+- fake chemistry
+- arbitrary score buttons
+- duplicated workspace state
+
+==================================================
+4. DETERMINISTIC CHEMISTRY INTEGRITY
+==================================================
+
+AI MUST NOT decide whether a molecule is chemically valid.
+
+Implement deterministic validation for whatever structures Stage 4 supports.
+
+At minimum validate:
+- allowed atom types already supported by the project
+- bond-order constraints
+- valence constraints
+- connectivity integrity
+- molecular formula generation
+- canonical/comparable molecular representation
+
+For isomer detection:
+
+same molecular formula
++
+different connectivity
+=
+constitutional isomer
+
+same formula
++
+same connectivity
+=
+not a constitutional isomer
+
+Do not use string equality alone.
+
+Where canonicalization is required, implement it deterministically and test it.
+
+==================================================
+5. MASTERY / EVIDENCE INTEGRATION
+==================================================
+
+Every meaningful learner interaction must produce structured evidence.
+
+Reuse the existing ChemistryLearningEvidence / MasteryEngine pipeline.
+
+Examples:
+- valid molecule construction
+- corrected invalid valence
+- successful isomer construction
+- correct classification
+- successful structure comparison
+- assessment performance
+
+Do NOT:
+- directly assign mastery from UI
+- bypass prerequisite gates
+- unlock Stage 5 from a visual button
+- create a second independent mastery state machine
+
+Stage 4 becomes AVAILABLE only when:
+
+Stage 3 mastery >= 80%
+
+Stage 5 remains locked until Stage 4 mastery >= 80%.
+
+==================================================
+6. STAGE 4 UX
+==================================================
+
+The learner journey should feel like:
+
+Stage 4
+  ↓
+Explore molecular structure
+  ↓
+Build / manipulate structure
+  ↓
+Compare molecules
+  ↓
+Discover connectivity differences
+  ↓
+Construct an isomer
+  ↓
+Challenge
+  ↓
+Evidence captured
+  ↓
+Deterministic mastery update
+  ↓
+Remediation OR mastery progression
+
+Include:
+- current concept indicator
+- prerequisite state
+- meaningful progress feedback
+- mastery-aware progression
+- clear locked/available/current/mastered states
+
+Do not introduce a second navigation paradigm.
+
+==================================================
+7. TESTS
+==================================================
+
+Add focused Stage 4 tests.
+
+Test at minimum:
+- molecular formula generation
+- valence validity
+- connectivity comparison
+- same molecule detection
+- constitutional isomer detection
+- invalid structure rejection
+- evidence emission
+- mastery evidence integration
+- Stage 3 → Stage 4 gating
+- Stage 4 → Stage 5 gating
+- regression of Stage 1–3 behavior
+
+Target:
+- all existing tests remain green
+- new Stage 4 tests are deterministic
+- no flaky tests
+
+==================================================
+8. INTEGRATION
+==================================================
+
+Wire Stage 4 into:
+- OrganicChemistryMap
+- StageCardsList
+- TopicExperienceShell
+- current chemistry workspace routing/state
+- existing mastery/evidence infrastructure
+
+Do NOT redesign the entire shell.
+
+Do NOT modify Stage 1–3 chemistry logic unless necessary for integration.
+If a Stage 1–3 change is necessary, make the smallest possible change and explain why.
+
+==================================================
+9. OFFICIAL GOOGLE SKILLS CHECK
+==================================================
+
+Before implementing, inspect the official Google skills repository:
+
+https://github.com/google/skills
+
+Only use/install a skill if it is genuinely relevant to this Stage 4 implementation.
+Do not install unrelated skills.
+
+==================================================
+10. QUALITY GATES
+==================================================
+
+After implementation run:
+
+1. npx tsc --noEmit
+2. npm run lint
+3. npm test
+4. npm run build
+
+Also perform bounded runtime/SSR/API checks where useful.
+
+Do not enter endless Playwright/browser-driver download loops.
+If browser automation is unavailable, record that limitation and continue with bounded non-browser verification.
+
+==================================================
+11. DOCUMENTATION
+==================================================
+
+Only update docs for the meaningful milestone.
+
+Update:
+- docs/TASK_BOARD.md
+- docs/DEVELOPMENT_LOG.md
+
+Only update ARCHITECTURE.md if the actual architecture changes.
+
+Do not create documentation churn.
+
+==================================================
+12. FINAL REPORT — EXACT FORMAT
+==================================================
+
+Return:
+
+## Stage 4 Status
+COMPLETE / BLOCKED
+
+## Agents Used
+- specialist + result
+- specialist + result
+- specialist + result
+- specialist + result
+
+## Files Added
+...
+
+## Files Changed
+...
+
+## Chemistry Invariants
+...
+
+## Stage 4 Learning Flow
+...
+
+## Mastery/Gating Integration
+...
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Runtime / Browser Verification
+...
+
+## Regressions
+...
+
+## Remaining Work
+...
+
+STOP after Stage 4.
+DO NOT start Stage 5.
+DO NOT commit or push.
