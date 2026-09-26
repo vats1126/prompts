@@ -1,0 +1,454 @@
+# HARD TASK — KEA STAGE 5: REACTIONS & PRACTICAL APPLICATION
+
+You are implementing the FINAL Organic Chemistry stage for KEA.
+
+CURRENT STATE:
+- Stage 1 — Carbon Fundamentals ✅
+- Stage 2 — Hydrocarbon Foundations ✅
+- Stage 3 — Functional Groups ✅
+- Stage 4 — Structure & Isomerism ✅
+- Stage 5 — Reactions & Practical Application 🔒 / NOT BUILT
+- 129/129 tests currently passing
+- TypeScript clean
+- lint clean
+- build clean
+- No Git commit/push
+
+This is the FINAL CHEMISTRY FEATURE MILESTONE.
+
+Do not start post-stage polishing, full golden-loop redesign, or unrelated features after Stage 5.
+
+==================================================
+1. MULTI-AGENT EXECUTION
+==================================================
+
+Use real subagent/delegation where available.
+
+Create exactly 4 specialists:
+
+AGENT 1 — REACTION DOMAIN MODEL
+Inspect the existing chemistry engines and define a deterministic model for supported reactions.
+
+Cover:
+- reactants
+- products
+- reaction type
+- bond changes
+- functional-group changes
+- reaction conditions
+- reaction validity
+- conserved atom count / structure invariants
+
+Reuse existing molecule primitives and validators.
+Do NOT create a disconnected chemistry system.
+
+AGENT 2 — VISUAL REACTION LAB
+Design the visual-first learner experience.
+
+Required:
+- reactant → product visualization
+- animated/transitional bond changes where practical
+- reaction pathway visualization
+- condition controls
+- before/after molecular comparison
+- reaction classification interaction
+- practical scenario/application challenge
+- responsive polished UI
+
+This must LOOK like a visual chemistry laboratory, not a text lesson.
+
+AGENT 3 — KEA INTEGRATION
+Inspect:
+- TopicExperienceShell
+- OrganicChemistryMap
+- StageCardsList
+- Stage 1–4 workspaces
+- MasteryEngine
+- evidence pipeline
+- prerequisite gating
+
+Integrate Stage 5 without creating another state machine.
+
+Required:
+- Stage 5 unlocks only at Stage 4 mastery >= 80%
+- learner actions emit structured evidence
+- mastery uses existing MasteryEngine
+- no UI action can directly set mastery
+- Stage 5 is the terminal chemistry stage
+- preserve Stage 1→2→3→4 behavior
+
+AGENT 4 — QA / REGRESSION
+Create the Stage 5 test plan and inspect existing regressions.
+
+Test:
+- reaction invariants
+- molecule validity
+- reactant/product consistency
+- reaction classification
+- evidence generation
+- mastery integration
+- Stage 4→5 gating
+- Stage 1–4 regression
+- navigation/state consistency
+
+Then the ORCHESTRATOR must synthesize all specialist findings before coding.
+
+Do not simulate agent reports.
+If browser automation cannot launch, record the limitation and continue with bounded verification.
+
+==================================================
+2. STAGE 5 LEARNING SCOPE
+==================================================
+
+Build:
+
+Stage 5 — Reactions & Practical Application
+
+The stage should teach through interaction rather than long explanations.
+
+Minimum learning sequence:
+
+A. Reaction Fundamentals
+- reactants
+- products
+- reaction conditions
+- what changes vs what is conserved
+
+B. Bond & Functional Group Changes
+- visually identify bonds broken/formed
+- connect reaction outcome to functional-group transformation
+
+C. Reaction Classification
+Create deterministic classification for the supported reaction set.
+
+At minimum support a small, reliable curated set appropriate for this demo.
+
+D. Reaction Laboratory
+Learner manipulates/selects:
+- reactants
+- conditions
+- expected product
+
+System validates the resulting transformation deterministically.
+
+E. Practical Application
+Use chemistry scenarios where the learner must:
+- predict an outcome
+- select the appropriate transformation
+- inspect why an answer is correct/incorrect
+
+F. Final Mastery Challenge
+Create a final multi-step Stage 5 assessment combining:
+- reaction recognition
+- prediction
+- molecular structure reasoning
+- practical application
+
+==================================================
+3. KEEP THE REACTION SET CURATED
+==================================================
+
+Do NOT attempt to implement all of organic chemistry.
+
+Use a small set of clearly defined, deterministic demo reactions that align with the existing Stage 1–4 domain.
+
+Prefer reactions where:
+- molecular structures can be represented reliably
+- bond changes can be validated deterministically
+- the learner can visually understand the transformation
+- inputs/outputs have stable expected answers
+
+Do not use an LLM to decide whether an arbitrary reaction is chemically valid.
+
+==================================================
+4. REQUIRED COMPONENTS
+==================================================
+
+Create a coherent Stage 5 architecture such as:
+
+src/lib/chemistry/reactions.ts
+
+src/components/chemistry/
+- reaction-visualizer.tsx
+- reaction-pathway.tsx
+- reaction-builder.tsx
+- reaction-classifier.tsx
+- reaction-application-challenge.tsx
+
+src/components/learning/
+- reactions-practical-workspace.tsx
+
+Names may vary if existing conventions justify it.
+
+Reuse existing molecule rendering and chemistry UI primitives.
+
+Avoid duplicate molecule/state implementations.
+
+==================================================
+5. DETERMINISTIC REACTION ENGINE
+==================================================
+
+The reaction engine must validate supported transformations.
+
+At minimum enforce:
+
+- all referenced atoms exist
+- no invalid bonds
+- valence remains valid
+- supported reaction has the correct reactant/product relationship
+- conserved atoms remain consistent where applicable
+- bond changes match the declared reaction
+- unsupported reaction combinations are rejected
+
+Implement deterministic reaction signatures / transformation matching.
+
+Never do:
+
+user answer
+→ LLM says correct
+→ mastery increases
+
+Instead:
+
+user action
+→ deterministic validation
+→ structured evidence
+→ MasteryEngine
+→ mastery update
+
+==================================================
+6. VISUAL-FIRST REQUIREMENT
+==================================================
+
+The main screen should prioritize:
+
+MOLECULES
++
+BOND CHANGES
++
+REACTION FLOW
++
+INTERACTION
+
+not paragraphs.
+
+Visual layout should communicate:
+
+Reactants
+   ↓
+Conditions
+   ↓
+Transformation
+   ↓
+Products
+
+Make bond changes visually obvious.
+
+Use subtle motion only where it improves comprehension.
+
+No fake 3D chemistry.
+No placeholder diagrams.
+No static “AI generated explanation” panel as the main experience.
+
+==================================================
+7. MASTERY / TERMINAL STAGE
+==================================================
+
+Stage 5 unlock condition:
+
+Stage 4 mastery >= 80%
+
+Stage 5 should generate structured evidence for concepts related to:
+- reaction fundamentals
+- reaction classification
+- bond transformation
+- product prediction
+- practical application
+
+Use existing W-EMM / MasteryEngine.
+
+The UI must not directly manipulate mastery.
+
+Since Stage 5 is the final chemistry stage:
+- do NOT create Stage 6
+- reaching >=80% should produce a clear “Organic Chemistry Mastered” state
+- preserve the actual deterministic mastery score
+- expose evidence/audit information for the demo
+
+==================================================
+8. FINAL CHEMISTRY COMPLETION STATE
+==================================================
+
+When Stage 5 reaches mastery >=80%, the learner should see:
+
+Organic Chemistry
+COMPLETED / MASTERED
+
+and the Organic Chemistry Map should reflect:
+
+Stage 1 ✓
+Stage 2 ✓
+Stage 3 ✓
+Stage 4 ✓
+Stage 5 ✓
+
+Do not invent a new unrelated dashboard.
+
+==================================================
+9. TESTS
+==================================================
+
+Add dedicated Stage 5 tests.
+
+At minimum test:
+
+- supported reaction definitions
+- invalid reactant rejection
+- invalid product rejection
+- valence preservation
+- atom conservation/invariant checks
+- bond-change signatures
+- reaction classification
+- product prediction validation
+- evidence emission
+- MasteryEngine ingestion
+- Stage 4→5 gating
+- final mastery state
+- deterministic repeatability
+
+All existing tests MUST remain green.
+
+Target:
+
+129 existing tests
++
+Stage 5 tests
+=
+100% pass
+
+==================================================
+10. INTEGRATION
+==================================================
+
+Wire Stage 5 into:
+
+- OrganicChemistryMap
+- StageCardsList
+- TopicExperienceShell
+- chemistry mode navigation
+- terminal mastery state
+- existing evidence/mastery pipeline
+
+Do NOT redesign TopicExperienceShell.
+
+Do NOT modify Stage 1–4 chemistry behavior unless strictly required.
+Keep changes minimal when integrating.
+
+==================================================
+11. OFFICIAL GOOGLE SKILLS CHECK
+==================================================
+
+Inspect:
+
+https://github.com/google/skills
+
+Only use/install a skill if genuinely relevant to this implementation.
+Do not install unrelated skills.
+
+==================================================
+12. QUALITY GATES
+==================================================
+
+Run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+Also run bounded runtime checks against the production server.
+
+Verify:
+- GET /
+- Stage 5 route/state renders
+- relevant APIs still return successfully
+- no duplicate workspace/state machine
+
+Do NOT enter infinite browser/Playwright download loops.
+
+==================================================
+13. DOCUMENTATION
+==================================================
+
+At milestone completion update:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Only update ARCHITECTURE.md if actual architecture changed.
+
+Do not create unnecessary documentation churn.
+
+==================================================
+14. FINAL REPORT — EXACT FORMAT
+==================================================
+
+## Stage 5 Status
+COMPLETE / BLOCKED
+
+## Agents Used
+- Agent 1:
+- Agent 2:
+- Agent 3:
+- Agent 4:
+
+## Reaction Model
+...
+
+## Visual Modules
+...
+
+## Files Added
+...
+
+## Files Changed
+...
+
+## Deterministic Chemistry Invariants
+...
+
+## Stage 5 Learning Flow
+...
+
+## Mastery/Gating Integration
+...
+
+## Final Organic Chemistry Completion State
+...
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Runtime / Browser Verification
+...
+
+## Regressions
+...
+
+## Remaining Work
+...
+
+STOP.
+
+Do not start the full KEA golden-loop audit yet.
+Do not add RAG, databases, FastAPI, Python, SerpAPI, or unrelated infrastructure.
+Do not commit or push.
