@@ -1,0 +1,290 @@
+We are continuing the KEA — Adaptive Learning & Real-Time Intervention Platform hackathon project.
+
+CURRENT STATE:
+- P0-01 — Next.js & shadcn Foundation Setup: COMPLETED and verified.
+- Current task: P0-02 — Knowledge Graph DAG Engine & Seed Data.
+- Do NOT begin P0-03 or any later task.
+
+==================================================
+MANDATORY MULTI-AGENT EXECUTION
+==================================================
+
+Use Antigravity's multi-agent/subagent system for this task.
+
+The MAIN AGENT is the orchestrator and final decision-maker.
+
+Use these specialized agents in parallel where useful:
+
+1. LEARNING SYSTEMS AGENT
+   Analyze the educational prerequisite structure for Class 4 Fractions and verify that the proposed concept dependencies make pedagogical sense.
+
+2. GRAPH/ALGORITHM AGENT
+   Design and review the TypeScript DAG representation, prerequisite traversal, topological validation, and unlocking logic.
+
+3. ARCHITECTURE AGENT
+   Check that the graph implementation fits the existing KEA architecture and will integrate cleanly with the future Mastery Engine.
+
+4. TESTING/REVIEW AGENT
+   Design edge cases and tests for DAG validity, prerequisite gating, cycles, missing prerequisites, and unlocking behavior.
+
+IMPORTANT:
+- Agents should primarily analyze/review independently first.
+- Do NOT let multiple agents simultaneously edit the same files.
+- MAIN AGENT must synthesize the agents' findings before implementation.
+- Do not create unnecessary agents.
+- Do not duplicate work between agents.
+
+==================================================
+CONTEXT EFFICIENCY
+==================================================
+
+Do NOT blindly reread every project file.
+
+First inspect:
+
+- docs/TASK_BOARD.md
+- docs/ARCHITECTURE.md
+
+Then inspect only the source/configuration files relevant to P0-02.
+
+Read docs/PRD.md only if clarification of a product requirement is necessary.
+
+Read docs/DEVELOPMENT_LOG.md only if a previous implementation decision is directly relevant.
+
+Inspect the existing P0-01 project structure before modifying it.
+
+==================================================
+SKILL USAGE
+==================================================
+
+Use the relevant already-installed official Google Agent Skills from:
+
+https://github.com/google/skills
+
+For this task, prioritize relevant:
+- TypeScript/engineering
+- data structures/algorithms
+- testing/code review
+- architecture
+
+Do NOT install unrelated skills.
+
+If a required relevant official skill is not installed, inspect its SKILL.md and install only if genuinely useful for P0-02.
+
+Do not reinstall existing skills.
+
+==================================================
+P0-02 — KNOWLEDGE GRAPH DAG ENGINE & SEED DATA
+==================================================
+
+Implement the prerequisite knowledge graph for:
+
+Class 4 Mathematics → Fractions
+
+Use exactly 7 meaningful concept nodes for the MVP.
+
+The graph must represent prerequisite relationships rather than merely being a list of lessons.
+
+The implementation should support:
+
+1. Concept node definitions
+2. Stable concept IDs
+3. Concept titles
+4. Learning objective/description
+5. Prerequisite concept IDs
+6. Difficulty/order metadata where useful
+7. Initial mastery/progression state compatibility
+8. Prerequisite checking
+9. Unlocking logic
+10. Graph traversal
+11. Topological ordering
+12. Cycle detection/validation
+
+The graph must be a DAG.
+
+IMPORTANT:
+The graph should be designed so that the future Mastery Engine can determine whether a student is allowed to progress based on demonstrated mastery.
+
+Do NOT implement the Mastery Engine yet.
+
+The graph layer should expose clean functions/interfaces that P0-03 can consume later.
+
+==================================================
+EXPECTED GRAPH BEHAVIOR
+==================================================
+
+At minimum, the system should support questions equivalent to:
+
+- Is this concept unlocked?
+- What prerequisites does this concept require?
+- Which concepts are currently unlocked?
+- What concepts become available after mastery of a concept?
+- What is the valid topological order?
+- Is the graph structurally valid?
+- Does the graph contain a cycle?
+
+Do not hard-code UI-specific logic into the graph engine.
+
+Keep the graph engine independent from React components.
+
+==================================================
+SEED DATA
+==================================================
+
+Create a carefully structured 7-node Class 4 Fractions seed graph.
+
+The exact educational ordering should be decided after the Learning Systems Agent reviews it.
+
+A reasonable candidate structure may involve concepts such as:
+
+- Fraction meaning / parts of a whole
+- Numerator and denominator
+- Representing fractions visually
+- Equivalent fractions
+- Comparing fractions
+- Adding/subtracting like-denominator fractions
+- Fraction word problems
+
+But treat this as a starting hypothesis, not a requirement.
+
+The final dependency relationships must be logically defensible and documented in code/data.
+
+==================================================
+TESTING REQUIREMENTS
+==================================================
+
+Add focused tests for the graph engine.
+
+At minimum test:
+
+1. Valid graph passes validation.
+2. Topological ordering succeeds.
+3. Cyclic graph is rejected.
+4. Root concepts with no prerequisites can unlock initially.
+5. A concept with unmet prerequisites remains locked.
+6. A concept becomes eligible when all required prerequisites are satisfied.
+7. Multiple prerequisite paths work correctly.
+8. Unknown prerequisite IDs are rejected.
+9. Duplicate concept IDs are rejected.
+10. Graph traversal returns expected prerequisite/dependent relationships.
+
+Tests should be deterministic.
+
+Do not over-engineer the test framework.
+
+Use the project's existing testing setup if one exists. If testing infrastructure does not yet exist, choose the smallest appropriate approach that integrates cleanly with the current Next.js/TypeScript project.
+
+==================================================
+ARCHITECTURAL CONSTRAINTS
+==================================================
+
+Follow the existing architecture.
+
+Do NOT add:
+
+- Python
+- FastAPI
+- Neo4j
+- external graph database
+- Supabase
+- vector database
+- RAG
+- authentication
+- AI calls
+- LLM dependencies
+
+For this MVP, the knowledge graph can be represented cleanly in TypeScript/local seed data.
+
+Do not build a full generic graph platform.
+
+Build only what KEA actually needs.
+
+==================================================
+VALIDATION
+==================================================
+
+After implementation:
+
+1. Run the graph tests.
+2. Run typecheck.
+3. Run lint if configured.
+4. Run production build.
+5. Inspect the actual implementation.
+6. Verify no P0-03 functionality accidentally appeared.
+7. Review git diff.
+8. Check for unnecessary dependencies.
+
+If anything fails, fix it before declaring P0-02 complete.
+
+==================================================
+DOCUMENTATION SYNC
+==================================================
+
+Only after P0-02 is actually implemented and validated:
+
+### docs/TASK_BOARD.md
+Mark P0-02 COMPLETED only if its acceptance criteria are genuinely satisfied.
+
+Keep P0-03 as the next pending task.
+
+### docs/DEVELOPMENT_LOG.md
+Add ONE concise milestone entry covering:
+- Knowledge Graph implementation
+- 7-node Fractions seed graph
+- important dependency decisions
+- validation/tests
+- relevant multi-agent findings
+
+### docs/ARCHITECTURE.md
+Update only if the actual implementation introduced an architectural detail that is not already documented.
+
+### docs/PRD.md
+Do not modify unless a real product requirement changed.
+
+Do not create additional markdown documentation files.
+
+==================================================
+GIT
+==================================================
+
+Do NOT commit or push yet.
+
+We will inspect the milestone result first.
+
+==================================================
+STRICT STOP CONDITION
+==================================================
+
+STOP after P0-02.
+
+Do NOT implement:
+
+- P0-03 Mastery Engine
+- P0-04 AI Re-theming
+- P0-05 Student Learning Canvas
+- P0-06 Struggle Detection
+- P0-07 Facilitator Cockpit
+- P0-08 Integration
+
+Even if you see obvious next steps, do not implement them.
+
+==================================================
+FINAL REPORT
+==================================================
+
+Return a concise report containing:
+
+1. Multi-agent roles used
+2. Key conclusions from each agent
+3. Final 7-node graph structure
+4. Files created/modified
+5. Tests added
+6. Commands executed
+7. Test/typecheck/lint/build results
+8. Dependencies added, if any
+9. Documentation updated
+10. Any issues or compromises
+11. Confirmation P0-02 acceptance criteria are satisfied
+12. Confirmation P0-03 has NOT been started
+
+Then STOP and wait for the next instruction.
