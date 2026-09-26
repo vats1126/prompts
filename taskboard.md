@@ -37,10 +37,10 @@
 ### P0: Must-Have for the 5-Minute Golden Loop (Due by 7:00 PM)
 *Goal: Without these, there is no adaptive learning platform. These form the unbreakable vertical slice.*
 
-| Task ID | Task Title & Deliverables | Dependencies | Estimated Time | Acceptance Criteria |
-|---|---|---|---|---|
-| **P0-01** | **Next.js & shadcn Foundation Setup**<br/>Initialize Next.js 14/15 App Router with TypeScript, Tailwind CSS, Lucide icons, and theme provider. | None | 45 min | Clean build, responsive shell, dark/light theme switching operational. |
-| **P0-02** | **Knowledge Graph DAG Engine & Seed Data**<br/>Implement graph traversal in TypeScript: node definitions, prerequisite checking, unlocking logic, and seed data for Class 4 Fractions (7 nodes). | P0-01 | 60 min | Topological sort verifies DAG; prerequisite gating function correctly returns unlocked/locked nodes. |
+| Task ID | Task Title & Deliverables | Dependencies | Estimated Time | Acceptance Criteria | Status |
+|---|---|---|---|---|---|
+| **P0-01** | **Next.js & shadcn Foundation Setup**<br/>Initialize Next.js 16 App Router with TypeScript, Tailwind CSS v4, shadcn/ui, Lucide icons, and next-themes provider. | None | 45 min | Clean build, responsive shell, dark/light theme switching operational. | **COMPLETED** (Verified via typecheck, lint, build, runtime curl) |
+| **P0-02** | **Knowledge Graph DAG Engine & Seed Data**<br/>Implement graph traversal in TypeScript: node definitions, prerequisite checking, unlocking logic, and seed data for Class 4 Fractions (7 nodes). | P0-01 | 60 min | Topological sort verifies DAG; prerequisite gating function correctly returns unlocked/locked nodes. | Pending (Next) |
 | **P0-03** | **Deterministic Mastery Engine (Weighted EMM)**<br/>Implement the W-EMM algorithm with status transitions (`locked` $\rightarrow$ `unlocked` $\rightarrow$ `in_progress` $\rightarrow$ `mastered` $\rightarrow$ `remediation`). | P0-02 | 45 min | Unit tests verify deterministic score updates for practice, written, and oral signals. |
 | **P0-04** | **AI Re-theming Engine + Invariant Checker**<br/>Build AI gateway with Gemini adapter + deterministic template fallback. Implement programmatic regex invariant checker verifying number and key preservation. | P0-01 | 60 min | AI re-themes question to chosen theme; invariant checker rejects malformed outputs and defaults safely to canonical version. |
 | **P0-05** | **Interactive Student Learning Canvas (Practice & Written)**<br/>Build student view displaying active node, themed problem, fraction visualizer, and instant feedback card. | P0-02, P0-04 | 60 min | Student can answer multiple-choice and step-by-step fraction problems with live visual feedback. |
