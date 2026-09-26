@@ -1,0 +1,617 @@
+HARD RECOVERY + INTEGRATION MILESTONE
+MODEL: GEMINI 3.8 FLASH — HIGH
+
+============================================================
+MISSION
+============================================================
+
+The current KEA application has a BROKEN / UNSTABLE PRIMARY FRONTEND
+after the recent Organic Chemistry Stage 3 implementation.
+
+DO NOT add another large feature on top of the broken state.
+
+The objective of this milestone is:
+
+1. diagnose the actual frontend/runtime failure,
+2. repair the broken primary user experience,
+3. verify the Organic Chemistry Stage 1 → Stage 2 → Stage 3 flow,
+4. preserve all existing backend/core engines,
+5. prove that real multi-agent delegation was used,
+6. finish with a stable judge-ready Stage 3 experience.
+
+This is a RECOVERY + INTEGRATION milestone.
+
+DO NOT IMPLEMENT STAGE 4 OR STAGE 5 IN THIS TASK.
+
+============================================================
+MANDATORY REAL MULTI-AGENT EXECUTION
+============================================================
+
+IMPORTANT:
+
+You MUST use the ACTUAL multi-agent/subagent delegation mechanism
+available in Antigravity.
+
+Do NOT simulate a multi-agent process by merely writing:
+"Agent 1 said..."
+"Agent 2 said..."
+
+Do NOT perform all work yourself and invent agent reports afterward.
+
+The orchestrator must actually delegate tasks to specialist agents.
+
+The final report MUST state:
+- which specialist agents were actually invoked,
+- what each agent inspected,
+- what each agent changed, if anything,
+- what evidence was returned,
+- which files were modified by each agent.
+
+If the environment does not support the requested number of agents,
+use the maximum real number available and explicitly report that.
+
+Do NOT count the orchestrator itself as a specialist agent.
+
+============================================================
+AGENT STRUCTURE
+============================================================
+
+ORCHESTRATOR
+Responsibilities:
+- coordinate all specialists
+- collect outputs
+- decide implementation order
+- prevent conflicting edits
+- integrate changes
+- run final validation
+- own final result
+
+SPECIALIST 1 — RUNTIME / ERROR FORENSICS AGENT
+
+Mission:
+Find WHY the frontend is currently broken.
+
+Inspect ONLY relevant areas:
+- src/app/*
+- topic-experience-shell
+- topic-entry components
+- visual learning workspace
+- Organic Chemistry components
+- imports and route boundaries
+- client/server component boundaries
+- state initialization
+- browser-only APIs
+- dynamic rendering
+- hydration-sensitive code
+- any recent Stage 3 files
+- any recent Stage 2 files
+
+Check for:
+- runtime exceptions
+- invalid imports
+- circular dependencies
+- undefined state
+- invalid component props
+- client/server boundary violations
+- hydration mismatch
+- browser-only API execution during SSR
+- malformed JSX
+- bad conditional rendering
+- route crashes
+- stage mode crashes
+
+DO NOT modify files yet.
+
+Return:
+
+RUNTIME_ROOT_CAUSE_REPORT
+- exact suspected failure
+- exact file(s)
+- exact line/function if possible
+- evidence
+- minimal safe fix
+
+STOP.
+
+------------------------------------------------------------
+
+SPECIALIST 2 — FRONTEND / UX RECOVERY AGENT
+------------------------------------------------------------
+
+Mission:
+Inspect the primary judge-facing UI as a product.
+
+Focus on:
+
+/
+↓
+"What do you want to learn?"
+↓
+Organic Chemistry
+↓
+learning map
+↓
+Stage 1
+↓
+Stage 2
+↓
+Stage 3
+
+Use the screenshot/reference quality bar already established.
+
+Identify:
+- layout breakage
+- overflow
+- broken CSS
+- visual hierarchy problems
+- unusable controls
+- inconsistent component rendering
+- stale Fractions-first UI
+- broken mobile layout
+- Stage 3 rendering defects
+
+DO NOT perform backend rewrites.
+
+Return:
+
+UI_RECOVERY_REPORT
+- concrete defects
+- exact files
+- minimal fixes
+- judge-flow risks
+
+STOP.
+
+------------------------------------------------------------
+
+SPECIALIST 3 — KEA INTEGRATION / STATE MACHINE AGENT
+------------------------------------------------------------
+
+Mission:
+
+Verify that the existing systems remain connected correctly.
+
+Trace:
+
+Topic Entry
+→ Topic Plan
+→ Knowledge Graph
+→ Stage State
+→ Visual Workspace
+→ Evidence
+→ Mastery
+→ Stage Unlock
+
+Inspect:
+- topic-experience-shell.tsx
+- organic-chemistry-map.tsx
+- Stage 1 workspace
+- hydrocarbon workspace
+- functional-group workspace
+- MasteryEngine
+- KnowledgeGraphEngine
+- evidence emission
+- stage unlock logic
+
+Check for:
+- duplicated state
+- stage state that bypasses graph logic
+- mastery being set directly from UI
+- Stage 3 rendered without actual prerequisite state
+- evidence disconnected from mastery
+- stale fraction assumptions
+- state reset bugs
+- client state that diverges from deterministic engine state
+
+DO NOT redesign the engines.
+
+Return:
+
+INTEGRATION_REPORT
+- current flow
+- broken links
+- minimal corrections
+- invariants that must remain untouched
+
+STOP.
+
+------------------------------------------------------------
+
+SPECIALIST 4 — QA / REGRESSION AGENT
+------------------------------------------------------------
+
+Mission:
+Build a bounded verification plan.
+
+Because the automated browser subagent may have external Playwright-driver problems,
+DO NOT enter an endless browser verification loop.
+
+Use:
+- unit tests
+- typecheck
+- lint
+- build
+- curl/API checks
+- static inspection
+- bounded browser verification only if browser tooling is already available
+
+DO NOT repeatedly retry unavailable browser infrastructure.
+
+Define the exact acceptance checks required for:
+
+1. homepage loads
+2. topic entry works
+3. Organic Chemistry plan loads
+4. Stage 1 opens
+5. Stage 2 unlock logic exists
+6. Stage 3 unlock logic exists
+7. Stage 3 workspace renders
+8. Stage 3 interactions work
+9. evidence is produced
+10. mastery integration works
+11. no Stage 3 crash
+12. mobile layout does not overflow
+
+Return:
+
+QA_PLAN
+- tests to run
+- commands
+- expected outputs
+- browser checks
+- known external tooling limitations
+
+STOP.
+
+============================================================
+PHASE 1 — ORCHESTRATOR SYNTHESIS
+============================================================
+
+DO NOT MODIFY CODE UNTIL THE FOUR SPECIALISTS HAVE RETURNED.
+
+The orchestrator must compare:
+
+RUNTIME_ROOT_CAUSE_REPORT
+UI_RECOVERY_REPORT
+INTEGRATION_REPORT
+QA_PLAN
+
+Then produce an internal repair plan.
+
+Repair only what is necessary.
+
+Do NOT rewrite working systems merely because a different design looks nicer.
+
+============================================================
+PHASE 2 — IMPLEMENTATION
+============================================================
+
+Apply the minimal safe fixes.
+
+Priority order:
+
+1. fix runtime crash
+2. restore homepage
+3. restore topic entry
+4. restore Organic Chemistry route
+5. restore Stage 1
+6. restore Stage 2
+7. restore Stage 3
+8. restore evidence/mastery connection
+9. fix visible UI defects
+10. remove obvious Fractions-first presentation from primary flow
+
+============================================================
+CRITICAL ARCHITECTURE RULES
+============================================================
+
+PRESERVE:
+
+- Next.js
+- TypeScript
+- React
+- Tailwind
+- shadcn/ui
+- Lucide
+- Google GenAI
+- KnowledgeGraphEngine
+- MasteryEngine
+- DiagnosticEngine
+- existing AI abstraction
+- existing fallback system
+- existing intervention system
+
+DO NOT introduce:
+
+- Python
+- FastAPI
+- PostgreSQL
+- Supabase
+- Neo4j
+- RAG
+- vector DB
+- new backend language
+- unnecessary dependencies
+
+DO NOT create:
+- another mastery engine
+- another graph engine
+- another chemistry validator
+- another stage state machine
+
+============================================================
+STAGE STATE INVARIANT
+============================================================
+
+The graph remains authoritative.
+
+Expected initial state:
+
+Stage 1 = AVAILABLE / CURRENT
+Stage 2 = LOCKED
+Stage 3 = LOCKED
+Stage 4 = LOCKED
+Stage 5 = LOCKED
+
+After Stage 1 mastery:
+Stage 2 becomes AVAILABLE.
+
+After Stage 2 mastery:
+Stage 3 becomes AVAILABLE.
+
+Stage 3 must NOT unlock merely because a UI button is clicked.
+
+Use the existing deterministic graph/mastery logic.
+
+============================================================
+STAGE 3 MUST REMAIN VISUAL
+============================================================
+
+Verify these existing Stage 3 modules actually render:
+
+A. Heteroatom Valence / Lone Pairs
+B. Functional Group Explorer
+C. Acid / Amine Builder
+D. Functional Group Challenge
+
+The visual state must change when the student interacts.
+
+Do NOT replace them with paragraph cards.
+
+============================================================
+EVIDENCE / MASTERY
+============================================================
+
+Visual activity
+→ structured evidence
+→ existing MasteryEngine
+→ concept mastery
+→ stage gating
+
+The UI MUST NOT directly declare mastery.
+
+AI MUST NOT directly unlock a stage.
+
+============================================================
+FRACTION ISOLATION
+============================================================
+
+Do not delete legacy Fractions infrastructure unnecessarily.
+
+But the primary judge path must visually communicate:
+
+KEA
+→ Organic Chemistry
+
+not:
+
+KEA
+→ Fractions
+
+Preserve Fractions only where useful for regression/internal fixtures.
+
+============================================================
+VISUAL QA
+============================================================
+
+The current screenshot indicates the primary frontend is not currently
+presenting as a stable polished application.
+
+After repair, inspect the actual rendered UI.
+
+Check:
+
+Desktop:
+- no giant blank broken region
+- no clipped navigation
+- no overlapping header
+- no broken cards
+- no route crash
+- no horizontal overflow
+
+Mobile:
+- no horizontal scrolling
+- learning map usable
+- Stage 3 controls touch-friendly
+- visual modules fit viewport
+
+The visual learning experience must remain the product focus.
+
+============================================================
+BOUNDED VERIFICATION
+============================================================
+
+IMPORTANT:
+
+DO NOT create or enter an endless "Goal Verification" loop.
+
+Maximum verification strategy:
+
+1. run unit tests
+2. run typecheck
+3. run lint
+4. run build
+5. run API curl checks
+6. perform ONE bounded browser inspection if tooling is available
+
+If browser automation fails because of external Playwright infrastructure,
+record that limitation and continue with non-browser validation.
+
+Do NOT repeatedly attempt driver downloads.
+
+============================================================
+TESTS
+============================================================
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+Also run the focused chemistry suites, including the Stage 3 tests.
+
+Check the actual total test count.
+
+Do NOT claim a test count that was not actually observed.
+
+============================================================
+RUNTIME CHECKS
+============================================================
+
+Start the production server if needed.
+
+Verify:
+
+GET /
+POST /api/topic/plan
+POST /api/diagnostic/evaluate
+POST /api/content/retheme
+POST /api/oral/evaluate
+GET /api/facilitator/interventions
+
+Only test endpoints that are relevant to the current architecture.
+
+============================================================
+DOCUMENTATION
+============================================================
+
+After all implementation and validation succeeds:
+
+Update:
+
+docs/TASK_BOARD.md
+
+Mark only the tasks actually verified.
+
+Update:
+
+docs/DEVELOPMENT_LOG.md
+
+Add ONE concise recovery/integration milestone entry containing:
+- root cause
+- fixes
+- final test count
+- typecheck
+- lint
+- build
+- browser limitation if applicable
+
+Update:
+
+docs/ARCHITECTURE.md
+
+ONLY if the repair changes architecture.
+
+Do NOT rewrite PRD.md in this milestone.
+
+============================================================
+GIT RULE
+============================================================
+
+DO NOT COMMIT.
+
+DO NOT PUSH.
+
+Leave the working tree ready for inspection.
+
+============================================================
+FINAL ACCEPTANCE CRITERIA
+============================================================
+
+This milestone is COMPLETE only if:
+
+[ ] Homepage loads
+[ ] Topic entry loads
+[ ] Organic Chemistry can be selected
+[ ] Topic plan loads or falls back safely
+[ ] Stage 1 renders
+[ ] Stage 2 path remains intact
+[ ] Stage 3 renders
+[ ] Stage 3 visual modules render
+[ ] Stage gating remains deterministic
+[ ] Evidence is emitted
+[ ] Mastery integration remains intact
+[ ] No obvious runtime frontend crash
+[ ] No obvious desktop layout break
+[ ] No obvious mobile overflow
+[ ] Tests pass
+[ ] Typecheck passes
+[ ] Lint passes
+[ ] Build passes
+[ ] No unnecessary dependencies added
+[ ] No core engine rewritten
+[ ] No endless browser verification loop
+[ ] No commit/push
+
+============================================================
+HARD STOP
+============================================================
+
+STOP HERE.
+
+DO NOT:
+
+- build Stage 4
+- build Stage 5
+- add SerpAPI
+- add databases
+- add authentication
+- add RAG
+- add new AI models
+- add new subjects
+- expand facilitator features
+- redesign the entire application
+- rewrite working engines
+
+The sole objective is:
+
+RESTORE AND STABILIZE THE PRIMARY KEA FRONTEND,
+VERIFY ORGANIC CHEMISTRY STAGES 1–3 AS ONE CONNECTED EXPERIENCE,
+AND LEAVE THE PROJECT IN A CLEAN STATE FOR THE NEXT MILESTONE.
+
+============================================================
+FINAL REPORT FORMAT
+============================================================
+
+FINAL RESPONSE MUST BE CONCISE.
+
+Return exactly:
+
+1. REAL AGENTS ACTUALLY USED
+2. ROOT CAUSE OF FRONTEND FAILURE
+3. FILES CHANGED
+4. WHAT WAS FIXED
+5. STAGE 1 → 2 → 3 INTEGRATION STATUS
+6. TEST COUNT
+7. TYPECHECK RESULT
+8. LINT RESULT
+9. BUILD RESULT
+10. BROWSER VERIFICATION RESULT
+11. EXTERNAL TOOLING LIMITATIONS
+12. REMAINING WORK
+
+Do NOT claim multi-agent execution unless actual specialist delegation occurred.
+
+DO NOT COMMIT OR PUSH.
