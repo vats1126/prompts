@@ -1,0 +1,845 @@
+# HARD TASK — KEA LIVE AI VERIFICATION + REAL GOLDEN LOOP INTEGRATION
+# DO NOT CLAIM COMPLETE UNLESS REAL AI IS ACTUALLY VERIFIED
+
+CURRENT STATE:
+
+KEA already contains:
+- Next.js 16 App Router
+- TypeScript
+- existing Knowledge Graph DAG
+- deterministic MasteryEngine / W-EMM
+- diagnostic system
+- struggle detection
+- facilitator intervention
+- Web Speech API oral probe
+- Organic Chemistry Stages 1–5
+- dynamic AI learning generator
+- dynamic mock test generator
+- adaptive AI interview
+- interview summary
+- Gemini provider abstraction
+- Groq provider abstraction
+- NVIDIA NIM provider abstraction
+- deterministic fallback provider
+- mock/demo mode
+- 159 tests passing
+- clean TypeScript/lint/build
+
+CRITICAL FACT FROM PREVIOUS MILESTONE:
+
+The previous report showed:
+
+Gemini: configured=false
+Groq: configured=false
+NVIDIA NIM: configured=false
+Fallback: configured=true
+
+Therefore the previous milestone has NOT proven real-provider inference.
+
+THIS MILESTONE IS ABOUT PROVING AND INTEGRATING THE REAL AI PATH.
+
+DO NOT ADD PYTHON.
+DO NOT ADD FASTAPI.
+DO NOT ADD RAG.
+DO NOT ADD DATABASES.
+DO NOT ADD NEW INFRASTRUCTURE UNLESS REQUIRED TO FIX A VERIFIED PROBLEM.
+
+Preserve every existing mock/fallback feature.
+
+==================================================
+PHASE 0 — FORENSIC AUDIT BEFORE EDITING
+==================================================
+
+Inspect the current implementation completely.
+
+Inspect:
+
+src/lib/ai/*
+src/app/api/ai/*
+src/app/api/learning/*
+src/app/api/assessment/*
+src/app/api/interview/*
+src/components/ai/*
+src/components/assessment/*
+src/components/interview/*
+src/components/entry/topic-experience-shell.tsx
+.env.example
+.env.local if present
+package.json
+docs/ARCHITECTURE.md
+docs/DEVELOPMENT_LOG.md
+docs/TASK_BOARD.md
+
+Determine:
+
+1. Does .env.local exist?
+2. Which of these variables are actually visible to the server process?
+   - GEMINI_API_KEY
+   - GEMINI_MODEL
+   - GROQ_API_KEY
+   - GROQ_MODEL
+   - NVIDIA_NIM_API_KEY
+   - NVIDIA_NIM_BASE_URL
+   - NVIDIA_NIM_MODEL
+3. Which provider is actually called by the orchestrator?
+4. Can the current Next.js production server see newly added environment values without restart?
+5. Does /api/ai/health truly perform a live provider smoke test?
+6. Does a generated lesson/mock/interview actually call a real provider when configured?
+7. Does fallback happen only after real-provider failure?
+8. Is there any place where fallback output can falsely be labeled as Gemini/Groq/NIM?
+
+DO NOT MODIFY CODE until this audit is complete.
+
+==================================================
+PHASE 1 — ENVIRONMENT CONFIGURATION SAFETY
+==================================================
+
+If .env.local does not exist:
+
+Create or prepare a SAFE local configuration structure.
+
+NEVER invent API keys.
+NEVER print keys.
+NEVER output key contents.
+NEVER commit keys.
+
+Use:
+
+GEMINI_API_KEY=
+GEMINI_MODEL=
+
+GROQ_API_KEY=
+GROQ_MODEL=
+
+NVIDIA_NIM_API_KEY=
+NVIDIA_NIM_BASE_URL=
+NVIDIA_NIM_MODEL=
+
+AI_PRIMARY_PROVIDER=
+AI_FALLBACK_PROVIDERS=
+AI_TIMEOUT_MS=
+AI_MAX_RETRIES=
+
+If actual keys are already present, detect only whether they are configured.
+
+Report:
+
+Gemini configured: YES/NO
+Groq configured: YES/NO
+NVIDIA NIM configured: YES/NO
+
+Never report the actual secret.
+
+If all three are missing, STOP this phase and report:
+
+"REAL PROVIDERS NOT CONFIGURED — USER ACTION REQUIRED"
+
+Do NOT falsely mark the milestone COMPLETE.
+
+==================================================
+PHASE 2 — REAL PROVIDER SMOKE TEST
+==================================================
+
+Create or repair a bounded server-side provider smoke test.
+
+Each configured provider must perform an ACTUAL inference request.
+
+Use the smallest possible structured request.
+
+For example:
+
+Task:
+Return JSON containing:
+{
+  "providerTest": true,
+  "message": "KEA live provider test"
+}
+
+The response must be validated.
+
+For each provider record:
+
+provider
+configured
+reachable
+inferenceSucceeded
+structuredOutputSucceeded
+latencyMs
+model
+errorCategory
+
+NEVER expose:
+- API key
+- Authorization header
+- full secret-bearing request
+- secret-bearing stack trace
+
+If a provider fails:
+categorize the failure.
+
+Possible categories:
+
+CONFIGURATION_ERROR
+AUTHENTICATION_ERROR
+RATE_LIMIT
+NETWORK_ERROR
+MODEL_ERROR
+SCHEMA_ERROR
+TIMEOUT
+UNKNOWN
+
+Do not retry indefinitely.
+
+Maximum:
+1 retry per provider.
+
+==================================================
+PHASE 3 — PROVIDER CASCADE PROOF
+==================================================
+
+Prove the cascade actually works.
+
+Default:
+
+Gemini
+  ↓
+Groq
+  ↓
+NVIDIA NIM
+  ↓
+deterministic fallback
+
+Test two scenarios.
+
+SCENARIO A:
+All configured providers available.
+
+Expected:
+Primary provider handles request.
+
+SCENARIO B:
+Force primary provider failure in test mode.
+
+Expected:
+Secondary provider handles request.
+
+SCENARIO C:
+Force first two providers to fail.
+
+Expected:
+Third provider handles request if configured.
+
+SCENARIO D:
+Force all real providers to fail.
+
+Expected:
+deterministic fallback handles request.
+
+The metadata MUST identify the real provider used.
+
+Never allow:
+
+provider = Gemini
+while response actually came from fallback.
+
+==================================================
+PHASE 4 — REAL AI LEARNING GENERATION
+==================================================
+
+Verify:
+
+POST /api/learning/generate
+
+using:
+
+topic
+stage
+concept
+mastery
+recentEvidence
+recentMistakes
+pace
+theme
+
+Perform at least 2 real generation calls with equivalent but different request IDs.
+
+Verify that the result is actually provider-generated and schema-valid.
+
+The normal LIVE path must generate:
+
+- personalized explanation
+- worked example
+- misconception warning
+- practice question
+- hint
+- challenge
+
+Existing deterministic fallback remains available.
+
+Add clear runtime metadata:
+
+provider
+model
+latency
+fallbackUsed
+
+==================================================
+PHASE 5 — REAL AI MOCK TEST
+==================================================
+
+Verify:
+
+POST /api/assessment/generate
+
+REAL LIVE MODE must generate fresh questions.
+
+Generate two tests using the same topic but different generation seeds/request contexts.
+
+Do NOT require exact textual difference as the only proof.
+
+Verify:
+- valid schema
+- valid concept IDs
+- valid question types
+- difficulty values valid
+- options valid
+- no missing required fields
+- no malformed assessment
+- no unsupported chemistry claims when using chemistry concepts
+
+The test must be safe to present to the learner.
+
+Then test:
+
+POST /api/assessment/evaluate
+
+Objective:
+deterministic evaluation.
+
+Short answer / reasoning:
+AI semantic evaluation.
+
+Convert results into evidence.
+
+Then:
+
+evidence
+→ MasteryEngine
+
+NOT:
+
+AI
+→ direct mastery score
+
+==================================================
+PHASE 6 — REAL MULTI-TURN AI INTERVIEW
+==================================================
+
+Verify the interview is truly dynamic.
+
+Call:
+
+POST /api/interview/start
+
+Then:
+
+POST /api/interview/respond
+
+multiple times.
+
+The follow-up question MUST be generated from the previous learner response.
+
+Test a misconception path.
+
+Example:
+
+Student response:
+"The catalyst provides the energy."
+
+Expected behavior:
+AI identifies the conceptual issue and asks an appropriate follow-up.
+
+Then test a strong-response path.
+
+The AI should be capable of advancing instead of always asking the same fixed question.
+
+Interview state must remain consistent between turns.
+
+No hardcoded question loop.
+
+Maximum interview length must be bounded.
+
+Example:
+
+4–6 turns.
+
+Never allow infinite conversation.
+
+==================================================
+PHASE 7 — REAL INTERVIEW SUMMARY
+==================================================
+
+Complete the interview.
+
+POST /api/interview/complete
+
+Verify the summary contains:
+
+- concepts demonstrated
+- strengths
+- areas needing reinforcement
+- misconceptions
+- recommended next action
+- evidence from transcript
+- confidence/evidence quality
+
+Do NOT expose chain-of-thought.
+
+Only expose concise evaluation evidence.
+
+Then feed relevant evidence into the existing deterministic mastery system.
+
+==================================================
+PHASE 8 — FULL REAL GOLDEN LOOP
+==================================================
+
+Now connect the services into one REAL learner experience.
+
+Run this exact flow:
+
+1. User enters:
+   Organic Chemistry
+
+2. AI Topic Planner
+   ↓
+   real AI-generated curriculum
+
+3. Deterministic graph validation
+
+4. Diagnostic
+
+5. Personalized learning state
+
+6. AI Practice
+   ↓
+   REAL generated problem
+
+7. Learner answers incorrectly
+
+8. Evidence recorded
+
+9. AI generates targeted remediation
+
+10. New AI practice
+
+11. Learner completes generated Mock Test
+
+12. Hybrid evaluation
+
+13. Evidence → MasteryEngine
+
+14. Learner starts AI Mock Interview
+
+15. AI asks opening question
+
+16. Learner answers by text OR Web Speech transcript
+
+17. AI evaluates response
+
+18. AI asks adaptive follow-up
+
+19. Learner responds
+
+20. AI finishes interview
+
+21. Structured interview summary displayed
+
+22. Oral evidence → MasteryEngine
+
+23. Struggle threshold evaluated deterministically
+
+24. Facilitator intervention created if required
+
+THIS FLOW MUST WORK IN LIVE AI MODE.
+
+==================================================
+PHASE 9 — MOCK MODE PARITY
+==================================================
+
+The same user journey must still work in:
+
+DEMO MODE
+
+with:
+
+- zero network dependency
+- deterministic fallback
+- old mock content preserved
+- existing chemistry visualizers preserved
+- existing demo personas preserved
+
+LIVE MODE:
+
+- real provider inference
+- real dynamic generation
+
+The UI must clearly distinguish:
+
+LIVE AI
+vs
+DEMO / FALLBACK
+
+==================================================
+PHASE 10 — AI RUNTIME UX
+==================================================
+
+Audit the existing AI runtime status UI.
+
+It must never lie.
+
+Show:
+
+AI LIVE
+Provider: Gemini
+Model: configured model
+Latency: X ms
+
+OR:
+
+AI LIVE
+Provider: Groq
+
+OR:
+
+AI FALLBACK
+Provider: deterministic
+
+OR:
+
+DEMO MODE
+Offline deterministic
+
+Never show:
+"AI LIVE"
+when deterministic fallback answered.
+
+During generation:
+
+Generating...
+Provider: Gemini
+
+After response:
+
+Generated
+Provider: Gemini
+Latency: ...
+
+If provider fails and falls back:
+
+Gemini unavailable
+→ switched to Groq
+
+Keep the message concise and judge-friendly.
+
+==================================================
+PHASE 11 — FAILURE SAFETY
+==================================================
+
+Test:
+
+- missing API key
+- bad API key
+- provider timeout
+- provider HTTP error
+- malformed JSON
+- schema mismatch
+- invalid learner input
+- oversized request
+- oversized provider response
+- all providers unavailable
+- server restart after env changes
+
+Expected behavior:
+
+NO CRASH
+NO SECRET LEAK
+NO FAKE SUCCESS
+SAFE FALLBACK
+CLEAR USER-FACING STATUS
+
+==================================================
+PHASE 12 — SERVER RESTART / ENV VERIFICATION
+==================================================
+
+Because Next.js server processes snapshot environment variables:
+
+After any .env.local configuration change:
+
+1. stop old server
+2. start fresh server
+3. verify /api/ai/health again
+
+Do not test against stale processes.
+
+Verify port 3000 belongs to the current server process.
+
+This is mandatory because stale Next.js builds previously caused frontend failures in this project.
+
+==================================================
+PHASE 13 — TEST SUITE
+==================================================
+
+Add/repair tests for:
+
+- environment configuration
+- provider health
+- real-provider selection
+- cascade fallback
+- provider metadata integrity
+- schema validation
+- learning generation
+- mock test generation
+- assessment evaluation
+- interview state transitions
+- dynamic interview follow-up
+- interview summary
+- mastery evidence conversion
+- live/demo mode separation
+
+Unit tests must mock provider network calls.
+
+Real keys must NOT be required for standard npm test.
+
+Add a separate bounded live smoke-test script that only runs when provider keys are configured.
+
+DO NOT make CI/unit tests depend on paid APIs.
+
+Run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+==================================================
+PHASE 14 — SECURITY AUDIT
+==================================================
+
+Search the entire repository for:
+
+GEMINI_API_KEY
+GROQ_API_KEY
+NVIDIA_NIM_API_KEY
+
+Verify no secret values are present in:
+
+- source
+- client bundles
+- console logs
+- error messages
+- docs
+- git-tracked files
+
+Only variable names may appear in docs/examples.
+
+==================================================
+PHASE 15 — BROWSER VALIDATION
+==================================================
+
+Attempt bounded browser verification.
+
+Test manually/automated where possible:
+
+- AI Practice button
+- AI Mock Test button
+- AI Oral Defense button
+- microphone fallback to typing
+- loading states
+- errors
+- provider badge
+- mock/live switch
+- interview turn progression
+- interview summary
+- no broken Stage 1–5 navigation
+
+If Playwright/browser driver remains unavailable:
+
+DO NOT loop indefinitely.
+
+Perform bounded SSR/DOM/runtime verification and explicitly report the limitation.
+
+==================================================
+PHASE 16 — DO NOT TOUCH THESE UNLESS REQUIRED
+==================================================
+
+Preserve:
+
+- existing chemistry engines
+- Stage 1
+- Stage 2
+- Stage 3
+- Stage 4
+- Stage 5
+- Knowledge Graph
+- MasteryEngine
+- facilitator system
+- existing mock content
+- existing offline mode
+- demo personas
+- visual learning workspaces
+
+Do not redesign these.
+
+==================================================
+PHASE 17 — OFFICIAL GOOGLE SKILLS
+==================================================
+
+If a relevant official Google skill exists, inspect it:
+
+https://github.com/google/skills
+
+Only use a genuinely relevant skill.
+
+Do not install unrelated skills.
+
+==================================================
+PHASE 18 — DOCUMENTATION
+==================================================
+
+Update only:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Update:
+
+docs/ARCHITECTURE.md
+
+ONLY if the verified provider architecture changed.
+
+Document the difference between:
+
+REAL LIVE AI
+and
+DETERMINISTIC FALLBACK
+
+Do not mark live AI complete unless live provider inference was actually verified.
+
+==================================================
+FINAL REPORT — EXACT FORMAT
+==================================================
+
+## Milestone
+LIVE AI + GOLDEN LOOP VERIFICATION
+
+## Real Provider Status
+
+### Gemini
+Configured:
+Live inference:
+Structured output:
+Model:
+Latency:
+Status:
+
+### Groq
+Configured:
+Live inference:
+Structured output:
+Model:
+Latency:
+Status:
+
+### NVIDIA NIM
+Configured:
+Live inference:
+Structured output:
+Model:
+Latency:
+Status:
+
+### Deterministic Fallback
+Status:
+
+## Provider Cascade
+...
+
+## Environment
+.env.local present:
+Server restarted after configuration:
+Secrets exposed:
+YES/NO
+
+## AI Learning Generation
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## AI Mock Test
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## AI Assessment Evaluation
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## AI Mock Interview
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## Adaptive Follow-Up
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## Interview Summary
+LIVE VERIFIED / FALLBACK ONLY / BLOCKED
+
+## Full Golden Loop
+LIVE VERIFIED / FALLBACK VERIFIED / BLOCKED
+
+## Demo Mode
+PASS/FAIL
+
+## Security Audit
+PASS/FAIL
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Runtime Verification
+...
+
+## Browser Verification
+...
+
+## Regressions
+...
+
+## BLOCKERS
+List actual blockers only.
+
+## USER ACTION REQUIRED
+List ONLY actions the user must perform, for example:
+- add API key to .env.local
+- restart dev server
+- enable microphone
+
+## FINAL STATUS
+
+Choose exactly one:
+
+REAL_AI_VERIFIED
+PARTIALLY_VERIFIED
+BLOCKED
+
+CRITICAL:
+Do NOT write COMPLETE simply because code exists.
+Do NOT write REAL_AI_VERIFIED unless at least one configured real provider successfully performed live inference.
+
+Do not commit.
+Do not push.
+Do not start unrelated feature work.
+STOP after this report.
