@@ -1,0 +1,695 @@
+KEA — P0-03B DIAGNOSTIC + PREREQUISITE CALIBRATION
+HARD EXECUTION PROMPT
+
+You are the MAIN ORCHESTRATOR for KEA.
+
+CURRENT VERIFIED STATE
+======================
+
+COMPLETED:
+✅ P0-01 Next.js + shadcn foundation
+✅ P0-02 Knowledge Graph engine
+✅ P0-AI-PLAN Gemini topic → learning-plan generation
+✅ P0-03 Deterministic Mastery Engine
+✅ Topic Entry → Stage Plan → Learning Graph frontend
+
+CURRENT TASK:
+➡️ P0-03B — Diagnostic & Prerequisite Assessment Calibration
+
+The product flow we are now extending is:
+
+USER
+"What do you want to learn?"
+        ↓
+AI structures the topic
+        ↓
+AI creates stages + concepts + prerequisites
+        ↓
+Learning graph
+        ↓
+DIAGNOSTIC / PREREQUISITE CALIBRATION   ← THIS TASK
+        ↓
+Determine what learner already knows
+        ↓
+Personalized starting point
+        ↓
+Future learning stages
+
+DO NOT implement later learning activities yet.
+
+============================================================
+MANDATORY MULTI-AGENT MODE
+============================================================
+
+YOU MUST USE ANTIGRAVITY'S MULTI-AGENT/SUBAGENT SYSTEM.
+
+MAIN AGENT = ORCHESTRATOR
+
+Before implementation, run these agents:
+
+------------------------------------------------------------
+AGENT 1 — LEARNING SCIENCE / DIAGNOSTIC DESIGN
+------------------------------------------------------------
+
+Design a short diagnostic that identifies prerequisite knowledge efficiently.
+
+The diagnostic should answer:
+
+"What does this learner already know relative to the knowledge required for this topic?"
+
+Rules:
+- do not make it a long exam
+- prioritize high-value prerequisite concepts
+- questions should discriminate between known and unknown concepts
+- questions should map directly to graph concepts
+- do not ask random topic trivia
+
+Recommended MVP:
+3–6 questions depending on topic complexity.
+
+------------------------------------------------------------
+AGENT 2 — AI ASSESSMENT AGENT
+------------------------------------------------------------
+
+Design the future-safe AI contract for generating diagnostic questions.
+
+AI can generate:
+- question
+- answer choices where applicable
+- correct answer
+- conceptId
+- explanation
+- difficulty
+
+AI MUST NOT directly set mastery.
+
+AI MUST NOT directly unlock concepts.
+
+AI returns structured diagnostic content only.
+
+------------------------------------------------------------
+AGENT 3 — DETERMINISTIC SCORING AGENT
+------------------------------------------------------------
+
+Design how submitted diagnostic answers become structured evidence for the existing MasteryEngine.
+
+Flow:
+
+Question
+→ learner answer
+→ deterministic answer evaluation
+→ score
+→ AssessmentEvidence
+→ MasteryEngine
+→ concept state
+
+For MVP, prefer deterministic question types such as:
+- multiple choice
+- true/false
+- simple numeric/text answer where validation is deterministic
+
+Avoid open-ended LLM grading in this milestone.
+
+------------------------------------------------------------
+AGENT 4 — GRAPH / ADAPTIVE SYSTEM AGENT
+------------------------------------------------------------
+
+Design how diagnostic results interact with the existing KnowledgeGraphEngine.
+
+Required behavior:
+
+Known prerequisite
+→ mark sufficient baseline knowledge
+
+Unknown prerequisite
+→ concept remains unavailable / needs learning
+
+Mixed results
+→ learner starts at the earliest concept they actually need
+
+Do NOT rewrite the graph engine.
+
+------------------------------------------------------------
+AGENT 5 — FRONTEND UX AGENT
+------------------------------------------------------------
+
+Design the learner-facing diagnostic experience.
+
+It should feel like:
+
+"Let's find your starting point."
+
+NOT:
+"EXAM"
+"FAIL"
+"WEAK STUDENT"
+
+The learner should understand:
+- why they are being asked questions
+- which concepts are being calibrated
+- progress through the diagnostic
+- their resulting starting point
+
+------------------------------------------------------------
+AGENT 6 — ADVERSARIAL TEST AGENT
+------------------------------------------------------------
+
+Try to break:
+
+- missing questions
+- duplicate concept IDs
+- invalid answers
+- malformed AI output
+- questions for nonexistent concepts
+- unknown correct answer
+- duplicate choices
+- empty diagnostics
+- all answers correct
+- all answers incorrect
+- mixed results
+- locked prerequisites
+- inconsistent graph state
+- malformed topic plan
+- Gemini unavailable
+
+------------------------------------------------------------
+AGENT 7 — HACKATHON SPEED AGENT
+------------------------------------------------------------
+
+Keep this lightweight.
+
+Reject:
+- long adaptive exams
+- external testing platforms
+- complicated psychometric models
+- ML classifiers
+- database work
+- unnecessary state-management frameworks
+
+MAIN AGENT MUST SYNTHESIZE ALL AGENT FINDINGS BEFORE IMPLEMENTATION.
+
+Do not allow multiple agents to edit the same files simultaneously.
+
+============================================================
+CONTEXT-EFFICIENT READING
+============================================================
+
+Read only:
+
+- docs/TASK_BOARD.md
+- relevant diagnostic/mastery sections of docs/ARCHITECTURE.md
+- src/lib/ai/types.ts
+- src/lib/ai/index.ts
+- src/lib/ai/topic-plan-validator.ts
+- src/app/api/topic/plan/route.ts
+- src/lib/knowledge-graph/*
+- src/lib/mastery/*
+- src/types/topic-path.ts
+- relevant entry UI components
+
+Do NOT reread the whole repository.
+
+============================================================
+P0-03B OBJECTIVE
+============================================================
+
+Implement the diagnostic calibration layer.
+
+The learner has already generated:
+
+Topic Curriculum Plan
++
+Concept Graph
++
+Stages
+
+Now KEA must identify what the learner already knows.
+
+Core flow:
+
+TopicCurriculumPlan
+        ↓
+Select prerequisite/high-value concepts
+        ↓
+Generate diagnostic questions
+        ↓
+Learner answers
+        ↓
+Deterministic evaluation
+        ↓
+AssessmentEvidence
+        ↓
+MasteryEngine
+        ↓
+Learner baseline mastery
+        ↓
+KnowledgeGraph unlock state
+        ↓
+Personalized starting point
+
+============================================================
+DIAGNOSTIC QUESTION CONTRACT
+============================================================
+
+Create a structured diagnostic question model.
+
+Conceptually:
+
+DiagnosticQuestion:
+- id
+- conceptId
+- question
+- type
+- options
+- correctAnswer
+- explanation
+- difficulty
+
+Use the project's existing type conventions where possible.
+
+Do NOT duplicate existing types unnecessarily.
+
+============================================================
+QUESTION GENERATION
+============================================================
+
+Use a bounded server-side abstraction.
+
+Conceptually:
+
+generateDiagnostic(topicPlan)
+
+Possible implementation:
+
+POST /api/topic/diagnostic
+
+Input:
+- normalized TopicCurriculumPlan
+- optional learner context
+
+Output:
+- validated DiagnosticQuestion[]
+
+AI MAY generate the questions.
+
+AI MUST use structured output.
+
+AI MUST reference only concept IDs that exist in the topic graph.
+
+The output must pass validation before reaching the client.
+
+============================================================
+DIAGNOSTIC SELECTION
+============================================================
+
+Do NOT ask one question for every concept.
+
+Select a small set of high-value prerequisite/foundation concepts.
+
+Prioritize:
+1. root concepts
+2. concepts with many downstream dependents
+3. early-stage concepts
+4. prerequisite bottlenecks
+
+Keep the diagnostic short.
+
+Target:
+3–6 questions for the MVP.
+
+Make the selection deterministic after the plan is generated.
+
+============================================================
+AI BOUNDARY
+============================================================
+
+AI responsibilities:
+
+✅ generate diagnostic questions
+✅ generate distractor options
+✅ provide explanations
+✅ choose appropriate wording
+
+Deterministic responsibilities:
+
+✅ validate schema
+✅ validate concept IDs
+✅ validate graph references
+✅ validate answer structure
+✅ evaluate objective answers
+✅ calculate evidence score
+✅ update mastery
+✅ determine unlock eligibility
+✅ determine personalized starting point
+
+NEVER allow:
+
+raw LLM output
+→ mastery state
+
+============================================================
+DETERMINISTIC ANSWER EVALUATION
+============================================================
+
+For MVP:
+
+If question type = multiple_choice:
+
+learner answer == correctAnswer
+→ score 100
+
+otherwise
+→ score 0
+
+Do not let Gemini judge whether a selected option is correct.
+
+The correct answer comes from the validated diagnostic question object.
+
+============================================================
+MASTERY INTEGRATION
+============================================================
+
+For every answered diagnostic question:
+
+1. identify conceptId
+2. calculate deterministic score
+3. construct AssessmentEvidence
+4. send evidence through existing MasteryEngine
+5. obtain concept mastery state
+
+Do NOT rewrite the MasteryEngine.
+
+Do NOT duplicate mastery calculations.
+
+============================================================
+BASELINE CALIBRATION
+============================================================
+
+After the diagnostic:
+
+Example:
+
+Concept A → mastered
+Concept B → mastered
+Concept C → not mastered
+Concept D → locked
+
+KEA should determine:
+
+"Your recommended starting point is Concept C."
+
+The exact algorithm should respect the knowledge graph.
+
+The personalized starting point should be the earliest graph-eligible concept that still requires learning.
+
+Do NOT simply use:
+"lowest score wins"
+
+You must respect prerequisite relationships.
+
+============================================================
+GRAPH UPDATE
+============================================================
+
+After calibration, show updated learner state.
+
+Example:
+
+✓ Known
+✓ Known
+● Start here
+🔒 Later
+
+The graph must remain the actual graph.
+
+Do NOT create a second graph.
+
+============================================================
+FRONTEND — DIAGNOSTIC EXPERIENCE
+============================================================
+
+Connect the existing topic flow:
+
+TOPIC
+↓
+AI PLAN
+↓
+LEARNING GRAPH
+↓
+"CALIBRATE YOUR STARTING POINT"
+
+Create a focused diagnostic screen.
+
+Header:
+
+"Let's find your starting point."
+
+Supporting text:
+
+"A few quick questions help KEA avoid teaching what you already know."
+
+Show:
+
+Question 1 of 5
+
+[Question]
+
+[ Option A ]
+[ Option B ]
+[ Option C ]
+[ Option D ]
+
+Then:
+
+[ Next ]
+
+After the final question:
+
+"Calibration complete"
+
+Show a concise result:
+
+YOUR STARTING POINT
+
+"You already have the foundation for X."
+
+"KEA recommends starting with Y."
+
+Primary CTA:
+
+"Start Learning"
+
+The learning button should NOT launch the full learning system yet.
+
+For this milestone it may transition to a placeholder "Learning Workspace coming next" state or existing plan view.
+
+Do not fake learning functionality.
+
+============================================================
+IMPORTANT UX RULES
+============================================================
+
+Never show:
+
+"FAILED"
+"WEAK"
+"POOR STUDENT"
+"SLOW STUDENT"
+
+Instead use:
+
+"Already familiar"
+"Needs practice"
+"Ready to learn"
+"Recommended starting point"
+
+The diagnostic is calibration, not a judgment.
+
+============================================================
+TOPIC AGNOSTICITY
+============================================================
+
+The diagnostic MUST work for arbitrary generated topics.
+
+Do NOT hardcode:
+
+- Fractions
+- Class 4
+- Mathematics
+- Python
+- specific concepts
+
+The only required relationship is:
+
+Topic Plan
+→ Concept IDs
+→ Diagnostic
+
+============================================================
+FALLBACK
+============================================================
+
+If Gemini is unavailable:
+
+Use a controlled local diagnostic fallback where possible.
+
+Do not pretend AI generated it.
+
+Fallback questions may be derived from curated/local plans.
+
+For arbitrary topics without suitable local questions:
+
+show an honest controlled fallback/error state.
+
+Do not crash.
+
+============================================================
+VALIDATION
+============================================================
+
+Add tests for:
+
+1. Valid diagnostic generation
+2. Empty diagnostic rejected
+3. Duplicate question IDs rejected
+4. Unknown concept ID rejected
+5. Malformed AI output rejected
+6. Invalid answer structure rejected
+7. Deterministic MCQ scoring
+8. Correct answer = 100
+9. Incorrect answer = 0
+10. Evidence generated with correct concept ID
+11. MasteryEngine receives diagnostic evidence
+12. All-correct learner baseline
+13. All-incorrect learner baseline
+14. Mixed learner baseline
+15. Starting point respects graph prerequisites
+16. Gemini failure triggers fallback
+17. Missing API key handled safely
+18. Arbitrary topic compatibility
+19. Existing graph tests still pass
+20. Existing mastery tests still pass
+21. Full topic → plan → diagnostic flow works
+
+Do not require live Gemini in unit tests.
+
+Mock the provider boundary.
+
+============================================================
+NO EXTRA TECHNOLOGY
+============================================================
+
+Do NOT add:
+
+- Python
+- FastAPI
+- database
+- Supabase
+- Neo4j
+- vector DB
+- RAG
+- ML frameworks
+- external exam/testing services
+
+Use the current Next.js + TypeScript architecture.
+
+============================================================
+VALIDATION COMMANDS
+============================================================
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+Then run a manual integration check:
+
+1. Enter a topic.
+2. Generate a topic plan.
+3. Start calibration.
+4. Answer questions.
+5. Verify deterministic scoring.
+6. Verify mastery states.
+7. Verify personalized starting point.
+8. Verify graph reflects the result.
+9. Test a second topic.
+10. Test Gemini failure/fallback.
+
+============================================================
+DOCUMENTATION SYNC
+============================================================
+
+Only after validation succeeds:
+
+Update docs/TASK_BOARD.md:
+
+P0-03B → COMPLETED
+
+Create/identify the NEXT task as:
+
+"Student Learning Workspace + Practice"
+
+Do not mark that task complete.
+
+Update docs/DEVELOPMENT_LOG.md with ONE concise P0-03B entry containing:
+- diagnostic design
+- question-generation approach
+- AI/deterministic boundary
+- calibration logic
+- tests
+- validation
+
+Update docs/ARCHITECTURE.md ONLY if necessary to document the implemented diagnostic pipeline.
+
+Do NOT rewrite PRD.md.
+
+============================================================
+GIT
+============================================================
+
+DO NOT commit.
+DO NOT push.
+
+We will inspect the milestone first.
+
+============================================================
+STRICT STOP CONDITION
+============================================================
+
+STOP after P0-03B.
+
+Do NOT implement:
+
+- learning content workspace
+- practice engine
+- AI re-theming
+- mock milestone test
+- oral assessment
+- remediation UI
+- facilitator dashboard
+- pace system
+
+============================================================
+FINAL REPORT
+============================================================
+
+Return:
+
+1. Multi-agent roles used
+2. Final diagnostic design
+3. Question schema
+4. AI generation approach
+5. Deterministic evaluation approach
+6. Mastery integration
+7. Starting-point algorithm
+8. Graph update behavior
+9. Files changed
+10. Tests added
+11. Validation results
+12. Fallback behavior
+13. Confirmation arbitrary topics work
+14. Confirmation future features were NOT implemented
+
+Then STOP.
