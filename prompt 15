@@ -1,0 +1,785 @@
+# HARD TASK — KEA LIVE AI PRODUCT HARDENING + TRUE END-TO-END QA
+
+THIS IS NOT A FEATURE-ADDITION MILESTONE.
+
+The major AI infrastructure is already implemented:
+- Gemini provider
+- Groq provider
+- NVIDIA NIM provider
+- deterministic fallback
+- AI learning generation
+- AI mock test generation
+- hybrid assessment evaluation
+- multi-turn AI interview
+- interview summary
+- AI runtime status
+- existing Knowledge Graph
+- existing MasteryEngine
+- Organic Chemistry Stages 1–5
+- Demo/Offline mode
+
+Previous verification reported:
+- REAL_AI_VERIFIED
+- Live Groq inference is active
+- 159+ tests passing
+- TypeScript clean
+- lint clean
+- build clean
+- live AI endpoints responding
+- Groq is currently active in the cascade
+- Gemini is not currently the active primary provider
+
+YOUR JOB NOW:
+Make the current system production-demo reliable.
+
+DO NOT add Python.
+DO NOT add FastAPI.
+DO NOT add databases.
+DO NOT add RAG.
+DO NOT add new unrelated features.
+DO NOT rebuild the AI provider system unless a verified defect requires it.
+
+==================================================
+PHASE 0 — DELEGATE REAL SPECIALISTS
+==================================================
+
+Use real subagents if available.
+
+Exactly 5 specialists:
+
+AGENT 1 — FRONTEND E2E AUDITOR
+Test the actual visible KEA UI.
+
+Verify:
+- topic entry
+- AI plan generation
+- diagnostic
+- AI Practice
+- AI Mock Test
+- assessment submission
+- assessment results
+- AI Oral Defense
+- microphone flow
+- typing fallback
+- interview turns
+- interview summary
+- provider status
+- Demo Mode
+- Organic Chemistry navigation
+- Stage 1→5
+- facilitator view
+
+Find:
+- dead buttons
+- missing state updates
+- loading bugs
+- stale state
+- race conditions
+- wrong provider labels
+- duplicate rendering
+- broken modal/panel layout
+- navigation regressions
+
+AGENT 2 — AI CORRECTNESS / SCHEMA AUDITOR
+Inspect every generated AI object.
+
+Verify:
+- strict schema validation
+- concept IDs exist
+- generated questions are internally consistent
+- difficulty is valid
+- question type matches fields
+- MCQ options are valid
+- answer index is valid
+- rubrics are coherent
+- interview decisions are valid
+
+Detect unsafe/ambiguous AI output.
+
+AGENT 3 — SECURITY / INTEGRITY AUDITOR
+Pay special attention to:
+
+1. API key leakage
+2. correct answers exposed to client
+3. assessment answer-key tampering
+4. interview-history tampering
+5. mastery score tampering
+6. concept/stage unlock tampering
+7. demo/live mode spoofing
+
+The client MUST NOT be trusted to decide:
+- correct answer
+- mastery
+- interview history
+- stage unlock
+- chemistry validity
+
+AGENT 4 — STATE / ADAPTIVITY AUDITOR
+Trace:
+
+AI generation
+→ learner interaction
+→ evidence
+→ MasteryEngine
+→ adaptive decision
+→ next action
+
+Verify that:
+- AI output becomes actual UI content
+- answers produce evidence
+- evidence updates the learner state
+- mistakes affect subsequent generation
+- interview responses affect next question
+- mock-test results affect evidence
+- remediation can actually be surfaced
+- facilitator intervention still works
+
+AGENT 5 — REGRESSION / RUNTIME QA
+Verify:
+- existing chemistry stages
+- deterministic chemistry
+- graph gating
+- MasteryEngine
+- offline mode
+- persona switching
+- theme system
+- facilitator cockpit
+- all tests
+- build
+- production runtime
+- environment handling
+
+ORCHESTRATOR:
+First collect all specialist findings.
+Then synthesize.
+Then make fixes.
+Do not pretend agents ran if they didn't.
+
+==================================================
+PHASE 1 — CRITICAL ASSESSMENT SECURITY FIX
+==================================================
+
+Audit:
+
+POST /api/assessment/generate
+
+IMPORTANT:
+
+The generated assessment may currently contain fields such as:
+
+correctOptionIndex
+sampleIdealAnswer
+explanation
+rubric
+
+DO NOT SEND THE ANSWER KEY TO THE CLIENT BEFORE SUBMISSION.
+
+A learner must not be able to open DevTools and immediately see:
+
+correctOptionIndex
+
+or any equivalent answer field.
+
+Create a server-side separation:
+
+SERVER ASSESSMENT
+-----------------
+question
+options
+rubric if safe
+concept
+difficulty
+internal answer key
+
+CLIENT ASSESSMENT
+-----------------
+question
+options
+concept
+difficulty
+safe metadata
+
+The correct answers must remain server-side until evaluation.
+
+If necessary, maintain a bounded in-memory assessment session store suitable for the hackathon.
+
+No database.
+
+POST /api/assessment/evaluate
+
+must use the server-side assessment record.
+
+The client must NOT submit:
+correctOptionIndex
+
+and have the server trust it.
+
+Client-submitted answer keys MUST be ignored/rejected.
+
+This is mandatory.
+
+==================================================
+PHASE 2 — INTERVIEW SESSION INTEGRITY
+==================================================
+
+Audit:
+
+/api/interview/start
+/api/interview/respond
+/api/interview/complete
+
+The server should maintain enough session state to prevent the client from rewriting its own interview history.
+
+Do not trust the browser to invent:
+
+- previous understanding
+- misconceptions
+- previous questions
+- next concept
+- interview score
+- completion state
+
+Use a bounded server-side session store.
+
+No database required.
+
+At minimum store:
+
+sessionId
+topic
+target concepts
+turn history
+current question
+current concept
+status
+max turns
+evidence
+
+When `/respond` arrives:
+- verify session exists
+- append the real learner response
+- evaluate it
+- generate the next question
+- persist the new state
+
+When `/complete` arrives:
+- use server session history
+- ignore forged client history
+- generate summary from trusted history
+
+This is mandatory.
+
+==================================================
+PHASE 3 — MASTERY INTEGRITY
+==================================================
+
+Audit every frontend path.
+
+The browser must never be able to send:
+
+mastery = 100
+
+and cause the learner to become mastered.
+
+Mastery must come only from:
+
+verified evidence
+→ deterministic MasteryEngine
+
+Likewise the browser must not directly unlock Stage 2/3/4/5.
+
+Verify every CTA and route respects the same gating engine.
+
+Add tests proving tampering fails.
+
+==================================================
+PHASE 4 — GENERATED CONTENT SAFETY
+==================================================
+
+AI-generated content must pass:
+
+LLM
+→ parse
+→ schema validation
+→ domain validation
+→ UI
+
+Reject:
+- missing fields
+- invalid enum
+- nonexistent concept ID
+- malformed MCQ
+- duplicate options
+- answer index outside range
+- empty question
+- impossible rubric
+- oversized response
+
+For Organic Chemistry specifically:
+
+AI must NOT invent molecule structures that are then treated as deterministic chemistry facts.
+
+AI may explain a supported concept.
+
+Existing deterministic chemistry engines remain authoritative.
+
+Where generated questions involve chemistry:
+- restrict generation to valid known concept IDs
+- constrain claims to the existing curriculum/domain
+- do not allow AI to define new chemistry invariants
+
+==================================================
+PHASE 5 — MAKE AI ACTUALLY ADAPT
+==================================================
+
+This is crucial.
+
+Prove that the generated content changes according to learner state.
+
+Test learner A:
+
+mastery: 90
+recentMistakes: []
+pace: fast
+
+Expected:
+harder/extension-oriented content.
+
+Test learner B:
+
+mastery: 45
+recentMistakes: ["carbon valence confusion"]
+pace: steady
+
+Expected:
+supportive explanation
+targeted remediation
+simpler scaffold
+practice targeting the mistake.
+
+The system should visibly use:
+
+mastery
++
+mistakes
++
+concept
++
+pace
++
+theme
+
+when generating the next activity.
+
+Do not merely include these fields in the prompt and then ignore them in the UI.
+
+==================================================
+PHASE 6 — MOCK TEST QUALITY
+==================================================
+
+Verify that:
+
+"Generate Mock Test"
+
+actually creates a new test.
+
+The UI must display:
+- generation state
+- AI provider
+- generated questions
+- question count
+- difficulty
+- progress
+
+On submission:
+- client sends learner responses ONLY
+- server retrieves trusted answer key
+- deterministic MCQ evaluation
+- AI semantic evaluation for open response
+- evidence generated
+- MasteryEngine updated
+- results displayed
+
+Test:
+- correct answer
+- wrong answer
+- skipped answer
+- malformed submission
+- forged answer key
+- duplicate submission
+
+==================================================
+PHASE 7 — MOCK INTERVIEW QUALITY
+==================================================
+
+The interview must visibly behave like a real adaptive interview.
+
+Required:
+
+START
+→ AI opening question
+
+ANSWER
+→ AI evaluates answer
+
+FOLLOW-UP
+→ follow-up changes according to answer
+
+ANSWER AGAIN
+→ AI reassesses
+
+COMPLETE
+→ summary
+
+Test at least these two paths:
+
+PATH A — MISCONCEPTION
+
+student:
+"The catalyst provides energy."
+
+Expected:
+misconception detected
+→ follow-up targets catalyst role
+
+PATH B — STRONG ANSWER
+
+student gives a correct explanation.
+
+Expected:
+AI progresses toward a deeper question rather than asking the same remediation question.
+
+Maximum:
+4–6 turns.
+
+No infinite interview.
+
+==================================================
+PHASE 8 — INTERVIEW SUMMARY
+==================================================
+
+Summary must be based on the trusted server-side interview history.
+
+Show:
+
+Overall Understanding
+
+Strong Concepts
+
+Needs Reinforcement
+
+Misconceptions
+
+Recommended Next Step
+
+Evidence
+
+Do NOT expose:
+- chain-of-thought
+- hidden prompts
+- internal provider payloads
+
+==================================================
+PHASE 9 — PROVIDER UX TRUTHFULNESS
+==================================================
+
+Audit ai-runtime-status.
+
+The UI must NEVER claim:
+
+AI LIVE — Gemini
+
+when Groq actually answered.
+
+Metadata must propagate correctly from:
+
+provider
+→ orchestrator
+→ route
+→ frontend
+
+Display:
+
+AI LIVE
+Provider: Groq
+Model: openai/gpt-oss-120b
+Latency: Xms
+
+or:
+
+AI FALLBACK
+Provider: deterministic
+
+or:
+
+DEMO MODE
+
+Provider metadata must be tied to the actual response.
+
+==================================================
+PHASE 10 — FAILOVER TEST
+==================================================
+
+Verify:
+
+Gemini unavailable
+→ Groq
+
+Gemini + Groq unavailable
+→ NVIDIA NIM
+
+All live providers unavailable
+→ deterministic fallback
+
+The user experience must continue.
+
+No silent fake AI.
+
+No crashes.
+
+No infinite retries.
+
+==================================================
+PHASE 11 — REAL USER FLOW
+==================================================
+
+Do not rely only on curl/API tests.
+
+Perform the closest possible real browser test.
+
+Open the actual KEA application.
+
+Walk through:
+
+1. Enter "Organic Chemistry"
+2. Generate plan
+3. Complete diagnostic
+4. Enter learning
+5. Click "AI Practice"
+6. Confirm generated content appears
+7. Answer it
+8. Open "AI Mock Test"
+9. Complete test
+10. See results
+11. Open "AI Oral Defense"
+12. Use microphone if available
+13. Confirm text fallback works
+14. Answer first interview question
+15. Confirm contextual follow-up appears
+16. Answer follow-up
+17. Complete interview
+18. Confirm summary
+19. Confirm evidence/mastery update
+20. Confirm facilitator state if threshold met
+21. Switch Demo Mode
+22. Repeat one AI operation
+23. Confirm deterministic fallback
+
+If Playwright cannot run, do bounded alternative verification and explicitly document the limitation.
+
+Do not endlessly retry browser tooling.
+
+==================================================
+PHASE 12 — RESPONSIVENESS / UI REGRESSION
+==================================================
+
+Inspect at least:
+- desktop
+- tablet
+- narrow mobile
+
+Verify:
+- AI panels don't cover navigation
+- mock test is scrollable
+- interview controls remain accessible
+- microphone button doesn't overlap transcript
+- results fit viewport
+- chemistry map remains usable
+- Stage 1–5 navigation remains intact
+
+Fix only verified issues.
+
+==================================================
+PHASE 13 — TESTS
+==================================================
+
+Add tests for:
+
+assessment answer-key secrecy
+assessment server-side evaluation
+forged answer rejection
+interview server session integrity
+forged interview-history rejection
+mastery tamper resistance
+generated content validation
+adaptive prompt behavior
+provider metadata correctness
+fallback cascade
+mock/live separation
+interview branching
+existing regression suite
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+All tests must pass.
+
+==================================================
+PHASE 14 — SECURITY SEARCH
+==================================================
+
+Search entire repository for:
+
+GEMINI_API_KEY
+GROQ_API_KEY
+NVIDIA_NIM_API_KEY
+correctOptionIndex
+sampleIdealAnswer
+masteryScore
+currentQuestion
+
+Confirm no secret values are exposed.
+
+Confirm answer keys are not unnecessarily serialized into browser responses.
+
+Confirm no hidden state can be trivially forged from the client.
+
+==================================================
+PHASE 15 — ENVIRONMENT / SERVER
+==================================================
+
+Before runtime testing:
+
+- stop stale Next.js processes
+- verify port 3000 is free
+- start ONE fresh production server
+- verify it loads current code
+- verify environment variables are loaded
+
+Do not repeat the earlier stale-server failure.
+
+==================================================
+PHASE 16 — DO NOT CHANGE THE CORE ARCHITECTURE
+==================================================
+
+Keep:
+
+Next.js
++
+TypeScript
++
+Next.js Route Handlers
++
+AI provider abstraction
++
+Gemini/Groq/NVIDIA
++
+deterministic fallback
++
+Knowledge Graph
++
+MasteryEngine
+
+No Python.
+No FastAPI.
+No database.
+No RAG.
+No vector DB.
+
+==================================================
+FINAL REPORT — EXACT FORMAT
+==================================================
+
+## Status
+COMPLETE / BLOCKED
+
+## Critical Findings
+...
+
+## Security Findings
+...
+
+## Assessment Integrity
+PASS/FAIL
+
+## Interview Integrity
+PASS/FAIL
+
+## Mastery Integrity
+PASS/FAIL
+
+## Real AI
+Provider actually used:
+Model:
+Live inference:
+Fallback tested:
+
+## AI Adaptivity
+PASS/FAIL
+
+## Mock Test
+PASS/FAIL
+
+## Mock Interview
+PASS/FAIL
+
+## Interview Summary
+PASS/FAIL
+
+## UI End-to-End
+PASS/FAIL / PARTIAL
+
+## Responsive UI
+PASS/FAIL
+
+## Provider Truthfulness
+PASS/FAIL
+
+## Offline Demo
+PASS/FAIL
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Browser Verification
+...
+
+## Files Changed
+...
+
+## Regressions
+...
+
+## Remaining Issues
+...
+
+## User Action Required
+...
+
+## Final Decision
+Choose exactly one:
+
+READY_FOR_MANUAL_TESTING
+BLOCKED
+NEEDS_TARGETED_FIXES
+
+IMPORTANT:
+Do NOT add new features.
+Do NOT claim "ready" merely because tests pass.
+The product must survive the actual user flow.
+Do not commit.
+Do not push.
+STOP.
