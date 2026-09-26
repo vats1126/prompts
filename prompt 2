@@ -1,0 +1,275 @@
+We are beginning Milestone 1 of the KEA — Adaptive Learning & Real-Time Intervention Platform hackathon project.
+
+You are acting as a senior software engineer and technical lead. Work incrementally and do NOT run ahead of the current milestone.
+
+==================================================
+PHASE 0 — READ PROJECT CONTEXT
+==================================================
+
+Before changing anything, inspect the repository and read:
+
+- docs/PRD.md
+- docs/ARCHITECTURE.md
+- docs/TASK_BOARD.md
+- docs/DEVELOPMENT_LOG.md
+
+Also inspect:
+- existing package.json
+- existing source structure
+- existing configuration files
+- existing Git state
+- any organizer-provided template or starter code
+
+Preserve useful existing work. Do not overwrite an organizer template unnecessarily.
+
+==================================================
+PHASE 1 — DISCOVER OFFICIAL GOOGLE SKILLS
+==================================================
+
+Before implementing P0-01, use the official Google Skills repository/documentation as the source for relevant Agent Skills.
+
+Official source:
+https://github.com/google/skills
+
+Do NOT blindly install every available skill.
+
+First determine which official skills are relevant to THIS milestone.
+
+For P0-01, prioritize skills relevant to:
+- frontend/web development
+- Next.js
+- TypeScript
+- React
+- UI/component development
+- code quality/review
+- testing, if directly relevant
+
+Prefer official Google skills over random third-party skill repositories.
+
+For each candidate skill:
+1. Inspect its SKILL.md.
+2. Understand what it provides.
+3. Check whether it is actually useful for the current milestone.
+4. Install/use only the minimum relevant skills.
+5. Avoid redundant, experimental, unrelated, or unnecessary skills.
+6. Do not install skills merely because they exist.
+
+Follow the skill repository's documented installation method.
+
+After installation, verify that the skills are actually available to the agent.
+
+IMPORTANT:
+- Do not install a huge collection of skills.
+- Do not install database, security, deployment, AI/RAG, Python/FastAPI, or unrelated skills yet unless the repository's existing setup genuinely requires one for P0-01.
+- We will install additional skills later when their corresponding milestones begin.
+- Treat external skills as code/configuration that must be reviewed before use.
+
+Document which skills were installed and why.
+
+==================================================
+PHASE 2 — P0-01 ONLY
+==================================================
+
+Current task:
+
+P0-01 — Next.js & shadcn Foundation Setup
+
+Goal:
+Create the minimal production-quality frontend foundation required for the adaptive learning prototype.
+
+Required foundation:
+
+1. Next.js App Router
+2. TypeScript
+3. Tailwind CSS
+4. shadcn/ui
+5. Lucide icons
+6. Dark/light theme switching
+7. Clean responsive application shell
+8. Sensible project structure for the future learning engine and facilitator dashboard
+9. Minimal necessary dependencies
+10. Clean developer experience
+
+Do NOT implement:
+
+- Knowledge Graph
+- Mastery Engine
+- AI re-theming
+- Assessment Engine
+- Intervention Engine
+- Facilitator Cockpit
+- RAG
+- Vector database
+- Authentication
+- Custom registration
+- Complex permissions
+- Python/FastAPI backend
+- Supabase integration unless absolutely required by the existing project
+- Future P1/P2 features
+
+Do not create speculative infrastructure for future features.
+
+==================================================
+EXISTING REPOSITORY RULE
+==================================================
+
+If a Next.js project already exists:
+
+- Inspect it first.
+- Reuse the existing setup where reasonable.
+- Do not recreate the project.
+- Do not replace configuration unnecessarily.
+- Preserve organizer-provided code.
+
+If no project exists:
+
+- Initialize the appropriate Next.js project using the current stable setup.
+- Use TypeScript and App Router.
+- Add only the dependencies required for P0-01.
+
+==================================================
+UI FOUNDATION
+==================================================
+
+Create a clean application shell suitable for the KEA product.
+
+It should establish:
+
+- application layout
+- header/navigation foundation
+- responsive content area
+- theme switching
+- reusable UI/component structure
+- typography and spacing conventions
+- sensible empty/default states
+
+Do NOT spend time on visual polish yet.
+
+The purpose is to establish a stable foundation, not the final design.
+
+Use shadcn/ui components where appropriate rather than creating unnecessary custom equivalents.
+
+==================================================
+ENGINEERING RULES
+==================================================
+
+Act like a senior maintainer.
+
+Priorities:
+
+1. Simplicity
+2. Reliability
+3. Maintainability
+4. Explainability
+5. Hackathon speed
+
+Avoid:
+- unnecessary abstractions
+- premature optimization
+- excessive dependencies
+- duplicated components
+- speculative architecture
+- huge configuration files
+- unnecessary libraries
+
+Every dependency should have a clear reason.
+
+==================================================
+VALIDATION
+==================================================
+
+After implementation:
+
+1. Run typecheck.
+2. Run lint if configured.
+3. Run the production build.
+4. Start the application if necessary and verify the shell works.
+5. Verify dark/light theme switching.
+6. Verify there are no obvious console/runtime errors.
+7. Review the git diff.
+8. Check that no secrets or .env files were added to source control.
+9. Confirm the project remains easy to understand.
+
+Fix problems introduced by your changes.
+
+==================================================
+DOCUMENTATION SYNC
+==================================================
+
+After P0-01 is genuinely complete:
+
+Update ONLY the documentation that needs updating.
+
+### docs/TASK_BOARD.md
+Update P0-01 to reflect its ACTUAL implementation status.
+
+Do not mark it complete if validation failed.
+
+### docs/DEVELOPMENT_LOG.md
+Add one concise milestone entry containing:
+- what was implemented
+- relevant skills installed
+- important technical decisions
+- validation performed
+- any known issues
+
+### docs/ARCHITECTURE.md
+Update ONLY if the actual implementation materially differs from the architecture already documented.
+
+### docs/PRD.md
+Do NOT modify unless an actual product requirement changed.
+
+Documentation must describe reality, not planned/future functionality.
+
+Do not create additional markdown documentation files.
+
+==================================================
+GIT RULE
+==================================================
+
+Do NOT commit or push yet.
+
+First stop and report the completed work to me.
+
+==================================================
+STRICT SCOPE CONTROL
+==================================================
+
+This is critical:
+
+DO NOT start P0-02.
+
+DO NOT implement:
+- Knowledge Graph DAG
+- Fraction seed data
+- Mastery engine
+- AI gateway
+- AI re-theming
+- Student practice canvas
+- Intervention dispatcher
+- Facilitator cockpit
+
+Those will be separate controlled milestones.
+
+STOP after P0-01.
+
+==================================================
+FINAL REPORT
+==================================================
+
+When finished, report:
+
+1. Existing repository state discovered
+2. Skills discovered
+3. Skills actually installed
+4. Why each installed skill was relevant
+5. Files created/modified
+6. Dependencies added
+7. Commands/checks executed
+8. Build/typecheck/lint results
+9. Any problems encountered
+10. Documentation updated
+11. Confirmation that P0-01 is complete
+12. Confirmation that P0-02 has NOT been started
+
+Then STOP and wait for my next instruction.
