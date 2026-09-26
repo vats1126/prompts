@@ -1,0 +1,1088 @@
+# HARD TASK — KEA AI INFRASTRUCTURE UPGRADE
+# REAL AI GENERATION + AI MOCK TEST + ADAPTIVE AI INTERVIEW + SUMMARY
+# PRESERVE ALL EXISTING MOCK/DEMO CONTENT
+
+You are now working on the next major KEA milestone.
+
+KEA already has:
+- Dynamic topic planning
+- Knowledge graph DAG
+- Deterministic MasteryEngine / W-EMM
+- Diagnostic
+- Visual learning
+- AI re-theming
+- Oral probe
+- Pace model
+- Theme system
+- Facilitator intervention system
+- Offline/demo fallback
+- Organic Chemistry Stages 1–5
+- 143 passing tests
+- Next.js 16 + TypeScript fullstack architecture
+
+IMPORTANT:
+DO NOT create a Python/FastAPI backend.
+DO NOT create PostgreSQL/Neo4j/RAG/vector DB infrastructure.
+DO NOT replace the existing Next.js backend.
+
+We are upgrading the existing AI layer.
+
+The objective is:
+
+KEA must visibly and genuinely use real LLMs to GENERATE NEW learning content at runtime.
+
+The existing hardcoded/mock questions, chemistry modules, demo personas, fallback content, and deterministic engines must remain available.
+
+==================================================
+MISSION
+==================================================
+
+Transform KEA into:
+
+"An adaptive learning engine that generates the learner's next experience from their current state."
+
+The AI must be responsible for:
+- generating new practice questions
+- generating new mock tests
+- generating personalized explanations
+- generating hints
+- generating remediation content
+- generating interview questions
+- generating contextual follow-up interview questions
+- evaluating free-text/oral reasoning
+- summarizing interview performance
+- recommending what to review next
+
+Deterministic engines remain responsible for:
+- graph validity
+- prerequisite gating
+- objective answer correctness where deterministic rules exist
+- chemistry molecule validity
+- chemistry reaction validity
+- invariant preservation
+- mastery calculations
+- intervention thresholds
+- final progression decisions
+
+NEVER let an LLM directly:
+- set mastery
+- unlock a stage
+- declare a molecule chemically valid
+- bypass prerequisite gating
+- alter deterministic chemistry rules
+
+==================================================
+PHASE 0 — REAL CODEBASE AUDIT
+==================================================
+
+Before modifying anything:
+
+Inspect the complete current architecture.
+
+Inspect at minimum:
+- src/lib/ai/*
+- src/lib/mastery/*
+- src/lib/knowledge-graph/*
+- src/lib/chemistry/*
+- src/components/learning/*
+- src/components/assessment/*
+- src/components/interview/* if present
+- src/components/entry/topic-experience-shell.tsx
+- all current /api/* AI-related route handlers
+- existing Gemini provider
+- existing fallback provider
+- existing mock/demo mode
+- .env.example
+- package.json
+- docs/ARCHITECTURE.md
+- docs/DEVELOPMENT_LOG.md
+- docs/TASK_BOARD.md
+
+Determine:
+1. What AI abstraction already exists?
+2. Which calls currently use Gemini?
+3. Which calls are deterministic/fallback only?
+4. Which existing mock systems must remain untouched?
+5. Where can the new AI services plug into the current architecture without duplication?
+
+DO NOT immediately create dozens of files.
+First establish the minimal architecture.
+
+==================================================
+PHASE 1 — MULTI-AGENT ARCHITECTURE
+==================================================
+
+Use real subagents/delegation where available.
+
+Exactly 5 specialists:
+
+AGENT 1 — AI INFRASTRUCTURE
+Design a provider abstraction supporting:
+
+- Gemini
+- Groq
+- NVIDIA NIM
+- deterministic fallback
+
+The provider interface should expose capabilities such as:
+
+generateText(...)
+generateStructured(...)
+generateInterviewTurn(...)
+healthCheck(...)
+
+Do not bind application logic to a specific vendor.
+
+AGENT 2 — AI LEARNING GENERATION
+Design schemas and services for:
+
+- lesson generation
+- worked examples
+- practice generation
+- hints
+- remediation
+- explanation personalization
+
+Inputs should include learner state:
+- topic
+- stage
+- concept
+- mastery
+- recent errors
+- pace
+- learner theme/interests
+- prior evidence
+
+Outputs must be schema validated.
+
+AGENT 3 — AI ASSESSMENT
+Design:
+
+- dynamic mock test generation
+- objective questions
+- short-answer questions
+- reasoning questions
+- difficulty calibration
+- assessment evaluation
+- feedback generation
+- post-test analysis
+
+The assessment generator must create NEW questions from the current learner context.
+
+Do not simply retrieve old hardcoded questions.
+
+AGENT 4 — AI INTERVIEW
+Design a true multi-turn mock interview:
+
+START
+→ AI asks question
+→ learner answers by text OR browser speech transcript
+→ AI evaluates
+→ AI decides next follow-up
+→ learner answers
+→ AI continues
+→ interview completes
+→ summary generated
+
+Do not implement this as a fixed list of 5 hardcoded questions.
+
+The next question should depend on the previous answer.
+
+AGENT 5 — QA / SECURITY / RESILIENCE
+Audit:
+- API key handling
+- server-only secrets
+- provider fallback
+- timeouts
+- retries
+- malformed JSON
+- schema validation
+- hallucinated fields
+- provider failures
+- mock-mode behavior
+- regression of existing systems
+- testability without real API keys
+
+Then the ORCHESTRATOR synthesizes all reports before implementation.
+
+Do not simulate subagents.
+
+==================================================
+PHASE 2 — PROVIDER INFRASTRUCTURE
+==================================================
+
+Create a clean provider layer.
+
+Suggested architecture:
+
+src/lib/ai/
+├── ai-provider.ts
+├── ai-orchestrator.ts
+├── provider-health.ts
+├── schemas.ts
+├── gemini-provider.ts
+├── openai-compatible-provider.ts
+├── fallback-provider.ts
+└── prompts/
+
+For OpenAI-compatible providers, support:
+- Groq
+- NVIDIA NIM
+
+Do not duplicate Groq and NIM request logic if the protocol is compatible.
+
+Use configuration rather than hardcoded model names.
+
+Environment variables should be configurable along the lines of:
+
+GEMINI_API_KEY=
+GEMINI_MODEL=
+
+GROQ_API_KEY=
+GROQ_MODEL=
+
+NVIDIA_NIM_API_KEY=
+NVIDIA_NIM_BASE_URL=
+NVIDIA_NIM_MODEL=
+
+AI_PRIMARY_PROVIDER=
+AI_FALLBACK_PROVIDERS=
+
+AI_TIMEOUT_MS=
+AI_MAX_RETRIES=
+
+Do NOT expose secrets to client bundles.
+
+NEVER log API keys.
+
+NEVER put keys into source code.
+
+==================================================
+PHASE 3 — PROVIDER PRIORITY / FALLBACK
+==================================================
+
+Default runtime policy:
+
+PRIMARY:
+Gemini
+
+SECONDARY:
+Groq
+
+TERTIARY:
+NVIDIA NIM
+
+FINAL:
+deterministic fallback/mock provider
+
+But make the priority configurable through environment variables.
+
+Provider selection must behave like:
+
+Gemini available
+    ↓
+use Gemini
+
+Gemini fails
+    ↓
+try Groq
+
+Groq fails
+    ↓
+try NVIDIA NIM
+
+All real providers fail
+    ↓
+use deterministic fallback
+
+The UI must know and display which provider answered.
+
+Example:
+
+AI ● LIVE
+Provider: Gemini
+
+or
+
+AI ● FALLBACK
+Provider: Groq
+
+or
+
+DEMO MODE
+Using local deterministic fallback
+
+NEVER silently pretend fallback output came from a real AI provider.
+
+==================================================
+PHASE 4 — STRUCTURED OUTPUT CONTRACT
+==================================================
+
+ALL important application AI calls must return schema-validated objects.
+
+Use Zod or the project's existing schema system.
+
+Minimum schemas:
+
+GeneratedLearningContent
+GeneratedPracticeSet
+GeneratedMockTest
+AssessmentEvaluation
+InterviewQuestion
+InterviewTurnEvaluation
+InterviewSessionState
+InterviewSummary
+RemediationPlan
+
+Example mock test:
+
+{
+  "id": "...",
+  "title": "...",
+  "topic": "...",
+  "conceptIds": [],
+  "questions": [
+    {
+      "id": "...",
+      "type": "multiple_choice | short_answer | reasoning",
+      "conceptId": "...",
+      "difficulty": "easy | medium | hard",
+      "prompt": "...",
+      "options": [],
+      "expectedConcepts": [],
+      "rubric": [],
+      "explanation": ""
+    }
+  ]
+}
+
+AI output must be:
+LLM output
+→ parse
+→ schema validation
+→ domain validation
+→ application
+
+If schema validation fails:
+- retry once with a repair prompt
+- if still invalid, fall back safely
+- never crash the learning session
+
+==================================================
+PHASE 5 — REAL AI LEARNING GENERATION
+==================================================
+
+Create:
+
+POST /api/learning/generate
+
+Input:
+
+{
+  topic,
+  stage,
+  concept,
+  learnerState,
+  mastery,
+  recentEvidence,
+  recentMistakes,
+  pace,
+  theme
+}
+
+Generate:
+
+- personalized explanation
+- concrete example
+- misconception warning
+- practice question
+- hint
+- optional challenge
+- next-step recommendation
+
+The generated content must be NEW.
+
+Do not use a hardcoded question as the normal response.
+
+Existing hardcoded/mock content stays as fallback.
+
+==================================================
+PHASE 6 — REAL AI MOCK TEST
+==================================================
+
+Create:
+
+POST /api/assessment/generate
+
+and:
+
+POST /api/assessment/evaluate
+
+Mock test generation must use:
+
+- current topic
+- current stage
+- concept graph
+- mastery
+- recent mistakes
+- learner history
+- desired difficulty
+- learning theme
+
+Generate approximately 5–10 questions.
+
+Mix:
+- objective
+- short answer
+- reasoning/application
+
+The mock test must be different across generations unless deterministic demo mode is explicitly enabled.
+
+Assessment evaluation:
+
+OBJECTIVE:
+Use deterministic answer checking when possible.
+
+SHORT ANSWER / REASONING:
+Use AI semantic evaluation against a structured rubric.
+
+Then combine:
+
+deterministic evidence
++
+AI semantic evidence
+↓
+MasteryEngine
+
+AI must never directly write:
+masteryScore = 92
+
+Instead it returns evidence such as:
+
+{
+  "conceptId": "...",
+  "understanding": "partial",
+  "rubricHits": [...],
+  "misconceptions": [...],
+  "confidence": 0.82
+}
+
+The deterministic engine converts evidence into mastery.
+
+==================================================
+PHASE 7 — TRUE AI MOCK INTERVIEW
+==================================================
+
+Create:
+
+POST /api/interview/start
+POST /api/interview/respond
+POST /api/interview/complete
+
+Interview must be multi-turn.
+
+State should contain:
+
+{
+  "sessionId": "...",
+  "topic": "...",
+  "targetConcepts": [],
+  "turns": [],
+  "currentQuestion": "...",
+  "currentConcept": "...",
+  "status": "active | completed",
+  "evidence": []
+}
+
+START:
+
+AI receives learner context and generates the first question.
+
+RESPOND:
+
+Learner submits:
+- typed response
+OR
+- browser speech transcript
+
+AI receives:
+- original interview goal
+- current concept
+- entire relevant conversation history
+- previous learner response
+- learner mastery
+- misconceptions
+- prior evidence
+
+AI returns:
+
+{
+  "evaluation": {
+    "understanding": "strong | partial | weak",
+    "conceptCoverage": [],
+    "misconceptions": [],
+    "reasoningQuality": "...",
+    "confidence": 0.0
+  },
+  "nextAction": "follow_up | advance | remediate | finish",
+  "nextQuestion": "...",
+  "nextConceptId": "..."
+}
+
+IMPORTANT:
+The AI may recommend an interview follow-up.
+
+The deterministic learning engine decides:
+- whether that concept is actually available
+- whether evidence should affect mastery
+- whether remediation is triggered
+- whether progression is allowed
+
+The interview must visibly adapt.
+
+Example:
+
+Question 1:
+"Explain catalytic hydrogenation."
+
+Student:
+"Hydrogen is added to the double bond."
+
+AI:
+"Good. What role does the Ni/Pt catalyst play?"
+
+Student:
+"It provides the energy."
+
+AI:
+"Let's examine that idea. Why is the catalyst not consumed in the overall reaction?"
+
+That is the experience we want.
+
+==================================================
+PHASE 8 — INTERVIEW SUMMARY
+==================================================
+
+POST /api/interview/complete
+
+Generate a structured summary containing:
+
+- overall understanding
+- concepts demonstrated
+- strong concepts
+- weak concepts
+- misconceptions
+- unanswered areas
+- reasoning quality
+- confidence/evidence quality
+- recommended remediation
+- recommended next concepts
+- sample supporting evidence from the transcript
+
+UI:
+
+AI MOCK INTERVIEW — SUMMARY
+
+Overall understanding
+████████░░
+
+Strengths
+✓ ...
+
+Needs reinforcement
+⚠ ...
+
+Misconceptions
+⚠ ...
+
+Recommended next step
+→ ...
+
+Evidence captured
+→ ...
+
+Do not present the AI's raw chain-of-thought.
+
+Only return concise assessment evidence and conclusions.
+
+==================================================
+PHASE 9 — VOICE EXPERIENCE
+==================================================
+
+Reuse the existing Web Speech API.
+
+Do not replace it with a large new audio architecture unless necessary.
+
+Flow:
+
+Click microphone
+→ speech recognition
+→ transcript preview
+→ learner confirms/submits
+→ /api/interview/respond
+→ AI response
+
+Also support:
+"Type your answer instead"
+
+The interview MUST work without microphone permissions.
+
+==================================================
+PHASE 10 — AI GENERATED CONTENT + VISUAL CHEMISTRY
+==================================================
+
+Do not throw away the beautiful Stage 1–5 chemistry labs.
+
+AI generation wraps around them.
+
+Example:
+
+AI generates:
+
+"Compare two molecules and explain which is an isomer."
+
+Then the existing deterministic chemistry visualizer handles the actual molecule.
+
+AI:
+WHAT/HOW to teach
+
+Deterministic chemistry:
+WHAT is chemically valid
+
+This separation is mandatory.
+
+==================================================
+PHASE 11 — AI OBSERVABILITY
+==================================================
+
+Add a development/debug AI status panel that shows:
+
+Provider
+Model
+Request type
+Latency
+Fallback used
+Schema validation
+Retry count
+Success/failure
+
+Do NOT expose API keys.
+
+Example:
+
+AI Runtime
+────────────────
+Provider: Gemini
+Model: <configured model>
+Task: Mock Test
+Latency: 1.8s
+Structured Output: PASS
+Fallback: NO
+
+This will be extremely useful during judging/debugging.
+
+==================================================
+PHASE 12 — LIVE PROVIDER VERIFICATION
+==================================================
+
+Inspect .env.local without printing secrets.
+
+For every provider that has a configured key:
+
+Run a bounded health/smoke test.
+
+Test:
+1. Gemini
+2. Groq
+3. NVIDIA NIM
+
+Use a minimal structured generation request.
+
+Record:
+
+Provider
+Configured?
+Reachable?
+Model works?
+Structured output works?
+Latency?
+Error?
+
+If a provider is not configured:
+mark NOT CONFIGURED.
+
+Do not fabricate success.
+
+Do not enter endless retry loops.
+
+If one provider fails:
+verify the fallback chain actually works.
+
+==================================================
+PHASE 13 — MOCK MODE MUST REMAIN
+==================================================
+
+Existing mock/demo mode stays.
+
+The user must be able to force:
+
+DEMO MODE
+→ deterministic content
+→ no API calls
+
+LIVE AI MODE
+→ real providers
+→ Gemini/Groq/NIM fallback chain
+
+Existing hardcoded chemistry challenges and demo personas remain.
+
+Do NOT delete old mock questions.
+
+Do NOT replace deterministic demo flows.
+
+==================================================
+PHASE 14 — API ROUTES
+==================================================
+
+Implement only the routes actually necessary.
+
+At minimum:
+
+/api/learning/generate
+
+/api/assessment/generate
+/api/assessment/evaluate
+
+/api/interview/start
+/api/interview/respond
+/api/interview/complete
+
+/api/ai/health
+
+Reuse existing:
+/api/oral/evaluate
+
+Refactor existing routes to use the new provider layer where appropriate.
+
+Do not create duplicate AI plumbing.
+
+==================================================
+PHASE 15 — FRONTEND
+==================================================
+
+Add:
+
+components/ai/
+- ai-runtime-status.tsx
+- ai-learning-panel.tsx
+
+components/assessment/
+- ai-mock-test.tsx
+- generated-question.tsx
+- assessment-results.tsx
+
+components/interview/
+- ai-mock-interview.tsx
+- interview-turn.tsx
+- interview-transcript.tsx
+- interview-summary.tsx
+
+Use existing design system.
+
+Keep visual hierarchy strong.
+
+Do NOT make this look like a generic chatbot.
+
+The experience should look like an adaptive learning product.
+
+==================================================
+PHASE 16 — GOLDEN LOOP
+==================================================
+
+After implementation, wire the REAL AI into this complete path:
+
+User enters topic
+        ↓
+AI Topic Planner
+        ↓
+Knowledge Graph
+        ↓
+Diagnostic
+        ↓
+Personalized visual learning
+        ↓
+REAL AI-generated practice
+        ↓
+Learner submits answer
+        ↓
+AI evaluation where needed
+        ↓
+Deterministic evidence processing
+        ↓
+MasteryEngine
+        ↓
+Struggle detection
+        ↓
+AI-generated remediation
+        ↓
+New generated practice
+        ↓
+REAL AI-generated mock test
+        ↓
+Assessment evaluation
+        ↓
+REAL AI mock interview
+        ↓
+Adaptive follow-up questions
+        ↓
+Interview summary
+        ↓
+Evidence → MasteryEngine
+        ↓
+Facilitator intervention when required
+
+This is the new KEA golden loop.
+
+==================================================
+PHASE 17 — TESTING
+==================================================
+
+Add unit tests for:
+
+AI provider abstraction
+provider fallback
+malformed JSON recovery
+schema validation
+mock mode
+real-provider routing
+generated learning schema
+mock test generation schema
+assessment evaluation
+interview state
+interview follow-up decision
+interview summary
+evidence conversion
+MasteryEngine integration
+
+Mock provider calls in unit tests.
+
+Do NOT require API keys for the standard test suite.
+
+Add bounded integration/smoke tests that run ONLY when provider keys are configured.
+
+Existing tests must remain green.
+
+Target:
+
+143 existing tests
++
+new AI infrastructure tests
++
+new assessment tests
++
+new interview tests
+=
+100% passing.
+
+==================================================
+PHASE 18 — SECURITY
+==================================================
+
+Mandatory:
+
+- all API keys server-side
+- no NEXT_PUBLIC_* API keys
+- no key in browser source
+- no key in logs
+- no key in error messages
+- no API key committed
+- validate user input before passing to providers
+- bound prompt/context sizes
+- bound output sizes
+- timeout every provider request
+- bounded retries
+- graceful fallback
+
+==================================================
+PHASE 19 — BUILD / RUNTIME GATES
+==================================================
+
+Run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+Then start production server and verify:
+
+GET /
+/api/ai/health
+/api/topic/plan
+/api/learning/generate
+/api/assessment/generate
+/api/assessment/evaluate
+/api/interview/start
+/api/interview/respond
+/api/interview/complete
+/api/diagnostic/evaluate
+/api/oral/evaluate
+/api/facilitator/interventions
+
+Verify:
+- status codes
+- schema validity
+- fallback behavior
+- no client secret leakage
+- no duplicate state machines
+
+Do not loop endlessly on browser automation if Playwright remains unavailable.
+
+==================================================
+PHASE 20 — MANUAL DEMO READINESS
+==================================================
+
+Create one deterministic demo path:
+
+Topic:
+Organic Chemistry
+
+Show:
+
+1. AI generates the topic plan.
+2. Learner enters a chemistry concept.
+3. AI generates a fresh practice question.
+4. Learner answers incorrectly.
+5. KEA records evidence.
+6. AI generates targeted remediation.
+7. AI generates a NEW mock test.
+8. Learner completes it.
+9. Learner starts AI mock interview.
+10. AI asks a first question.
+11. Learner answers using microphone OR text.
+12. AI asks contextual follow-up.
+13. Interview ends.
+14. Summary is shown.
+15. Mastery/evidence is updated.
+16. Facilitator state is updated if intervention threshold is met.
+
+Everything above must work using real AI when LIVE AI MODE is enabled.
+
+==================================================
+PHASE 21 — DOCUMENTATION
+==================================================
+
+Only update documentation for this milestone:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Update ARCHITECTURE.md ONLY if provider architecture materially changed.
+
+Document:
+- provider abstraction
+- Gemini/Groq/NIM integration
+- fallback policy
+- schemas
+- mock mode
+- interview flow
+- security
+- AI vs deterministic responsibilities
+
+Do not rewrite old documentation unnecessarily.
+
+==================================================
+STRICT NON-GOALS
+==================================================
+
+DO NOT:
+
+- add Python
+- add FastAPI
+- add LangChain
+- add RAG
+- add vector databases
+- add PostgreSQL
+- add Neo4j
+- add arbitrary agents
+- add open-ended general chatbot
+- delete existing mock data
+- delete existing chemistry engines
+- replace MasteryEngine
+- create duplicate state machines
+- commit
+- push
+
+==================================================
+FINAL REPORT — EXACT FORMAT
+==================================================
+
+## AI Infrastructure Status
+COMPLETE / BLOCKED
+
+## Providers
+- Gemini:
+- Groq:
+- NVIDIA NIM:
+- Deterministic fallback:
+
+## Provider Architecture
+...
+
+## AI Services Added
+...
+
+## New API Routes
+...
+
+## Mock Test
+...
+
+## AI Interview
+...
+
+## Interview Summary
+...
+
+## Generated Learning
+...
+
+## Mastery Integration
+...
+
+## Mock/Demo Compatibility
+...
+
+## Security
+...
+
+## Live Provider Verification
+...
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Runtime Verification
+...
+
+## Browser Verification
+...
+
+## Regressions
+...
+
+## Remaining Work
+...
+
+STOP after this milestone.
+DO NOT start a new feature after the final report.
+DO NOT commit or push.
