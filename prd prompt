@@ -1,0 +1,743 @@
+KEA PRODUCT DIRECTION RESET — UPDATE PRD.md ONLY
+
+We are resetting the product definition to match the original product idea.
+
+IMPORTANT:
+The current implementation has been useful for validating the foundation, but the PRD must now clearly represent the ACTUAL product we intend to build.
+
+The product is NOT:
+- a Fractions app
+- a Class 4 chapter system
+- a fixed curriculum viewer
+- a static list of lessons
+- a predefined 7-node learning map
+
+The product IS:
+
+AN AI-POWERED TOPIC-TO-MASTERY ADAPTIVE LEARNING PLATFORM.
+
+The learner tells KEA what they want to learn.
+
+Example:
+
+"I want to learn Machine Learning."
+
+or:
+
+"I want to learn Photosynthesis."
+
+or:
+
+"I want to learn Fractions."
+
+KEA then uses AI and structured learning logic to determine:
+
+- what needs to be learned
+- what concepts are foundational
+- what prerequisites are required
+- what order concepts should be learned in
+- how the topic should be divided into stages
+- what the learner already knows
+- what the learner needs to learn next
+- how the learner should be taught
+- when the learner has demonstrated mastery
+- when the path needs to adapt
+
+============================================================
+MANDATORY MULTI-AGENT MODE
+============================================================
+
+Use Antigravity's multi-agent/subagent system.
+
+MAIN AGENT = PRODUCT ORCHESTRATOR
+
+Use these agents before editing PRD.md:
+
+AGENT 1 — PRODUCT ARCHITECT
+Redesign the product abstraction around:
+
+USER LEARNING GOAL
+        ↓
+AI TOPIC UNDERSTANDING
+        ↓
+TOPIC DECOMPOSITION
+        ↓
+STAGE GENERATION
+        ↓
+CONCEPT / PREREQUISITE GRAPH
+        ↓
+DIAGNOSTIC
+        ↓
+PERSONALIZED LEARNING PATH
+        ↓
+LEARN
+        ↓
+PRACTICE
+        ↓
+ASSESS
+        ↓
+MASTERY
+        ↓
+ADAPT
+        ↓
+NEXT STAGE
+        ↓
+TOPIC MASTERED
+
+Determine what belongs in the core product.
+
+AGENT 2 — LEARNING SCIENCE / ADAPTIVE SYSTEMS AGENT
+
+Define how KEA should transform a broad topic into stage-wise learning.
+
+For example:
+
+USER:
+"I want to learn Python."
+
+KEA might generate stages such as:
+
+Stage 1 — Programming Foundations
+Stage 2 — Variables & Data
+Stage 3 — Control Flow
+Stage 4 — Functions
+Stage 5 — Data Structures
+Stage 6 — Object-Oriented Programming
+Stage 7 — Practical Python
+Stage 8 — Mastery Assessment
+
+IMPORTANT:
+
+Do NOT hardcode Python or these stages into the product.
+
+This is only an example of the product behavior.
+
+The stages must be generated/structured according to the requested topic.
+
+AGENT 3 — AI ARCHITECT
+
+Define the AI responsibilities.
+
+AI should help with:
+
+- understanding the user's learning goal
+- decomposing the topic
+- generating candidate concepts
+- organizing candidate concepts into stages
+- generating explanations
+- generating examples
+- adapting explanations to the learner
+- generating practice
+- interpreting open-ended/oral responses
+- identifying misconceptions
+- suggesting remediation
+- generating personalized context/themes
+- helping update the learner's learning path
+
+But deterministic application logic must control:
+
+- validated prerequisite relationships
+- mastery thresholds
+- progression gates
+- objective scoring where possible
+- answer/invariant validation
+- learner state transitions
+
+AI proposes and personalizes.
+
+The deterministic learning engine validates and controls progression.
+
+AGENT 4 — KNOWLEDGE GRAPH / VISUALIZATION AGENT
+
+Define the role of the graph.
+
+The graph should NOT be a hardcoded Fractions graph.
+
+It should represent the learner's selected topic.
+
+Example:
+
+                    TOPIC
+                      │
+             ┌────────┴────────┐
+             ▼                 ▼
+          Concept A          Concept B
+             │                 │
+             ▼                 ▼
+          Concept C ←──── prerequisite
+             │
+             ▼
+          Concept D
+             │
+             ▼
+           MASTERY
+
+The actual graph will depend on the requested topic.
+
+The graph should allow the learner to visually understand:
+
+- where they are
+- what they have mastered
+- what is currently available
+- what prerequisites remain
+- what is coming next
+- where they struggled
+- how their learning path changed
+
+AGENT 5 — HACKATHON FEASIBILITY AGENT
+
+Make sure this broad product vision remains buildable during a 24-hour hackathon.
+
+The product architecture should be general.
+
+The hackathon demonstration should use ONE concrete topic.
+
+Do NOT turn the PRD into an enormous production specification.
+
+AGENT 6 — ADVERSARIAL PRD REVIEWER
+
+Look for contradictions such as:
+
+- Fractions being treated as the product
+- Class 4 being treated as a permanent product limitation
+- fixed chapter structures
+- fixed seven-node curriculum
+- AI being reduced to theme generation
+- graph being reduced to a static diagram
+- mastery being reduced to lesson completion
+- stages being hardcoded
+- AI directly controlling mastery without safeguards
+
+============================================================
+CORE PRODUCT DEFINITION
+============================================================
+
+Rewrite the PRD around this:
+
+KEA is a topic-to-mastery adaptive learning platform.
+
+A learner begins with a learning goal:
+
+"What do I want to learn?"
+
+KEA transforms that goal into a structured learning journey.
+
+The core value proposition is:
+
+"Tell KEA what you want to master. KEA figures out what you need to learn to get there, structures it into stages, adapts the journey to what you already know, and guides you until you demonstrate mastery."
+
+============================================================
+PRIMARY USER JOURNEY
+============================================================
+
+Make this the central user journey in the PRD:
+
+STEP 1 — LEARNING GOAL
+
+User enters:
+
+"I want to learn <TOPIC>."
+
+This is the starting point.
+
+STEP 2 — TOPIC UNDERSTANDING
+
+AI analyzes the requested topic.
+
+It identifies candidate:
+
+- concepts
+- sub-concepts
+- prerequisites
+- dependencies
+- skills
+- expected outcomes
+
+STEP 3 — LEARNING PLAN GENERATION
+
+KEA organizes the topic into logical learning stages.
+
+Each stage should contain:
+
+- stage name
+- learning objective
+- concepts covered
+- prerequisites
+- estimated complexity
+- learning activities
+- assessment/milestone
+- mastery condition
+
+The plan should be understandable to the learner.
+
+STEP 4 — VISUAL LEARNING GRAPH
+
+KEA generates/loads a concept graph for the topic.
+
+The graph visually represents:
+
+- prerequisite relationships
+- stages
+- mastered concepts
+- current concepts
+- locked concepts
+- remediation paths
+- target mastery
+
+This graph is dynamic and topic-specific.
+
+STEP 5 — DIAGNOSTIC
+
+Before blindly starting at Stage 1, KEA assesses what the learner already knows.
+
+This can use:
+
+- short questions
+- written assessment
+- structured practice
+- optional AI-assisted oral/interview assessment
+
+The purpose is to avoid unnecessarily teaching concepts the learner has already mastered.
+
+STEP 6 — PERSONALIZED PATH
+
+KEA compares:
+
+REQUIRED KNOWLEDGE
+vs
+CURRENT LEARNER KNOWLEDGE
+
+and produces the learner's individualized path.
+
+Therefore two learners can enter the same topic and receive different paths.
+
+STEP 7 — LEARNING
+
+For the current stage, KEA provides:
+
+- explanations
+- examples
+- visual/contextual learning
+- practice
+- personalized content
+- interest-based contexts where appropriate
+
+STEP 8 — ASSESSMENT
+
+After meaningful learning milestones, KEA assesses understanding.
+
+STEP 9 — ADAPTATION
+
+Based on evidence:
+
+If mastered:
+→ progress to the next eligible stage/concept.
+
+If partially understood:
+→ provide additional practice/scaffolding.
+
+If struggling:
+→ identify the likely prerequisite gap
+→ reroute to prerequisite/remedial content.
+
+If the learner demonstrates stronger prior knowledge:
+→ skip or compress already-mastered material.
+
+STEP 10 — CONTINUE UNTIL MASTERY
+
+The process continues until the learner demonstrates sufficient mastery of the required concepts for the requested topic.
+
+============================================================
+WHAT / HOW / PACE
+============================================================
+
+Make this a major product concept.
+
+KEA adapts:
+
+WHAT:
+What should the learner learn next?
+
+HOW:
+How should it be taught?
+
+Examples:
+- explanation style
+- examples
+- visualizations
+- practice format
+- contextual theme
+- difficulty
+
+PACE:
+How quickly should the learner progress?
+
+These are separate dimensions.
+
+============================================================
+STAGE-WISE LEARNING
+============================================================
+
+This is a core feature.
+
+The AI-generated learning plan should not simply return a giant list of concepts.
+
+It should organize learning into meaningful stages.
+
+Conceptually:
+
+Learning Goal
+    ↓
+Stage 1
+    ↓
+Stage 2
+    ↓
+Stage 3
+    ↓
+Stage 4
+    ↓
+...
+    ↓
+Mastery
+
+But each stage may contain multiple concepts and prerequisite relationships.
+
+The stage structure should be derived from the requested topic.
+
+Do NOT hardcode stage names.
+
+============================================================
+DYNAMIC KNOWLEDGE GRAPH
+============================================================
+
+Replace the current concept of a fixed curriculum graph with:
+
+"Topic Knowledge Graph"
+
+The graph is a structured representation of the knowledge required for a specific learning goal.
+
+For each requested topic:
+
+Topic
+→ Concepts
+→ Sub-concepts
+→ Prerequisites
+→ Dependencies
+→ Mastery requirements
+
+The graph should be inspectable and explainable.
+
+The graph is NOT merely decorative.
+
+It drives:
+
+- prerequisite gating
+- next-concept selection
+- remediation
+- path adaptation
+- mastery progression
+
+============================================================
+LEARNER STATE
+============================================================
+
+KEA should maintain a learner state associated with the selected learning goal.
+
+Include:
+
+- learning goal
+- generated learning plan
+- topic graph
+- current stage
+- current concept
+- mastered concepts
+- concepts in progress
+- concepts needing remediation
+- strengths
+- weaknesses
+- assessment evidence
+- learning pace
+- interests/preferences
+- learning history
+
+The learner state changes over time.
+
+============================================================
+AI PERSONALIZATION
+============================================================
+
+AI is NOT merely a "re-theming engine."
+
+AI is part of the adaptive learning experience.
+
+Potential AI responsibilities:
+
+1. Topic understanding
+2. Topic decomposition
+3. Stage generation
+4. Concept explanation
+5. Example generation
+6. Personalized teaching
+7. Context adaptation
+8. Oral/interview interaction
+9. Misconception interpretation
+10. Practice generation
+11. Remediation suggestions
+12. Facilitator intervention recommendations
+
+However:
+
+AI does NOT get unrestricted authority to declare mastery.
+
+The system should maintain deterministic safeguards around:
+
+- prerequisite gating
+- mastery thresholds
+- objective scoring
+- answer/invariant validation
+- progression state
+
+============================================================
+LEARNER NOTES / KNOWLEDGE
+============================================================
+
+The original product concept also includes learner-provided notes/material.
+
+Represent this as an optional personalization layer.
+
+Learner may provide:
+
+- notes
+- study material
+- previous learning information
+- relevant documents
+
+KEA can use these materials to better understand the learner's existing knowledge/context and retrieve relevant information during learning.
+
+Do NOT make vector databases or RAG mandatory to the MVP.
+
+The PRD should describe the product capability, not prematurely lock the implementation technology.
+
+============================================================
+GRAPH VISUALIZATION
+============================================================
+
+The product should contain a visual representation of the learning graph.
+
+It should help answer:
+
+"Where am I?"
+
+"What have I mastered?"
+
+"What do I need to learn next?"
+
+"What prerequisite am I missing?"
+
+"How far am I from my goal?"
+
+"Why did KEA send me back to this concept?"
+
+This graph is a core explainability feature.
+
+It is NOT a static architecture diagram.
+
+============================================================
+IMPORTANT: REMOVE FIXED FRACTIONS/CURRICULUM FRAMING
+============================================================
+
+Do NOT define the product as:
+
+Class 4 → Mathematics → Fractions → 7 fixed nodes.
+
+Instead:
+
+PRODUCT:
+Topic-to-Mastery Adaptive Learning
+
+HACKATHON DEMO:
+Use one selected topic to demonstrate the system end-to-end.
+
+Fractions may remain as existing seed/demo data if useful for testing the engine, but it must NOT define the product architecture or PRD.
+
+Do NOT describe "Fractions" as the required curriculum.
+
+Do NOT describe "7 nodes" as a product requirement.
+
+Do NOT describe fixed grade/chapter levels as a core requirement.
+
+============================================================
+HACKATHON DEMONSTRATION
+============================================================
+
+Define the hackathon demonstration as:
+
+1. User enters a learning topic.
+2. AI generates a structured stage-wise learning plan.
+3. KEA creates/displays the topic knowledge graph.
+4. User sees what they need to learn.
+5. Diagnostic identifies current knowledge.
+6. KEA personalizes the learning path.
+7. User completes learning/practice.
+8. Assessment updates mastery.
+9. Graph/path adapts.
+10. If the learner struggles, KEA identifies a prerequisite/remediation route.
+11. Facilitator can see the actionable intervention.
+12. Learning continues toward topic mastery.
+
+The demo should prove the CORE ENGINE, not the breadth of subjects.
+
+============================================================
+PRD LANGUAGE
+============================================================
+
+Use language such as:
+
+"learning goal"
+
+"target topic"
+
+"topic decomposition"
+
+"stage-wise learning path"
+
+"topic knowledge graph"
+
+"learner model"
+
+"concept mastery"
+
+"adaptive progression"
+
+"personalized learning path"
+
+"prerequisite-aware learning"
+
+"AI personalization"
+
+"human-in-the-loop intervention"
+
+Avoid overusing:
+
+"chapter"
+
+"Class 4"
+
+"Fractions"
+
+"fixed curriculum"
+
+"seven nodes"
+
+Those may appear as examples, but not as product definitions.
+
+============================================================
+PRD VS ARCHITECTURE
+============================================================
+
+PRD.md describes WHAT the product does.
+
+Do NOT put detailed implementation choices into PRD.md:
+
+- Next.js
+- TypeScript
+- shadcn
+- Supabase
+- specific database
+- Kahn's algorithm
+- exact API routes
+- regex implementation
+
+Those belong in ARCHITECTURE.md.
+
+============================================================
+SCOPE
+============================================================
+
+Modify ONLY:
+
+docs/PRD.md
+
+Do NOT modify:
+- source code
+- TASK_BOARD.md
+- ARCHITECTURE.md
+- DEVELOPMENT_LOG.md
+
+If you discover that ARCHITECTURE.md must change because the old architecture is now inconsistent with this product model, DO NOT edit it.
+
+Simply report the required architecture changes.
+
+============================================================
+VALIDATION
+============================================================
+
+After editing PRD.md:
+
+Read the entire document and verify:
+
+[ ] Product starts from a user learning goal/topic.
+[ ] AI structures the requested topic.
+[ ] Learning is organized into stages.
+[ ] A topic-specific knowledge graph is central.
+[ ] Graph drives prerequisites/progression.
+[ ] Diagnostic identifies existing knowledge.
+[ ] Learning path is personalized.
+[ ] AI personalizes teaching/content.
+[ ] Mastery is evidence-based.
+[ ] Path adapts after assessment.
+[ ] Remediation is possible.
+[ ] Human intervention is supported.
+[ ] Fractions is NOT the product definition.
+[ ] Class 4 is NOT the product definition.
+[ ] Seven fixed nodes are NOT the product definition.
+[ ] The PRD remains feasible for a hackathon.
+
+============================================================
+GIT
+============================================================
+
+Do NOT commit.
+Do NOT push.
+
+============================================================
+STRICT STOP
+============================================================
+
+This task is ONLY PRD correction.
+
+Do NOT implement:
+
+- topic generation
+- graph generation
+- AI APIs
+- stage generation
+- UI
+- database
+- RAG
+- vector database
+- mastery engine changes
+- new code
+
+STOP after PRD.md is corrected and validated.
+
+============================================================
+FINAL REPORT
+============================================================
+
+Return:
+
+1. Multi-agent roles used
+2. Problems found in the previous PRD
+3. New product definition
+4. New user journey
+5. Stage-wise learning model
+6. Topic knowledge graph model
+7. AI responsibilities
+8. Learner state model
+9. How the hackathon demo is scoped
+10. Confirmation that Fractions is no longer the product definition
+11. Confirmation that only PRD.md was modified
+12. Any architecture changes that will need to happen later
+
+Then STOP and wait for the next instruction.
