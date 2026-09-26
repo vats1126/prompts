@@ -1,0 +1,633 @@
+# HARD TASK — KEA FINAL LIVE-AI PRODUCTION TRIAL + PROVIDER CLEANUP
+# LAST TECHNICAL MILESTONE BEFORE MANUAL USER TESTING
+
+CURRENT VERIFIED STATE:
+
+REAL AI:
+- Groq: LIVE + VERIFIED
+- NVIDIA NIM: LIVE + VERIFIED
+- Gemini: configured but authentication currently fails
+- Deterministic fallback: WORKING
+
+AI FEATURES:
+- AI Topic Plan ✅
+- AI Learning Generation ✅
+- AI Practice ✅
+- AI Mock Test ✅
+- Hybrid Evaluation ✅
+- AI Mock Interview ✅
+- Adaptive Follow-up ✅
+- Interview Summary ✅
+- Facilitator Intervention ✅
+
+SYSTEM:
+- Organic Chemistry Stages 1–5 ✅
+- Non-chemistry topic generation ✅
+- Security hardening ✅
+- Server-authoritative assessment ✅
+- Server-authoritative interview ✅
+- Deterministic mastery ✅
+- 169/169 tests ✅
+- TypeScript ✅
+- Lint ✅
+- Build ✅
+
+LATEST KNOWN ISSUES:
+1. Gemini key returns HTTP 401 / ACCESS_TOKEN_TYPE_UNSUPPORTED.
+2. Automated Playwright browser binary cannot be downloaded because of external CDN 404.
+
+IMPORTANT:
+DO NOT trust previous completion claims.
+Use this milestone to independently verify the current state.
+
+DO NOT:
+- add Python
+- add FastAPI
+- add databases
+- add RAG
+- add new chemistry stages
+- add new AI features
+- redesign the application
+- replace working Groq/NVIDIA infrastructure
+- commit
+- push
+
+==================================================
+PHASE 0 — MULTI-AGENT FORENSIC AUDIT
+==================================================
+
+Use real subagents/delegation.
+
+Exactly 5 specialists:
+
+AGENT 1 — GEMINI AUTHENTICATION
+Investigate why Gemini fails.
+
+Check:
+- key format/configuration
+- environment loading
+- SDK initialization
+- REST/SDK authentication mode
+- model availability
+- whether the current value is actually an API key or another credential type
+- whether the configured model is valid
+
+DO NOT print the key.
+
+Test:
+- minimal Gemini text generation
+- structured JSON generation
+
+If Gemini cannot be repaired without a new user credential:
+DO NOT invent a fix.
+
+Keep Gemini optional and healthy in architecture.
+
+AGENT 2 — GROQ/NVIDIA LIVE INTEGRATION
+Verify:
+- real inference
+- structured output
+- provider metadata
+- latency
+- timeout
+- fallback behavior
+
+Confirm the CURRENT primary provider is actually producing the returned application content.
+
+AGENT 3 — FRONTEND REAL DATA FLOW
+Trace:
+
+button
+→ fetch
+→ API
+→ provider
+→ JSON
+→ React state
+→ rendered UI
+
+For:
+- AI Practice
+- AI Mock Test
+- AI Interview
+- Interview Summary
+- Topic Planning
+
+Find any place where live AI data could be replaced by hardcoded data.
+
+AGENT 4 — ADAPTIVITY / STATE
+Verify:
+
+learner state
+→ AI prompt
+→ generated content
+→ evidence
+→ mastery
+→ next generated content
+
+Ensure the AI is not merely receiving state but actually changing its output according to:
+- mastery
+- mistakes
+- pace
+- concept
+- topic
+
+AGENT 5 — FINAL QA
+Run:
+- security checks
+- regression tests
+- build
+- runtime
+- non-chemistry topic
+- demo mode
+- provider fallback
+- assessment integrity
+- interview integrity
+
+Then ORCHESTRATOR synthesizes everything and performs only required fixes.
+
+==================================================
+PHASE 1 — GEMINI DECISION
+==================================================
+
+There are only two acceptable outcomes.
+
+OUTCOME A:
+Gemini credentials are valid and can be repaired safely.
+
+Then:
+- repair Gemini
+- verify live generation
+- verify structured output
+- verify cascade
+- run application request through Gemini
+
+OUTCOME B:
+Gemini credential is invalid / wrong credential type / requires user action.
+
+Then:
+- DO NOT break the working system trying to force Gemini
+- set Groq as primary
+- keep NVIDIA as secondary
+- keep fallback as final
+- make Gemini clearly OPTIONAL
+- ensure a broken Gemini key never causes user-facing failures
+- display accurate provider state
+
+The application must remain fully functional.
+
+==================================================
+PHASE 2 — PROVIDER POLICY
+==================================================
+
+Use:
+
+PRIMARY = Groq
+
+SECONDARY = NVIDIA NIM
+
+TERTIARY = Gemini ONLY IF HEALTHY
+
+FINAL = deterministic fallback
+
+But make this configurable.
+
+Critical:
+
+A provider failing health checks MUST NOT be repeatedly attempted on every user request if it is known to be invalid.
+
+Introduce bounded provider health state if necessary:
+
+healthy
+degraded
+disabled_due_to_auth
+unavailable
+
+Do not create a complicated service.
+
+==================================================
+PHASE 3 — REAL AI GENERATION PROOF
+==================================================
+
+Run these through the ACTUAL API:
+
+1. Topic planning
+2. AI learning generation
+3. Mock test generation
+4. Interview start
+5. Interview response
+6. Interview completion
+
+For each record:
+
+provider
+model
+fallbackUsed
+latency
+schemaValid
+contentLength
+
+The output must contain real generated content.
+
+DO NOT accept HTTP 200 alone.
+
+==================================================
+PHASE 4 — TEST GENERATED CONTENT TWICE
+==================================================
+
+For AI Practice:
+
+Generate twice for:
+Learner A:
+mastery 35
+mistake: carbon valence confusion
+
+Learner B:
+mastery 90
+no mistakes
+
+Confirm output materially differs.
+
+For Mock Test:
+
+Generate two assessments with different learner states.
+
+Confirm:
+- question content differs meaningfully
+- difficulty differs appropriately
+- concepts reflect supplied context
+
+For Interview:
+
+Test:
+wrong answer
+→ follow-up targets misconception
+
+strong answer
+→ deeper/next question
+
+==================================================
+PHASE 5 — TOPIC AGNOSTIC TEST
+==================================================
+
+This is mandatory.
+
+Run complete AI generation for:
+
+Organic Chemistry
+
+AND:
+
+Photosynthesis
+
+AND:
+
+Python Programming
+
+Verify for each:
+
+topic plan
+→ AI learning
+→ mock test
+→ interview
+
+DO NOT hardcode topic-specific behavior.
+
+If any non-chemistry topic breaks:
+fix the general AI architecture.
+
+==================================================
+PHASE 6 — FRONTEND REAL AI VERIFICATION
+==================================================
+
+Use the actual running application.
+
+Verify that the UI shows LIVE generated content.
+
+For AI Practice:
+- generated explanation visible
+- generated example visible
+- generated question visible
+
+For Mock Test:
+- generated questions visible
+- no answer key visible
+
+For Interview:
+- generated first question visible
+- student response submitted
+- generated follow-up visible
+- generated summary visible
+
+Use actual runtime payloads where possible to prove that the content displayed came from the provider.
+
+If automated browser tooling remains unavailable:
+DO NOT endlessly retry Playwright.
+
+Use bounded runtime and DOM verification.
+
+Clearly label:
+
+API VERIFIED
+UI DATA FLOW VERIFIED
+FULL VISUAL BROWSER VERIFIED / NOT VERIFIED
+
+==================================================
+PHASE 7 — SECURITY FINAL CHECK
+==================================================
+
+Verify:
+
+- no API keys in browser
+- no API keys in logs
+- no answer keys in mock-test response
+- no client-controlled mastery
+- no client-controlled interview history
+- no client-controlled stage unlock
+
+Attack tests:
+
+1. Forge correctOptionIndex
+2. Forge mastery
+3. Forge interview history
+4. Forge stage unlock
+5. Submit duplicate assessment
+6. Submit nonexistent session
+
+All must fail safely.
+
+==================================================
+PHASE 8 — DEMO MODE
+==================================================
+
+Verify:
+
+DEMO MODE
+→ 0 external AI calls
+→ deterministic content
+→ same major user flow
+
+LIVE MODE
+→ real providers
+→ real generated content
+
+The status indicator must always be truthful.
+
+Examples:
+
+AI LIVE
+Provider: Groq
+
+AI LIVE
+Provider: NVIDIA NIM
+
+AI FALLBACK
+Provider: KEA Deterministic
+
+DEMO MODE
+
+Never:
+"AI LIVE"
+when fallback generated the response.
+
+==================================================
+PHASE 9 — CLEAN SERVER
+==================================================
+
+Stop all Next.js instances.
+
+Confirm:
+
+port 3000 = free
+
+Build:
+
+npm run build
+
+Start:
+
+npx next start -p 3000
+
+Confirm the current server is serving the current build.
+
+Then rerun provider health and one real generation request.
+
+Avoid stale-server problems.
+
+==================================================
+PHASE 10 — REMOVE TEMPORARY DEBUG ARTIFACTS
+==================================================
+
+Remove temporary:
+
+- scratch scripts
+- one-off provider test files
+- debug logs
+- temporary scripts
+
+Keep only permanent:
+- tests
+- useful diagnostics
+- production code
+
+Do not delete useful automated tests.
+
+==================================================
+PHASE 11 — FULL QUALITY GATES
+==================================================
+
+Run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+ALL must pass.
+
+==================================================
+PHASE 12 — FINAL GOLDEN LOOP
+==================================================
+
+Execute:
+
+"What do you want to learn?"
+        ↓
+Organic Chemistry
+        ↓
+AI topic plan
+        ↓
+Diagnostic
+        ↓
+AI-generated learning
+        ↓
+Wrong answer
+        ↓
+Adaptive remediation
+        ↓
+NEW AI practice
+        ↓
+AI Mock Test
+        ↓
+Evaluation
+        ↓
+AI Mock Interview
+        ↓
+Follow-up
+        ↓
+Interview Summary
+        ↓
+Evidence
+        ↓
+Mastery
+        ↓
+Facilitator if needed
+
+Then repeat the first half using:
+
+Photosynthesis
+
+The system MUST remain functional outside chemistry.
+
+==================================================
+PHASE 13 — FINAL MANUAL TEST PREPARATION
+==================================================
+
+Do NOT modify the application unless a verified defect is found.
+
+Produce a clean manual test checklist for the user.
+
+The user should be able to open:
+
+http://localhost:3000
+
+and test:
+
+1. Topic generation
+2. Diagnostic
+3. AI Practice
+4. AI Mock Test
+5. AI Interview
+6. Interview Summary
+7. Facilitator
+8. Demo Mode
+9. Another topic
+
+==================================================
+FINAL REPORT — EXACT FORMAT
+==================================================
+
+## FINAL TECHNICAL STATUS
+
+Choose:
+
+READY_FOR_MANUAL_TESTING
+BLOCKED
+NEEDS_TARGETED_FIXES
+
+## Gemini
+Configured:
+Authentication:
+Generation:
+Structured output:
+Status:
+User action required:
+
+## Groq
+Configured:
+Authentication:
+Generation:
+Structured output:
+Status:
+
+## NVIDIA NIM
+Configured:
+Authentication:
+Generation:
+Structured output:
+Status:
+
+## Actual Primary Provider
+...
+
+## Fallback Chain
+...
+
+## AI Practice
+PASS/FAIL
+
+## AI Mock Test
+PASS/FAIL
+
+## AI Interview
+PASS/FAIL
+
+## Interview Follow-Up
+PASS/FAIL
+
+## Interview Summary
+PASS/FAIL
+
+## Adaptivity
+PASS/FAIL
+
+## Non-Chemistry Topics
+Python:
+PASS/FAIL
+
+Photosynthesis:
+PASS/FAIL
+
+## Demo Mode
+PASS/FAIL
+
+## Security
+PASS/FAIL
+
+## Organic Chemistry Stages 1–5
+PASS/FAIL
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS/FAIL
+
+## Lint
+PASS/FAIL
+
+## Build
+PASS/FAIL
+
+## Browser
+API:
+UI:
+Full visual browser:
+Limitation:
+
+## Exact Defects Fixed
+...
+
+## Exact Remaining Problems
+...
+
+## User Action Required
+...
+
+## Manual Test Sequence
+...
+
+IMPORTANT:
+If Gemini remains invalid, do NOT call the whole system broken.
+Groq + NVIDIA + deterministic fallback must continue working.
+
+Do not claim Gemini works unless an actual Gemini inference request succeeds.
+
+Do not claim full visual browser verification if the browser tool remains unavailable.
+
+Do not add features.
+
+Do not commit.
+
+Do not push.
+
+STOP.
