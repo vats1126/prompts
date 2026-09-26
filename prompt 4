@@ -1,551 +1,572 @@
-You are the MAIN ORCHESTRATOR for the KEA — Adaptive Learning & Real-Time Intervention Platform.
+KEA — CORE FRONTEND EXPERIENCE
+HARD EXECUTION PROMPT — TOPIC → LEARNING STRUCTURE
 
-We are in a time-critical 24-hour hackathon. Optimize for:
-1. Working software
-2. Deterministic behavior
-3. Explainability
-4. Fast implementation
-5. Minimal dependencies
-6. Clean architecture
-7. A reliable 5-minute judge demo
+We are building the first and most important user experience of KEA.
 
-CURRENT VERIFIED STATE
-======================
+KEA is a topic-to-mastery adaptive learning platform.
 
-P0-01 — Next.js + shadcn Foundation       ✅ COMPLETE
-P0-02 — Knowledge Graph + Seed Data       ✅ COMPLETE
-P0-03 — Deterministic Mastery Engine      ⏭️ CURRENT TASK
-P0-04 — AI Re-theming                     ⏸ NOT STARTED
-P0-05 — Student Learning Canvas           ⏸ NOT STARTED
-P0-06 — Struggle Detection                ⏸ NOT STARTED
-P0-07 — Facilitator Cockpit               ⏸ NOT STARTED
-P0-08 — Golden Loop Integration           ⏸ NOT STARTED
+For THIS milestone, implement ONLY:
 
-DO NOT redo P0-01 or P0-02.
-DO NOT implement P0-04 or anything after it.
+USER ENTERS A TOPIC
+        ↓
+KEA UNDERSTANDS THE TOPIC
+        ↓
+KEA STRUCTURES WHAT THE USER NEEDS TO LEARN
+        ↓
+DISPLAY THE STAGE-WISE LEARNING STRUCTURE + LEARNING GRAPH
+
+DO NOT implement the rest of the adaptive system yet.
 
 ============================================================
-1. MANDATORY MULTI-AGENT MODE
+MANDATORY MULTI-AGENT MODE
 ============================================================
 
-You MUST use Antigravity's multi-agent/subagent system for this milestone.
+You MUST use Antigravity's multi-agent/subagent system.
 
-MAIN ORCHESTRATOR:
-- owns the final decision
-- delegates analysis
-- resolves disagreements
-- implements the final design
-- validates the implementation
+MAIN AGENT = ORCHESTRATOR.
 
-Run these agents BEFORE implementation.
+Before implementation, use:
 
-------------------------------------------------------------
-AGENT A — MASTERY / LEARNING SYSTEMS SPECIALIST
-------------------------------------------------------------
+AGENT 1 — PRODUCT/UX AGENT
+Design the simplest possible experience for:
 
-Task:
-Design the simplest defensible deterministic mastery model for Class 4 students.
+"What do you want to learn?"
 
-Analyze:
-- practice evidence
-- written assessment evidence
-- oral assessment evidence
-- repeated success/failure
-- mastery threshold
-- remediation threshold
-- state transitions
-- how mastery interacts with prerequisite gating
+→ Topic submitted
+→ Learning structure appears
 
-Constraints:
-- Must be explainable to a judge in under 30 seconds.
-- Must NOT use machine learning.
-- Must NOT use an LLM to calculate mastery.
-- Must NOT permanently label students.
-- Mastery must be concept-specific and current.
+AGENT 2 — FRONTEND ARCHITECT
+Inspect the existing Next.js code and determine the cleanest component/state structure.
 
-Return:
-- recommended evidence model
-- recommended weights
-- recommended thresholds
-- recommended state transitions
-- reasoning
+AGENT 3 — SHADCN/UI SPECIALIST
+Inspect the official shadcn/ui components/blocks and use only the minimum required components.
 
-------------------------------------------------------------
-AGENT B — ALGORITHM / TYPESCRIPT SPECIALIST
-------------------------------------------------------------
+Official source:
+https://ui.shadcn.com/
 
-Inspect the existing P0-02 knowledge graph implementation.
+AGENT 4 — VISUAL UX REVIEWER
+Review the proposed interface for:
+- clutter
+- excessive cards
+- unnecessary dashboards
+- confusing terminology
+- unnecessary flowcharts
+- fixed subject/grade assumptions
 
-Design the cleanest TypeScript implementation for:
-- evidence records
-- weighted mastery calculation
-- score clamping
-- status transitions
-- deterministic updates
-- integration with concept IDs
+MAIN AGENT MUST SYNTHESIZE THE AGENTS' FINDINGS BEFORE IMPLEMENTATION.
 
-Check:
-- separation of domain logic from React
-- immutability where useful
-- simple APIs
-- future compatibility with P0-06
-
-Return:
-- proposed interfaces/types
-- functions
-- formula
-- edge cases
-
-------------------------------------------------------------
-AGENT C — ARCHITECTURE SPECIALIST
-------------------------------------------------------------
-
-Review:
-- existing architecture
-- existing knowledge graph
-- existing domain types
-
-Ensure:
-
-Knowledge Graph
-    ↓
-Prerequisite structure
-
-Mastery Engine
-    ↓
-Student demonstrated understanding
-
-These must remain separate responsibilities.
-
-The Mastery Engine must NOT:
-- modify graph structure
-- contain React logic
-- make API calls
-- depend on UI state
-- depend on a database
-- depend on an LLM
-
-Return any architectural corrections required before implementation.
-
-------------------------------------------------------------
-AGENT D — ADVERSARIAL TEST / REVIEW SPECIALIST
-------------------------------------------------------------
-
-Try to break the proposed mastery system.
-
-Test mentally for:
-- empty evidence
-- perfect performance
-- repeated failure
-- mixed strong/weak evidence
-- score exactly at threshold
-- score just below threshold
-- score just above threshold
-- invalid scores
-- negative scores
-- scores above 100
-- duplicate evidence
-- unknown concept IDs
-- locked concepts
-- repeated updates
-- deterministic repeatability
-
-Return:
-- required tests
-- potential bugs
-- ambiguous rules that must be resolved
+Do NOT allow multiple agents to edit the same files simultaneously.
 
 ============================================================
-2. AGENT SYNTHESIS — REQUIRED
+CONTEXT-EFFICIENT INSPECTION
 ============================================================
 
-After all agents finish:
+Read ONLY:
 
-DO NOT immediately code.
-
-MAIN ORCHESTRATOR must produce an internal synthesis:
-
-A. Final evidence model
-B. Final weights
-C. Final formula
-D. Final thresholds
-E. Final state machine
-F. Final TypeScript API
-G. Test plan
-
-If agents disagree:
-- choose the simplest deterministic design
-- prefer explainability
-- prefer compatibility with P0-02
-- avoid unnecessary complexity
-
-Do NOT create an ML model.
-
-Do NOT create a complicated adaptive algorithm.
-
-============================================================
-3. CONTEXT-EFFICIENT INSPECTION
-============================================================
-
-Read ONLY what is necessary.
-
-FIRST:
+- docs/PRD.md
+- docs/ARCHITECTURE.md
 - docs/TASK_BOARD.md
-- relevant section of docs/ARCHITECTURE.md
 
-THEN inspect:
-- src/lib/knowledge-graph/types.ts
-- src/lib/knowledge-graph/engine.ts
-- src/lib/knowledge-graph/seed-data.ts
-- src/lib/knowledge-graph/index.ts
-- existing shared domain types relevant to mastery
+Then inspect only the relevant existing files:
 
-Read other files only if required.
+- src/app/*
+- src/components/entry/*
+- src/lib/topic-curriculum/*
+- src/types/*
+- existing knowledge-graph modules
 
-Do NOT reread every project file.
+Do NOT reread the entire repository.
 
 ============================================================
-4. P0-03 IMPLEMENTATION
+CORE FRONTEND EXPERIENCE
 ============================================================
 
-Implement a PURE TYPESCRIPT mastery domain module.
+The application MUST begin with a clean landing/entry screen.
 
-Recommended location:
+The first question should be:
 
-src/lib/mastery/
+"WHAT DO YOU WANT TO LEARN?"
 
-Use a clean structure such as:
+Subtext:
 
-src/lib/mastery/
-├── types.ts
-├── engine.ts
-├── constants.ts
-├── index.ts
-└── __tests__/
-    └── engine.test.ts
+"Tell KEA what you want to learn. We'll structure the knowledge and stages you need to reach mastery."
 
-Adjust the structure if the existing architecture has a better convention.
+Large input:
 
-The engine must support:
+"e.g. Python, Machine Learning, Calculus, Photosynthesis..."
 
-1. Structured evidence
-2. Weighted evidence aggregation
-3. Mastery score from 0–100
-4. Deterministic status calculation
-5. State transitions
-6. Concept-specific mastery
-7. Compatibility with P0-02 concept IDs
-8. Audit/explanation information
+Primary button:
 
-============================================================
-5. EVIDENCE MODEL
-============================================================
+"Build My Learning Path"
 
-Support exactly these MVP evidence types:
+Optional example chips:
 
-- practice
-- written
-- oral
+Python
+Machine Learning
+Calculus
+Photosynthesis
 
-An evidence record should contain only information actually needed.
+The examples are only shortcuts.
 
-For example:
-
-conceptId
-assessmentType
-score
-attempt metadata where required
-
-Avoid unnecessary fields.
-
-Scores must be normalized and validated.
-
-Do not allow invalid scores to silently corrupt mastery.
+The product is NOT restricted to them.
 
 ============================================================
-6. MASTERY FORMULA
+REMOVE OLD DEVELOPER UI
 ============================================================
 
-The formula MUST be:
+The homepage must NOT show:
 
-- deterministic
-- bounded
-- transparent
-- easy to explain
-- configurable through named constants
+- P0/P1/P2 milestones
+- architecture descriptions
+- developer verification text
+- implementation status
+- Class 4
+- 4th Standard
+- Mathematics
+- Fractions
+- fixed chapters
+- fixed curriculum navigation
 
-Do NOT hard-code unexplained magic numbers throughout the code.
-
-Use explicit constants for:
-
-- evidence weights
-- mastery threshold
-- in-progress threshold
-- remediation/failure threshold, if required
-
-The final weights and thresholds must come from the multi-agent synthesis.
-
-Document the final formula in code comments and DEVELOPMENT_LOG.md.
-
-Do NOT overfit the algorithm.
-
-This is a hackathon MVP, not a research paper.
+The homepage is a real product experience.
 
 ============================================================
-7. STATE MACHINE
+AFTER USER SUBMITS A TOPIC
 ============================================================
-
-Implement explicit state transitions.
-
-At minimum support:
-
-locked
-unlocked
-in_progress
-mastered
-remediation
-
-The engine must make transitions deterministic.
-
-Important:
-
-A child should NOT become `mastered` merely because a downstream concept has been evaluated.
-
-Prerequisites and mastery remain separate.
-
-A concept's mastery should be based on evidence for that concept.
-
-Do not permanently classify a student as:
-- slow
-- weak
-- poor
-- fast
-
-Those are not mastery states.
-
-============================================================
-8. KNOWLEDGE GRAPH INTEGRATION
-============================================================
-
-Reuse P0-02.
-
-Do NOT rewrite the graph engine.
-
-The mastery engine should consume concept IDs and mastery state.
-
-The eventual relationship is:
-
-Student Evidence
-       ↓
-Mastery Engine
-       ↓
-Concept Mastery State
-       ↓
-Knowledge Graph Gating
-       ↓
-Next Eligible Concept
-
-P0-03 only implements the Mastery Engine portion.
-
-Do NOT implement the complete adaptive loop yet.
-
-============================================================
-9. TEST-FIRST VALIDATION
-============================================================
-
-Create focused deterministic unit tests.
-
-MUST test:
-
-1. Empty evidence
-2. Single practice evidence
-3. Single written evidence
-4. Single oral evidence
-5. Mixed evidence
-6. Weighted aggregation
-7. Score clamping
-8. Invalid score rejection
-9. Mastery threshold
-10. Below-mastery threshold
-11. In-progress transition
-12. Remediation transition
-13. Repeated failures
-14. Deterministic repeatability
-15. Unknown concept handling
-16. Locked concept handling
-17. Existing P0-02 concept compatibility
-18. Boundary values exactly at thresholds
-
-Also test at least one complete realistic student journey:
 
 Example:
 
-initial
-→ unlocked
-→ practice
-→ in_progress
-→ additional evidence
-→ mastered
+User enters:
 
-And one struggle journey:
+"Python"
 
-initial
-→ unlocked
-→ repeated failures
-→ remediation
+Then immediately transition through a short analysis experience:
 
-Use the existing project testing approach.
+1. Understanding your topic
+2. Identifying what needs to be learned
+3. Structuring your learning path
 
-Do not add a large testing framework.
+Then show the generated learning structure.
 
-============================================================
-10. NO UNNECESSARY TECHNOLOGY
-============================================================
+IMPORTANT:
 
-DO NOT add:
+At this milestone, the structure can come from the existing local/demo curriculum generator.
 
-Python
-FastAPI
-Supabase
-Neo4j
-PostgreSQL
-vector DB
-RAG
-LLM API
-Gemini API
-authentication
-external ML frameworks
+Do NOT falsely claim that a real external AI request happened if no AI API is connected.
 
-P0-03 must be locally deterministic TypeScript.
+The implementation must place the topic-structure generator behind a clean abstraction so a real AI provider can replace it later.
 
 ============================================================
-11. OPTIONAL UI RULE
+THE MAIN RESULT SCREEN
 ============================================================
 
-Do NOT build the student learning UI.
+After submission, the most important screen is:
 
-Do NOT build the facilitator dashboard.
+"YOUR PATH TO MASTERING PYTHON"
 
-A tiny developer-only verification surface is acceptable ONLY if needed to verify the engine visually.
+Replace Python dynamically with the actual topic.
 
-Prefer tests over UI for this milestone.
+For example:
+
+YOUR PATH TO MASTERING PYTHON
+
+or:
+
+YOUR PATH TO MASTERING MACHINE LEARNING
+
+or:
+
+YOUR PATH TO MASTERING PHOTOSYNTHESIS
+
+The UI must render the active topic dynamically.
 
 ============================================================
-12. VALIDATION
+STAGE-WISE STRUCTURE
 ============================================================
 
-After implementation run:
+Display the topic as meaningful learning stages.
+
+Example ONLY:
+
+Stage 1
+Programming Foundations
+
+Stage 2
+Variables & Data
+
+Stage 3
+Control Flow
+
+Stage 4
+Functions
+
+Stage 5
+Data Structures
+
+Stage 6
+Practical Python
+
+Stage 7
+Mastery
+
+IMPORTANT:
+
+Do NOT hardcode these stages into the product.
+
+They are an example of the visual structure.
+
+The system must render whatever learning stages exist in the generated TopicCurriculumPlan.
+
+Each stage should show:
+
+- stage number
+- title
+- short objective
+- concepts covered
+- prerequisite indication
+
+Keep each card concise.
+
+============================================================
+LEARNING GRAPH
+============================================================
+
+The result screen MUST include a learning graph/map.
+
+This is NOT a developer architecture diagram.
+
+It is the learner's map.
+
+It should answer:
+
+"What do I need to learn to reach my goal?"
+
+Show relationships such as:
+
+TARGET TOPIC
+      │
+      ▼
+  Stage 1
+      │
+      ▼
+  Stage 2
+    ↙   ↘
+ Concept A  Concept B
+      │
+      ▼
+  Stage 3
+      │
+      ▼
+   MASTERY
+
+The graph should display:
+- current/available stages
+- prerequisites
+- dependencies
+- final target
+
+Do not make it overly complicated.
+
+============================================================
+DESKTOP LAYOUT
+============================================================
+
+After a topic is generated:
+
+┌──────────────────────┬────────────────────────────────────┐
+│                      │                                    │
+│    LEARNING MAP      │      YOUR PATH TO MASTERY          │
+│                      │                                    │
+│    ● Stage 1         │  Stage 1 — Foundations             │
+│       │              │  Objective...                      │
+│    ● Stage 2         │                                    │
+│       │              │  Stage 2 — Core Concepts            │
+│      / \             │  Objective...                      │
+│     A   B            │                                    │
+│       │              │  Stage 3 — Applied Skills           │
+│    ● Stage 3         │                                    │
+│       │              │  ...                               │
+│   MASTERY            │                                    │
+│                      │                                    │
+└──────────────────────┴────────────────────────────────────┘
+
+LEFT:
+Learning Map / Graph
+
+RIGHT:
+Stage-wise learning plan
+
+The graph should remain visually understandable while the path remains the main content.
+
+============================================================
+MOBILE LAYOUT
+============================================================
+
+On mobile:
+
+- main learning path occupies the screen
+- graph becomes a collapsible sheet/drawer
+- no horizontal overflow
+- controls remain accessible
+
+============================================================
+TOPIC-AGNOSTIC RULE
+============================================================
+
+This is CRITICAL.
+
+KEA must NOT be architected or visually hardcoded around:
+
+- Class 4
+- 4th Standard
+- Mathematics
+- Fractions
+- chapters
+- fixed seven nodes
+
+The generic product model is:
+
+TOPIC
+→ STRUCTURE
+→ LEARNING STAGES
+→ KNOWLEDGE GRAPH
+→ PATH TO MASTERY
+
+The active topic determines the content.
+
+============================================================
+DO NOT ADD THESE FEATURES
+============================================================
+
+DO NOT implement:
+
+- diagnostic questions
+- prerequisite exams
+- AI mock tests
+- oral assessment
+- deterministic mastery engine changes
+- remediation
+- facilitator intervention
+- facilitator dashboard
+- pace mascots
+- AI re-theming
+- learner notes/RAG
+- vector database
+- Supabase
+- authentication
+- production AI API
+
+Those are future milestones.
+
+This task is deliberately limited.
+
+============================================================
+DO NOT MIX PRODUCT FLOWS
+============================================================
+
+For THIS milestone, stop at:
+
+"What do you want to learn?"
+        ↓
+Topic submitted
+        ↓
+Topic understanding state
+        ↓
+Learning stages generated/displayed
+        ↓
+Learning graph displayed
+
+DO NOT continue automatically into:
+diagnostics,
+tests,
+learning activities,
+mastery,
+remediation,
+or facilitator workflows.
+
+============================================================
+TECHNICAL REQUIREMENTS
+============================================================
+
+Use the existing:
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide
+
+Reuse existing topic-path types and local topic curriculum logic.
+
+Do NOT rewrite working:
+
+- Knowledge Graph engine
+- Mastery Engine
+
+Do NOT create a second graph engine.
+
+Do NOT scatter mock topic data across UI components.
+
+Keep topic-plan generation in one clear module.
+
+============================================================
+SHADCN/UI
+============================================================
+
+Use official shadcn components where useful.
+
+Likely:
+
+- Card
+- Input
+- Button
+- Badge
+- Progress
+- Separator
+- ScrollArea
+- Sheet
+- Tooltip
+
+Do not install an enormous dashboard.
+
+Do not use random third-party UI templates.
+
+============================================================
+VISUAL STYLE
+============================================================
+
+The product should feel like:
+
+PREMIUM MODERN EDTECH
+
+Use:
+- clean typography
+- breathing room
+- subtle borders
+- clear hierarchy
+- polished dark/light mode
+- restrained color
+- intuitive status indicators
+
+Avoid:
+- generic admin dashboards
+- giant text walls
+- childish cartoon UI
+- excessive gradients
+- excessive glassmorphism
+- giant shadows
+- decorative architecture diagrams
+- unnecessary animation
+
+============================================================
+STATE MODEL
+============================================================
+
+Use a clear state model for this experience:
+
+NO_TOPIC
+↓
+TOPIC_SUBMITTED
+↓
+ANALYZING
+↓
+PLAN_READY
+
+Do not build the later learning states yet.
+
+Avoid scattered boolean state such as:
+
+isLoading
+showGraph
+isDone
+showPlan
+etc.
+
+Prefer a simple explicit state model.
+
+============================================================
+VALIDATION
+============================================================
+
+After implementation verify:
+
+[ ] First screen asks "What do you want to learn?"
+[ ] Topic can be entered.
+[ ] Example topic chips work.
+[ ] Submit works.
+[ ] Analysis transition works.
+[ ] Learning stages render.
+[ ] Topic title is dynamic.
+[ ] Different topics can produce different structures.
+[ ] Graph renders.
+[ ] Graph represents learning dependencies.
+[ ] No fixed Class/Grade/Fractions assumptions appear in generic UI.
+[ ] Dark/light theme works.
+[ ] Desktop works.
+[ ] Mobile works.
+[ ] Existing Knowledge Graph tests still pass.
+[ ] Existing Mastery Engine tests still pass.
+
+Run:
 
 npm test
 npx tsc --noEmit
 npm run lint
 npm run build
 
-Then inspect:
-
-git diff
-git status
-
-Confirm:
-- no secrets
-- no accidental P0-04 work
-- no unnecessary dependencies
-- no architecture violations
-
-If anything fails:
-FIX IT before reporting completion.
+Fix all failures before completion.
 
 ============================================================
-13. DOCUMENTATION SYNC
+DOCUMENTATION
 ============================================================
 
-ONLY after all validation passes:
+After successful validation:
 
-Update:
+Update docs/DEVELOPMENT_LOG.md with ONE concise entry describing this frontend milestone.
 
-docs/TASK_BOARD.md
-
-Set:
-P0-03 → COMPLETED
-
-Keep:
-P0-04 → NEXT / PENDING
-
-Update:
-
-docs/DEVELOPMENT_LOG.md
-
-Add ONE concise milestone entry containing:
-- mastery model
-- evidence weights
-- formula
-- thresholds
-- state transitions
-- multi-agent findings
-- implementation
-- validation results
-
-Update:
-
-docs/ARCHITECTURE.md
-
-ONLY if the actual implementation introduces an architectural detail not already documented.
-
-Do NOT modify PRD.md unless a real product requirement changed.
+Update docs/TASK_BOARD.md only if the actual current task/status needs to be reflected.
 
 Do NOT create additional documentation files.
 
-============================================================
-14. GIT
-============================================================
-
-DO NOT commit.
-
-DO NOT push.
-
-We will review the milestone first.
+Do NOT rewrite the PRD.
 
 ============================================================
-15. ABSOLUTE STOP CONDITION
+GIT
 ============================================================
 
-STOP after P0-03.
-
-DO NOT implement:
-
-P0-04 AI Re-theming
-P0-05 Student Learning Canvas
-P0-06 Struggle Detection
-P0-07 Facilitator Cockpit
-P0-08 Golden Loop
-P1 features
-P2 features
-
-Do not "prepare" future features by implementing them early.
-
-Only expose clean interfaces needed for future integration.
+Do NOT commit.
+Do NOT push.
 
 ============================================================
-16. FINAL REPORT
+STRICT STOP CONDITION
 ============================================================
 
-Return a concise but complete report:
+STOP after:
 
-1. Agents used
-2. Findings from each agent
-3. Final mastery formula
-4. Evidence weights
-5. Thresholds
-6. State machine
-7. Files created/modified
-8. Tests added
-9. Validation results
-10. Dependencies added
-11. Documentation updated
-12. Any issues
-13. Confirmation P0-03 acceptance criteria passed
-14. Confirmation P0-04 was NOT started
+TOPIC ENTRY
++
+TOPIC STRUCTURING EXPERIENCE
++
+STAGE-WISE LEARNING PATH
++
+LEARNING GRAPH
 
-Then STOP.
+Do NOT implement anything else.
 
-WAIT FOR THE NEXT HUMAN INSTRUCTION.
+============================================================
+FINAL REPORT
+============================================================
+
+Return:
+
+1. Multi-agent roles used
+2. UI architecture chosen
+3. Topic-entry implementation
+4. Topic-structure implementation
+5. Graph implementation
+6. Files changed
+7. shadcn components used/installed
+8. Validation results
+9. Any limitations
+10. Confirmation that diagnostics, mastery, assessments, re-theming, remediation, and facilitator features were NOT implemented
+
+Then STOP and wait.
