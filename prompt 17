@@ -1,0 +1,1210 @@
+# HARD TASK — KEA ZERO-TRUST AI DEBUGGING + REPAIR
+# DO NOT TRUST PREVIOUS "COMPLETE" REPORTS
+# REPRODUCE THE FAILURE FIRST
+# USE REAL MULTI-AGENT DEBUGGING
+# TRIAL → HYPOTHESIS → TEST → FIX → VERIFY
+
+You are debugging KEA, an AI-powered adaptive learning platform.
+
+USER REPORT:
+
+"The AI integration is not actually working correctly.
+AI is not generating new content in the application.
+The current AI integration appears incomplete/broken.
+Previous reports claim live AI works, but the actual product behavior does not match that claim."
+
+Treat this user report as the source of truth for this task.
+
+DO NOT assume previous milestone reports are correct.
+
+DO NOT write "working" because:
+- an endpoint returned 200
+- fallback returned content
+- a unit test passed
+- a curl request passed
+
+The only acceptable definition of success is:
+
+REAL PROVIDER
+→ REAL REQUEST
+→ REAL GENERATED RESPONSE
+→ API ROUTE RECEIVES IT
+→ API ROUTE RETURNS IT
+→ FRONTEND RECEIVES IT
+→ FRONTEND RENDERS IT
+→ USER CAN SEE NEW AI-GENERATED CONTENT
+
+This milestone is a COMPLETE AI FORENSIC DEBUG + REPAIR.
+
+==================================================
+CORE RULE
+==================================================
+
+DO NOT START BY REWRITING THE AI SYSTEM.
+
+First find exactly where the pipeline breaks.
+
+Use this pipeline as the debugging model:
+
+USER ACTION
+    ↓
+FRONTEND EVENT
+    ↓
+API REQUEST
+    ↓
+NEXT.JS ROUTE
+    ↓
+AI ORCHESTRATOR
+    ↓
+PROVIDER
+    ↓
+REAL MODEL
+    ↓
+RAW MODEL RESPONSE
+    ↓
+PARSER
+    ↓
+ZOD / SCHEMA VALIDATION
+    ↓
+DOMAIN VALIDATION
+    ↓
+API RESPONSE
+    ↓
+FRONTEND STATE UPDATE
+    ↓
+UI RENDER
+    ↓
+USER SEES NEW CONTENT
+
+Find the exact broken layer.
+
+==================================================
+PHASE 0 — REAL MULTI-AGENT DEBUGGING
+==================================================
+
+Use real subagents/delegation.
+
+Create exactly 6 specialists:
+
+AGENT 1 — ENVIRONMENT / API KEY FORENSICS
+
+Inspect:
+- .env.local
+- .env.example
+- Next.js env loading
+- server process environment
+- development vs production environment
+- server restart behavior
+- .gitignore
+
+Determine:
+
+Gemini key configured?
+Groq key configured?
+NVIDIA key configured?
+
+Do NOT print actual secrets.
+
+Check only:
+configured / not configured
+
+Then verify whether the CURRENT Next.js server process actually sees them.
+
+Important:
+Do not assume that because .env.local exists, the running server loaded it.
+
+Report:
+
+Provider
+Env exists
+Process sees key
+Model configured
+Base URL
+Server restarted after env change
+
+AGENT 2 — PROVIDER DIRECT TESTING
+
+Test providers DIRECTLY from Node/server-side code.
+
+Do NOT go through the existing orchestrator first.
+
+Test:
+
+Gemini
+Groq
+NVIDIA NIM
+
+For each provider:
+
+1. authentication
+2. model availability
+3. simple text response
+4. structured JSON response
+5. latency
+6. exact HTTP status
+7. response extraction
+
+Do not assume current model IDs are valid.
+
+For Groq/NVIDIA:
+query available models when necessary.
+
+For Gemini:
+verify configured model availability using the official API path.
+
+Use the actual configured key.
+
+Do NOT expose secrets.
+
+For every provider produce:
+
+provider
+model
+configured
+auth_pass
+model_pass
+text_generation_pass
+structured_generation_pass
+latency
+error_category
+
+AGENT 3 — ORCHESTRATOR / AI ABSTRACTION FORENSICS
+
+Inspect:
+
+src/lib/ai/*
+ai-provider.ts
+ai-orchestrator.ts
+gemini-provider.ts
+openai-compatible-provider.ts
+fallback-provider.ts
+schemas.ts
+
+Trace one real request from:
+
+route
+→ orchestrator
+→ provider
+→ response
+→ schema
+→ returned object
+
+Look specifically for:
+
+- provider selection bugs
+- wrong environment variable names
+- model mismatch
+- fallback firing too early
+- fallback firing even when provider succeeds
+- provider metadata being overwritten
+- response extraction errors
+- structured-output incompatibility
+- incorrect request formats
+- timeout too short
+- retry logic hiding errors
+- schema validation rejecting valid AI output
+- schema repair logic replacing real responses
+- singleton/provider initialization using stale env
+- process startup using stale environment
+- hardcoded model IDs
+- wrong base URLs
+- swallowing exceptions
+
+AGENT 4 — API ROUTE FORENSICS
+
+Audit:
+
+/api/topic/plan
+/api/learning/generate
+/api/assessment/generate
+/api/assessment/evaluate
+/api/interview/start
+/api/interview/respond
+/api/interview/complete
+/api/oral/evaluate
+/api/ai/health
+
+For each route determine:
+
+Input
+→ validation
+→ provider call
+→ generated result
+→ schema validation
+→ response
+
+Test whether the route is actually returning:
+REAL AI DATA
+
+or:
+
+FALLBACK DATA
+
+or:
+
+EMPTY / TRANSFORMED / BROKEN DATA
+
+Add temporary development-safe telemetry if necessary.
+
+Telemetry may include:
+
+requestId
+task
+provider
+model
+latency
+fallbackUsed
+schemaPass
+responseSize
+errorCategory
+
+NEVER log secrets.
+
+AGENT 5 — FRONTEND DATA-FLOW FORENSICS
+
+Inspect:
+
+src/components/ai/*
+src/components/assessment/*
+src/components/interview/*
+src/components/entry/topic-experience-shell.tsx
+all relevant hooks/state
+
+Find out:
+
+When the user clicks:
+
+AI Practice
+
+what exact function executes?
+
+Does it call the API?
+
+What payload is sent?
+
+What response is received?
+
+Is state updated?
+
+Does component re-render?
+
+Is the returned AI content actually displayed?
+
+Do the same for:
+
+AI Mock Test
+
+AI Oral Defense
+
+Interview follow-up
+
+Topic Planner
+
+Look for:
+
+- button handlers doing nothing
+- API response ignored
+- wrong response property
+- stale React state
+- fallback hardcoded content rendered over live content
+- conditional rendering hiding generated content
+- loading state never finishing
+- response discarded after validation
+- component mounted but not connected
+- mode always forcing fallback
+- demoMode incorrectly true
+- provider result stored under wrong field
+- fetch errors swallowed
+
+AGENT 6 — LIVE PRODUCT QA
+
+Try to use a real browser.
+
+Do an actual user flow:
+
+Open app
+→ enter Organic Chemistry
+→ generate plan
+→ AI Practice
+→ Mock Test
+→ Oral Defense
+
+Observe:
+
+What the user actually sees.
+
+Capture:
+- network request
+- response
+- rendered content
+- loading state
+- errors
+
+If browser automation fails because of the existing Playwright CDN problem, do NOT endlessly retry.
+
+Use a bounded alternative:
+- Playwright if locally available
+- browser/devtools if available
+- direct HTTP
+- DOM inspection
+- SSR
+- controlled E2E scripts
+
+But explicitly separate:
+API verified
+from
+UI verified.
+
+ORCHESTRATOR:
+Wait for all specialist findings.
+Build one root-cause map.
+Only then make changes.
+
+==================================================
+PHASE 1 — ZERO-TRUST REPRODUCTION
+==================================================
+
+Before fixing anything, reproduce the user's complaint.
+
+Run the application cleanly.
+
+Then test:
+
+A. Topic plan
+B. AI learning generation
+C. Mock test
+D. Interview start
+E. Interview response
+
+For EACH, capture:
+
+REQUEST
+PROVIDER SELECTED
+MODEL
+RESPONSE
+SCHEMA
+FALLBACK
+FINAL CLIENT DATA
+
+Do not accept:
+
+HTTP 200
+
+as proof.
+
+We need actual content.
+
+==================================================
+PHASE 2 — BUILD A DEBUG MATRIX
+==================================================
+
+Create an internal matrix:
+
+| Layer | Expected | Actual | PASS/FAIL |
+|------|------|------|------|
+| Env | key loaded | | |
+| Server | key visible | | |
+| Provider auth | success | | |
+| Model | available | | |
+| Raw generation | text | | |
+| Structured generation | valid JSON | | |
+| Zod | valid | | |
+| API route | returns content | | |
+| Frontend fetch | receives content | | |
+| React state | stores content | | |
+| UI | displays content | | |
+
+Do not proceed until the failing layer is identified.
+
+==================================================
+PHASE 3 — REMOVE FALSE SUCCESS STATES
+==================================================
+
+Audit the entire AI status system.
+
+It must never claim:
+
+AI LIVE
+
+unless a real provider actually generated the returned content.
+
+Metadata must travel with the response:
+
+{
+  provider,
+  model,
+  latencyMs,
+  fallbackUsed,
+  taskType,
+  requestId
+}
+
+If fallback generated the content:
+
+provider = deterministic
+fallbackUsed = true
+
+If Groq generated it:
+
+provider = groq
+fallbackUsed = false
+
+Same for Gemini/NVIDIA.
+
+Never overwrite provider metadata later.
+
+==================================================
+PHASE 4 — PROVIDER CONFIGURATION
+==================================================
+
+Use environment variables.
+
+Expected configuration model:
+
+GEMINI_API_KEY
+GEMINI_MODEL
+
+GROQ_API_KEY
+GROQ_MODEL
+GROQ_BASE_URL
+
+NVIDIA_NIM_API_KEY
+NVIDIA_NIM_MODEL
+NVIDIA_NIM_BASE_URL
+
+AI_PRIMARY_PROVIDER
+AI_FALLBACK_PROVIDERS
+AI_TIMEOUT_MS
+AI_MAX_RETRIES
+
+Do not hardcode secrets.
+
+Do not assume a model exists.
+
+Provider initialization must happen after environment configuration is loaded.
+
+Avoid stale singleton configuration.
+
+==================================================
+PHASE 5 — REAL PROVIDER TESTS
+==================================================
+
+Implement a bounded provider diagnostic.
+
+Example:
+
+GET /api/ai/health
+
+must report something like:
+
+Gemini
+configured: true
+auth: pass
+model: ...
+text: pass
+structured: pass
+
+Groq
+configured: true
+auth: pass
+model: ...
+text: pass
+structured: pass
+
+NVIDIA
+configured: true
+auth: pass
+model: ...
+text: pass
+structured: pass
+
+Fallback
+available: true
+
+Never expose keys.
+
+If one provider fails, continue testing the others.
+
+==================================================
+PHASE 6 — STRUCTURED OUTPUT COMPATIBILITY
+==================================================
+
+This is critical.
+
+Do NOT force one structured-output implementation onto every provider if their APIs differ.
+
+Create provider-specific adapters where necessary.
+
+Gemini:
+Use the official Google GenAI structured-output mechanism.
+
+Groq:
+Use JSON Schema structured output where the selected model supports it.
+
+NVIDIA:
+Use the supported OpenAI-compatible mechanism for the configured model/API.
+
+If strict structured output is unsupported:
+
+use a safe fallback strategy:
+
+LLM response
+→ parse JSON
+→ Zod validation
+→ bounded repair
+→ retry
+→ fallback
+
+Never:
+provider succeeds
+→ schema mismatch
+→ silently replace with deterministic fallback
+without exposing that fact in metadata.
+
+==================================================
+PHASE 7 — REAL LEARNING GENERATION
+==================================================
+
+Fix:
+
+POST /api/learning/generate
+
+It MUST produce NEW content.
+
+Input:
+
+topic
+stage
+concept
+mastery
+recentMistakes
+pace
+theme
+
+The result must include:
+
+personalized explanation
+worked example
+misconception warning
+practice question
+hint
+challenge
+next step
+
+Make the request contextual.
+
+The prompt must actually contain the learner state.
+
+Then verify two requests with different learner states generate meaningfully different educational content.
+
+Do not rely on static fallback.
+
+==================================================
+PHASE 8 — REAL MOCK TEST
+==================================================
+
+Fix:
+
+POST /api/assessment/generate
+
+It must return a fresh assessment in LIVE mode.
+
+The client receives:
+
+questions
+options
+concepts
+difficulty
+
+The client does NOT receive:
+
+correctOptionIndex
+sampleIdealAnswer
+hidden evaluator data
+
+Server stores answer key.
+
+Then:
+
+POST /api/assessment/evaluate
+
+must use server-side authoritative data.
+
+Test:
+- correct answer
+- wrong answer
+- open answer
+- malformed answer
+- forged answer key
+
+==================================================
+PHASE 9 — REAL INTERVIEW
+==================================================
+
+Fix:
+
+POST /api/interview/start
+
+must create actual AI opening question.
+
+Then:
+
+POST /api/interview/respond
+
+must send actual learner response to actual provider.
+
+The provider must generate the next question based on the previous answer.
+
+This MUST NOT be a hardcoded interview script.
+
+Test:
+
+MISCONCEPTION:
+"The catalyst gives energy."
+
+Expected:
+AI identifies misconception
+→ contextual follow-up.
+
+STRONG RESPONSE:
+Correct explanation.
+
+Expected:
+AI advances/deepens question.
+
+Then:
+
+POST /api/interview/complete
+
+must summarize the actual server-side transcript.
+
+==================================================
+PHASE 10 — CONNECT AI RESULTS TO UI
+==================================================
+
+This is one of the most important phases.
+
+Do not stop when the API works.
+
+Trace:
+
+API JSON
+→ React fetch
+→ parsed object
+→ useState
+→ component props
+→ rendered JSX
+
+For AI Practice:
+confirm actual generated explanation is rendered.
+
+For Mock Test:
+confirm actual generated questions are rendered.
+
+For Interview:
+confirm actual generated currentQuestion is rendered.
+
+For Summary:
+confirm actual generated summary is rendered.
+
+Remove any static content that accidentally overwrites live content.
+
+Existing mock/demo content must remain only for:
+- demo mode
+- unavailable provider fallback
+
+==================================================
+PHASE 11 — CONNECT AI TO ADAPTIVITY
+==================================================
+
+Verify this path:
+
+Diagnostic mistakes
+→ learner state
+→ AI generation
+→ targeted content
+
+Practice mistake
+→ evidence
+→ updated mastery
+→ AI remediation
+
+Mock test result
+→ evidence
+→ learner state
+→ next recommendation
+
+Interview misconception
+→ evidence
+→ updated learner state
+→ remediation
+
+The AI generation must actually consume the updated state.
+
+Do not merely pass unused fields.
+
+==================================================
+PHASE 12 — MASTERY SAFETY
+==================================================
+
+Preserve:
+
+AI generates/evaluates evidence.
+
+Deterministic engine computes mastery.
+
+AI must NEVER directly set:
+
+mastery = 95
+
+or:
+
+stageUnlocked = true
+
+Maintain:
+
+Evidence
+→ MasteryEngine
+→ Knowledge Graph
+
+==================================================
+PHASE 13 — FALLBACK MUST BE LAST RESORT
+==================================================
+
+Fallback priority:
+
+REAL PROVIDER
+↓
+REAL PROVIDER
+↓
+REAL PROVIDER
+↓
+DETERMINISTIC FALLBACK
+
+Do not use fallback if the primary provider actually succeeded.
+
+Do not silently downgrade because structured output is inconvenient.
+
+If a provider can produce valid content but needs a provider-specific parser, fix the adapter instead.
+
+==================================================
+PHASE 14 — MODEL COMPATIBILITY
+==================================================
+
+Do not blindly keep:
+
+old model names
+
+Check actual available model IDs for configured providers.
+
+For the chosen primary model verify:
+
+- generation works
+- context length adequate
+- structured output works
+- latency acceptable
+- response extraction works
+
+Record actual model ID.
+
+==================================================
+PHASE 15 — SERVER PROCESS
+==================================================
+
+After modifying .env.local or provider configuration:
+
+1. stop all Next.js processes
+2. confirm port 3000 is free
+3. rebuild if required
+4. start one fresh server
+5. verify environment again
+6. verify /api/ai/health
+7. test an actual generation request
+
+Do not test against stale processes.
+
+==================================================
+PHASE 16 — TEST WITH REAL API KEYS
+==================================================
+
+Use real configured keys for live smoke tests.
+
+Do NOT put keys in source code.
+
+Do NOT print keys.
+
+Do NOT store keys in test fixtures.
+
+Live tests should verify:
+
+provider
+model
+real response
+schema
+latency
+
+Unit tests should mock the provider.
+
+Both systems are required.
+
+==================================================
+PHASE 17 — AUTOMATED TESTS
+==================================================
+
+Add/repair tests for:
+
+- env loading
+- provider initialization
+- provider model validation
+- Gemini generation
+- Groq generation
+- NVIDIA generation
+- structured output
+- provider cascade
+- fallback
+- metadata integrity
+- frontend/API contract
+- generated learning content
+- generated mock test
+- interview branching
+- interview summary
+- mastery evidence conversion
+
+Then run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+All existing tests MUST remain green.
+
+==================================================
+PHASE 18 — REAL END-TO-END TRIALS
+==================================================
+
+Run at least 5 real trials.
+
+TRIAL 1:
+Organic Chemistry
+moderate mastery
+
+TRIAL 2:
+Organic Chemistry
+low mastery + misconception
+
+TRIAL 3:
+Organic Chemistry
+high mastery
+
+TRIAL 4:
+different theme
+
+TRIAL 5:
+different topic
+
+For every trial verify:
+
+AI output exists
+AI provider is real
+content is not static
+content is schema-valid
+UI renders result
+learner state affects generation
+
+For Trial 5 use a topic other than Organic Chemistry to confirm KEA is not secretly hardcoded to chemistry.
+
+Example:
+Python
+or
+Photosynthesis
+
+IMPORTANT:
+
+KEA is a topic-to-mastery platform.
+
+The AI layer MUST work outside Organic Chemistry.
+
+If another topic fails:
+fix the general architecture.
+
+Do NOT hardcode another special case.
+
+==================================================
+PHASE 19 — DIFFERENTIATE STATIC CHEMISTRY FROM REAL AI
+==================================================
+
+This distinction must be preserved:
+
+STATIC / DETERMINISTIC:
+- chemistry visualizers
+- molecular validation
+- reaction validation
+- stage graph
+- mastery math
+
+REAL AI:
+- explanation
+- new practice
+- new mock tests
+- interview questions
+- follow-up questions
+- semantic evaluation
+- remediation explanation
+- personalized examples
+
+Verify the live AI layer is genuinely doing the second category.
+
+==================================================
+PHASE 20 — DO NOT DELETE OLD MOCK CONTENT
+==================================================
+
+Keep existing fallback/demo content.
+
+But enforce:
+
+LIVE MODE
+→ real provider
+
+DEMO MODE
+→ deterministic fallback
+
+Provider outage
+→ transparent fallback
+
+Never mix the two silently.
+
+==================================================
+PHASE 21 — FINAL BROWSER TEST
+==================================================
+
+Try real browser verification.
+
+Required:
+
+1. Open app
+2. Enter Organic Chemistry
+3. Generate plan
+4. Complete diagnostic
+5. Open AI Practice
+6. Confirm generated text
+7. Answer question
+8. Generate another activity
+9. Start Mock Test
+10. Answer questions
+11. Submit
+12. See results
+13. Start AI Oral Defense
+14. Type or speak
+15. Submit
+16. Receive AI follow-up
+17. Respond
+18. Complete
+19. See summary
+20. Confirm learner state changes
+
+Then repeat with another topic.
+
+If browser automation is unavailable:
+do not repeatedly retry Playwright downloads.
+
+Use bounded alternatives and clearly state:
+
+API VERIFIED
+UI VERIFIED
+or
+UI NOT FULLY VERIFIED
+
+==================================================
+PHASE 22 — DELETE DEBUG ARTIFACTS
+==================================================
+
+Any temporary debugging files/scripts created during this investigation must be removed unless they are intentionally converted into permanent tests/tools.
+
+Do not leave:
+- scratch scripts
+- one-off secrets
+- test keys
+- temporary logs
+- debugging endpoints
+
+==================================================
+PHASE 23 — DOCUMENTATION
+==================================================
+
+Update only:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+docs/ARCHITECTURE.md only if architecture actually changed.
+
+Do not rewrite historical documentation.
+
+==================================================
+SUCCESS CRITERIA
+==================================================
+
+This milestone is successful ONLY if all are true:
+
+[ ] Real provider key loaded by current server
+[ ] Real provider authentication succeeds
+[ ] Real model is available
+[ ] Real text generation succeeds
+[ ] Real structured generation succeeds
+[ ] AI Practice returns real generated content
+[ ] Mock Test returns new generated questions
+[ ] Interview opening is generated
+[ ] Interview follow-up is adaptive
+[ ] Interview summary is generated from real transcript
+[ ] Frontend displays the real responses
+[ ] Learner state changes subsequent AI generation
+[ ] Demo mode still works
+[ ] Fallback still works
+[ ] No API keys leak
+[ ] No answer keys leak
+[ ] Mastery remains deterministic
+[ ] Organic Chemistry remains functional
+[ ] A non-chemistry topic works
+[ ] Existing tests remain green
+[ ] Build remains green
+[ ] No stale server issue
+[ ] No false "AI LIVE" status
+
+==================================================
+FINAL REPORT — DO NOT CHEAT
+==================================================
+
+## ROOT CAUSE
+State the exact reason the user was not seeing real generated AI content.
+
+Do NOT say:
+"AI integration needed improvement."
+
+Give the concrete cause.
+
+Examples:
+- environment not loaded
+- wrong provider configuration
+- invalid model
+- fallback triggered incorrectly
+- schema mismatch
+- API response discarded
+- frontend state bug
+- static content overwriting live data
+
+## WHERE THE PIPELINE BROKE
+...
+
+## FIXES
+...
+
+## REAL PROVIDER RESULTS
+
+### Gemini
+Configured:
+Authentication:
+Model:
+Text generation:
+Structured generation:
+Used in app:
+Status:
+
+### Groq
+Configured:
+Authentication:
+Model:
+Text generation:
+Structured generation:
+Used in app:
+Status:
+
+### NVIDIA NIM
+Configured:
+Authentication:
+Model:
+Text generation:
+Structured generation:
+Used in app:
+Status:
+
+## ACTUAL PRIMARY PROVIDER
+...
+
+## FALLBACK
+...
+
+## AI PRACTICE
+REAL / FALLBACK / BROKEN
+
+## AI MOCK TEST
+REAL / FALLBACK / BROKEN
+
+## AI INTERVIEW
+REAL / FALLBACK / BROKEN
+
+## AI INTERVIEW FOLLOW-UP
+REAL / FALLBACK / BROKEN
+
+## INTERVIEW SUMMARY
+REAL / FALLBACK / BROKEN
+
+## NON-CHEMISTRY TOPIC
+Topic:
+Result:
+
+## FRONTEND
+REAL AI CONTENT VISIBLE:
+YES / NO
+
+## ADAPTIVITY
+PASS / FAIL
+
+## DEMO MODE
+PASS / FAIL
+
+## SECURITY
+PASS / FAIL
+
+## TESTS
+X passed / Y total
+
+## TYPECHECK
+PASS / FAIL
+
+## LINT
+PASS / FAIL
+
+## BUILD
+PASS / FAIL
+
+## BROWSER
+FULL / PARTIAL / UNAVAILABLE
+
+## EXACT REMAINING PROBLEMS
+...
+
+## USER ACTION REQUIRED
+...
+
+## FINAL STATUS
+
+Choose exactly one:
+
+REAL_AI_WORKING_END_TO_END
+PARTIALLY_FIXED
+BLOCKED
+
+RULE:
+Do NOT choose REAL_AI_WORKING_END_TO_END unless you actually verified:
+
+REAL PROVIDER
+→ API
+→ FRONTEND
+→ USER SEES NEW CONTENT
+
+Do not rely on previous reports.
+
+Do not commit.
+Do not push.
+Do not start another feature.
+STOP.
