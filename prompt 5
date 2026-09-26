@@ -1,0 +1,680 @@
+KEA — REAL AI TOPIC-TO-LEARNING-PLAN ENGINE
+HARD EXECUTION PROMPT
+
+CURRENT VERIFIED STATE
+======================
+
+Completed:
+- P0-01 Next.js + shadcn foundation
+- P0-02 deterministic Knowledge Graph engine
+- Product direction reset
+- Topic-entry frontend
+- Topic analysis UI
+- Stage-wise learning-plan UI
+- Learning graph UI
+
+Current limitation:
+The frontend currently uses local/demo topic curriculum generation.
+
+NEXT OBJECTIVE:
+
+Replace the local/demo topic generation path with a REAL, bounded Gemini-powered topic-to-learning-plan pipeline.
+
+The target flow is:
+
+USER
+"What do you want to learn?"
+        ↓
+NEXT.JS SERVER ROUTE
+        ↓
+GEMINI
+        ↓
+STRUCTURED TOPIC PLAN
+        ↓
+SCHEMA VALIDATION
+        ↓
+KNOWLEDGE GRAPH VALIDATION
+        ↓
+NORMALIZED PLAN
+        ↓
+FRONTEND
+        ↓
+STAGES + GRAPH
+
+DO NOT implement diagnostics, mastery, remediation, facilitator intervention, oral assessment, or re-theming yet.
+
+============================================================
+MANDATORY MULTI-AGENT MODE
+============================================================
+
+You MUST use Antigravity's multi-agent/subagent system.
+
+MAIN AGENT = AI INTEGRATION ORCHESTRATOR
+
+Use these specialized agents before implementation:
+
+AGENT 1 — AI ARCHITECT
+Design the smallest reliable Gemini integration for KEA.
+
+Determine:
+- API boundary
+- server-side call
+- structured output format
+- error handling
+- model selection
+- fallback behavior
+
+Use current official Google Gemini API documentation as the source of truth.
+
+Do NOT rely on outdated model/API assumptions.
+
+AGENT 2 — LEARNING SYSTEMS AGENT
+Define what Gemini should generate for a learning topic.
+
+Required output:
+- learning goal
+- stages
+- concepts
+- prerequisite relationships
+- learning objectives
+- milestone/mastery conditions at a conceptual level
+
+Ensure the generated structure is educationally coherent.
+
+AGENT 3 — STRUCTURED OUTPUT / VALIDATION AGENT
+Design strict validation for AI output.
+
+AI output must be machine-readable.
+
+Validate:
+- required fields
+- unique IDs
+- concept references
+- valid prerequisite references
+- no self-reference
+- no cycles
+- sensible stage references
+- non-empty objectives
+
+Reject malformed output.
+
+AGENT 4 — NEXT.JS / BACKEND AGENT
+Design the server-side integration.
+
+Inspect:
+- existing Next.js app
+- existing topic curriculum abstraction
+- existing types
+- environment configuration
+
+Keep API keys server-side.
+
+AGENT 5 — GRAPH INTEGRATION AGENT
+Determine how the AI-generated concepts/prerequisites should enter the EXISTING KnowledgeGraphEngine.
+
+Do NOT create a second graph engine.
+
+AI creates candidate structure.
+Existing graph engine validates/processes it.
+
+AGENT 6 — ADVERSARIAL AI REVIEWER
+Try to break the AI pipeline using:
+- empty topics
+- vague topics
+- extremely long topics
+- malformed JSON
+- duplicate IDs
+- unknown prerequisites
+- cyclic graphs
+- nonsense stages
+- unsafe/unusable output
+- model/API failure
+- timeout
+- missing API key
+
+AGENT 7 — HACKATHON SPEED AGENT
+Minimize complexity.
+
+Reject:
+- unnecessary databases
+- queues
+- microservices
+- background jobs
+- complex orchestration
+- unnecessary SDKs
+- unnecessary persistence
+
+MAIN AGENT must synthesize the agents' conclusions BEFORE coding.
+
+Do not allow multiple agents to edit the same files simultaneously.
+
+============================================================
+OFFICIAL GOOGLE SKILLS
+============================================================
+
+Inspect the official Google skills repository:
+
+https://github.com/google/skills
+
+Use the relevant official skill(s) for Gemini/GenAI development if available.
+
+Do not install unrelated skills.
+
+If a relevant Gemini/GenAI skill is not installed:
+- inspect its SKILL.md
+- install only if genuinely useful
+- use it during this milestone
+
+Also consult current official Google Gemini API documentation.
+
+Do NOT use random tutorials as the authority for API/model behavior.
+
+============================================================
+CONTEXT-EFFICIENT READING
+============================================================
+
+Read:
+
+1. docs/PRD.md
+2. docs/ARCHITECTURE.md
+3. docs/TASK_BOARD.md
+
+Then inspect only:
+
+- src/types/topic-path.ts
+- src/lib/topic-curriculum/*
+- src/lib/knowledge-graph/*
+- src/components/entry/*
+- src/app/page.tsx
+- package.json
+- existing environment/config files
+
+Do NOT reread the entire repository.
+
+============================================================
+CORE AI CONTRACT
+============================================================
+
+Create one clear server-side abstraction:
+
+generateTopicCurriculum(topic, learnerContext?)
+
+The public application should NOT call Gemini directly from client components.
+
+Client:
+POST /api/topic/plan
+
+Server:
+→ validate request
+→ call Gemini
+→ validate structured response
+→ validate knowledge graph
+→ return normalized TopicCurriculumPlan
+
+Client:
+→ render the plan
+
+============================================================
+AI OUTPUT
+============================================================
+
+Gemini must return structured data.
+
+Conceptual schema:
+
+{
+  "topic": "Python",
+  "learningGoal": "Build a strong foundation in Python programming",
+  "stages": [
+    {
+      "id": "stage_1",
+      "title": "...",
+      "objective": "...",
+      "conceptIds": ["concept_1", "concept_2"],
+      "milestone": "..."
+    }
+  ],
+  "concepts": [
+    {
+      "id": "concept_1",
+      "title": "...",
+      "objective": "...",
+      "prerequisiteIds": []
+    }
+  ]
+}
+
+This is an example shape.
+
+Use the project's existing TypeScript types where possible.
+
+Do NOT duplicate models unnecessarily.
+
+============================================================
+TOPIC AGNOSTICITY
+============================================================
+
+The AI pipeline must work for arbitrary user topics.
+
+Examples:
+
+Python
+Calculus
+Machine Learning
+Photosynthesis
+Cybersecurity
+Public Speaking
+
+These are examples only.
+
+DO NOT hardcode any topic into the API.
+
+Fractions/Class 4 must not be required for the AI flow.
+
+============================================================
+STAGE GENERATION
+============================================================
+
+The AI should generate meaningful stages based on the requested topic.
+
+Do NOT force exactly 4 stages.
+
+Do NOT force exactly 7 concepts.
+
+Do NOT use a fixed curriculum template for every topic.
+
+The number of stages and concepts must depend on the topic.
+
+However, keep output bounded.
+
+Set sensible limits such as:
+- maximum stages
+- maximum concepts
+- maximum prerequisite edges
+- maximum text length
+
+Choose limits appropriate for a 24-hour hackathon and document them.
+
+============================================================
+PREREQUISITE GRAPH
+============================================================
+
+The AI should produce concept dependencies.
+
+Example:
+
+Concept A
+   ↓
+Concept B
+   ↓
+Concept C
+  ↙ ↘
+ D   E
+  \ /
+   F
+   ↓
+ GOAL
+
+The generated graph MUST be validated by the existing KnowledgeGraphEngine.
+
+Required checks:
+
+- unique concept IDs
+- all prerequisite IDs exist
+- no self references
+- no cycles
+- deterministic normalized structure
+
+If graph validation fails:
+
+DO NOT render the invalid graph.
+
+Return a controlled error/fallback.
+
+============================================================
+VALIDATION PIPELINE
+============================================================
+
+Implement:
+
+User Input
+    ↓
+Input Validation
+    ↓
+Gemini
+    ↓
+Structured Output Parsing
+    ↓
+Schema Validation
+    ↓
+Knowledge Graph Validation
+    ↓
+Normalization
+    ↓
+Frontend
+
+AI output must never bypass validation.
+
+============================================================
+GEMINI INTEGRATION
+============================================================
+
+Use the CURRENT official Google GenAI JavaScript SDK/API documented by Google.
+
+Do not use an outdated SDK simply because an older tutorial uses it.
+
+Keep the model configurable via environment/configuration.
+
+For example:
+
+GEMINI_API_KEY=...
+
+The API key MUST:
+
+- remain server-side
+- never appear in client bundles
+- never be hardcoded
+- never be committed
+
+If an environment variable is missing:
+return a clean controlled response.
+
+============================================================
+PROMPT DESIGN
+============================================================
+
+Create a bounded system prompt for topic planning.
+
+Gemini must be instructed:
+
+You are generating a structured learning plan.
+
+Input:
+A learner's requested topic.
+
+Output:
+Only the required structured schema.
+
+Generate:
+- learning goal
+- stages
+- concepts
+- prerequisites
+- objectives
+- milestone conditions
+
+Rules:
+- prerequisites must be logically necessary
+- avoid unnecessary concept explosion
+- organize from foundations to advanced/application concepts
+- do not assume a specific school grade unless the user specifies one
+- do not assume a fixed number of stages
+- do not include unsupported facts unnecessarily
+- do not generate prose outside the schema
+
+Keep the prompt compact.
+
+============================================================
+FALLBACK STRATEGY
+============================================================
+
+The current local curriculum generator should NOT be deleted.
+
+Refactor it into a fallback provider.
+
+Preferred flow:
+
+REAL GEMINI AVAILABLE
+        ↓
+Gemini plan
+        ↓
+validate
+        ↓
+render
+
+Gemini unavailable / malformed
+        ↓
+local fallback where available
+        ↓
+render fallback
+
+For arbitrary topics where no local fallback exists:
+
+show an honest error state:
+
+"KEA couldn't build the learning path right now. Try again."
+
+Do NOT silently pretend the AI worked.
+
+============================================================
+FRONTEND INTEGRATION
+============================================================
+
+Connect the existing topic-entry UI to the new server route.
+
+The user flow should become:
+
+"What do you want to learn?"
+
+User enters:
+"Python"
+
+↓
+
+"Understanding your topic..."
+
+↓
+
+"Identifying what needs to be learned..."
+
+↓
+
+"Structuring your learning path..."
+
+↓
+
+REAL GENERATED PLAN
+
+↓
+
+"YOUR PATH TO MASTERING PYTHON"
+
+↓
+
+Learning stages + graph
+
+The existing UI components should consume the normalized `TopicCurriculumPlan`.
+
+Do not rewrite the UI unnecessarily.
+
+============================================================
+NO DIAGNOSTIC YET
+============================================================
+
+STOP the flow at:
+
+TOPIC
+→ AI STRUCTURE
+→ GRAPH + STAGES
+
+Do NOT add:
+
+- prerequisite quiz
+- diagnostic assessment
+- learner mastery
+- mock test
+- remediation
+- facilitator intervention
+
+Those are later milestones.
+
+============================================================
+TESTING
+============================================================
+
+Create tests for:
+
+1. Valid topic request.
+2. Empty topic rejected.
+3. Whitespace-only topic rejected.
+4. Gemini structured output parses correctly.
+5. Malformed AI output rejected.
+6. Duplicate concept IDs rejected.
+7. Unknown prerequisite rejected.
+8. Self prerequisite rejected.
+9. Cyclic graph rejected.
+10. Valid graph accepted.
+11. Normalized topic plan returned.
+12. Gemini/API failure triggers fallback.
+13. Missing API key handled safely.
+14. Arbitrary topic remains topic-agnostic.
+15. Existing local fallback still works.
+16. API key is not exposed to client code.
+
+If API tests cannot call the real service:
+mock the provider abstraction.
+
+Do not make the test suite dependent on live Gemini availability.
+
+============================================================
+NO UNNECESSARY TECHNOLOGY
+============================================================
+
+Do NOT add:
+
+- Python
+- FastAPI
+- database
+- Supabase
+- Neo4j
+- Redis
+- queue
+- vector database
+- RAG
+- authentication
+- new frontend framework
+
+Only add the minimum required GenAI/validation dependencies.
+
+============================================================
+ARCHITECTURAL RULE
+============================================================
+
+Use a provider boundary so later we can switch model providers without rewriting the application.
+
+Conceptually:
+
+TopicPlanner
+    ↓
+GeminiTopicPlanner
+    ↓
+TopicCurriculumPlan
+
+and:
+
+FallbackTopicPlanner
+    ↓
+TopicCurriculumPlan
+
+The rest of KEA should not care which provider generated the plan.
+
+============================================================
+DOCUMENTATION SYNC
+============================================================
+
+After implementation and validation:
+
+Update docs/TASK_BOARD.md to reflect that the product has moved from local topic planning toward the REAL AI topic-planning milestone.
+
+Do not rewrite the entire board.
+
+Update docs/DEVELOPMENT_LOG.md with ONE concise milestone entry containing:
+- Gemini integration
+- structured topic-plan contract
+- validation pipeline
+- fallback strategy
+- multi-agent findings
+- tests
+
+Update docs/ARCHITECTURE.md if necessary to reflect the actual AI topic-planning architecture.
+
+Do not create extra documentation files.
+
+============================================================
+VALIDATION
+============================================================
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+Also manually verify:
+
+1. Enter "Python".
+2. Real AI path is attempted when API credentials are available.
+3. Generated plan appears.
+4. Stages render.
+5. Graph renders.
+6. Enter another topic.
+7. Different topic produces a different structure.
+8. Malformed/error path behaves safely.
+9. Missing API key behaves safely.
+10. Existing P0-02 graph tests still pass.
+
+============================================================
+GIT
+============================================================
+
+Do NOT commit.
+Do NOT push.
+
+============================================================
+STRICT STOP CONDITION
+============================================================
+
+STOP after:
+
+REAL AI TOPIC INPUT
+→
+STRUCTURED LEARNING PLAN
+→
+VALIDATED KNOWLEDGE GRAPH
+→
+STAGE-WISE FRONTEND DISPLAY
+
+Do NOT implement:
+- diagnostics
+- mastery
+- mock tests
+- oral assessment
+- re-theming
+- remediation
+- facilitator dashboard
+- intervention engine
+
+============================================================
+FINAL REPORT
+============================================================
+
+Return:
+
+1. Multi-agent roles used
+2. Official Google skills inspected/installed
+3. Gemini API approach
+4. Model selected and why
+5. Topic-plan schema
+6. Validation pipeline
+7. Graph validation integration
+8. Fallback strategy
+9. Files changed
+10. Dependencies added
+11. Tests added
+12. Validation results
+13. Example of one generated topic plan
+14. Confirmation that arbitrary topics work
+15. Confirmation that no diagnostic/mastery/facilitator features were implemented
+
+Then STOP.
