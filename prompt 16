@@ -1,0 +1,626 @@
+# HARD TASK — KEA FINAL PRE-MANUAL-TESTING / JUDGE-DEMO HARDENING
+
+KEA HAS NOW REACHED THE FEATURE-COMPLETE STAGE.
+
+CURRENT VERIFIED STATE:
+- Organic Chemistry Stages 1–5 ✅
+- Knowledge Graph ✅
+- MasteryEngine / W-EMM ✅
+- Diagnostic ✅
+- AI topic planning ✅
+- AI learning generation ✅
+- AI mock test ✅
+- hybrid assessment evaluation ✅
+- AI multi-turn mock interview ✅
+- interview summary ✅
+- facilitator intervention ✅
+- Demo/Offline mode ✅
+- Gemini/Groq/NVIDIA provider architecture ✅
+- Live Groq inference ✅
+- security hardening ✅
+- 169/169 tests ✅
+- typecheck ✅
+- lint ✅
+- build ✅
+
+THIS IS THE LAST CODING/PRE-MANUAL-TESTING MILESTONE.
+
+DO NOT:
+- add Python
+- add FastAPI
+- add RAG
+- add database
+- add vector DB
+- add another AI provider
+- add new chemistry stages
+- add new major features
+- redesign the architecture
+- create unnecessary abstractions
+- commit
+- push
+
+GOAL:
+
+Make the CURRENT product as reliable, coherent, and judge-ready as possible.
+
+==================================================
+PHASE 0 — REAL MULTI-AGENT INSPECTION
+==================================================
+
+Use real subagents/delegation if available.
+
+Use exactly 4 specialists:
+
+AGENT 1 — PRODUCT UX AUDITOR
+Inspect the complete learner journey.
+
+Look for:
+- confusing navigation
+- dead buttons
+- inconsistent labels
+- excessive text
+- broken visual hierarchy
+- loading states
+- empty states
+- confusing AI states
+- poor error messages
+- panels covering each other
+- mobile problems
+- awkward transitions
+- duplicated controls
+- stale state
+
+AGENT 2 — LIVE AI AUDITOR
+Inspect:
+- Gemini/Groq/NVIDIA/fallback
+- provider status
+- generation latency
+- timeout behavior
+- retry behavior
+- generated learning content
+- mock test generation
+- interview adaptation
+- summary
+- fallback behavior
+
+Make sure the UI truthfully communicates:
+LIVE AI vs FALLBACK vs DEMO MODE.
+
+AGENT 3 — GOLDEN LOOP AUDITOR
+Trace the complete system:
+
+Topic
+→ AI plan
+→ diagnostic
+→ learning
+→ generated practice
+→ answer
+→ evidence
+→ mastery
+→ adaptation
+→ mock test
+→ evaluation
+→ interview
+→ summary
+→ facilitator
+
+Identify any disconnect.
+
+AGENT 4 — FINAL REGRESSION AUDITOR
+Verify:
+- Stages 1–5
+- graph gating
+- chemistry validators
+- mastery
+- facilitator
+- persona switcher
+- themes
+- offline mode
+- existing tests
+- build/runtime
+
+Then ORCHESTRATOR synthesizes findings and fixes only verified issues.
+
+==================================================
+PHASE 1 — USER JOURNEY POLISH
+==================================================
+
+The application should have ONE obvious learner flow.
+
+Opening:
+
+"What do you want to learn?"
+
+After topic selection:
+
+AI understands topic
+→ plan
+→ diagnostic
+→ learning.
+
+The learner must always understand:
+
+Where am I?
+What am I learning?
+Why am I seeing this?
+What do I do next?
+
+Ensure every major screen has a clear primary action.
+
+Examples:
+
+"Start Diagnostic"
+"Continue Learning"
+"Generate AI Practice"
+"Start AI Mock Test"
+"Start AI Oral Defense"
+"Continue to Next Concept"
+
+Avoid multiple competing primary actions.
+
+==================================================
+PHASE 2 — AI EXPERIENCE POLISH
+==================================================
+
+AI-generated content must feel obviously different from static demo content.
+
+When LIVE AI is active:
+
+Show a small trustworthy state:
+
+AI LIVE
+Groq
+or actual provider
+
+When generating:
+
+Generating personalized lesson...
+Generating fresh assessment...
+Preparing interview...
+
+When fallback happens:
+
+Live provider unavailable
+Using KEA fallback engine
+
+When Demo Mode:
+
+DEMO MODE
+Offline deterministic engine
+
+Never imply that deterministic fallback came from an LLM.
+
+==================================================
+PHASE 3 — LOADING / ERROR HANDLING
+==================================================
+
+Audit every live AI action.
+
+For:
+- learning generation
+- mock test generation
+- evaluation
+- interview start
+- interview response
+- interview completion
+
+Ensure:
+
+loading state
+→ success state
+OR
+→ retry/fallback state
+
+Never:
+- blank panel
+- endless spinner
+- disabled button forever
+- uncaught exception
+- raw stack trace
+- misleading success
+
+Bound all requests.
+
+==================================================
+PHASE 4 — AI MOCK TEST FINAL UX
+==================================================
+
+The user should be able to:
+
+Start
+→ answer
+→ next question
+→ progress
+→ submit
+→ results.
+
+Questions must not expose answer keys.
+
+Results should clearly show:
+
+Score
+Concept performance
+Strengths
+Weak concepts
+Recommended next step
+
+Do NOT overload the screen.
+
+The learner should understand the result in <10 seconds.
+
+==================================================
+PHASE 5 — AI INTERVIEW FINAL UX
+==================================================
+
+Make the interview feel like a real adaptive conversation.
+
+Flow:
+
+START
+↓
+AI asks question
+↓
+Speak OR type
+↓
+submit
+↓
+AI evaluates
+↓
+AI asks contextual follow-up
+↓
+repeat
+↓
+complete
+↓
+summary
+
+Controls must be obvious.
+
+Always show:
+- current question
+- transcript
+- record/stop microphone
+- typing fallback
+- submit
+- turn count
+- completion state
+
+Do not force microphone permission.
+
+Typing must always work.
+
+==================================================
+PHASE 6 — INTERVIEW SUMMARY
+==================================================
+
+Final summary should be judge-readable.
+
+Use:
+
+AI MOCK INTERVIEW — RESULTS
+
+Overall Understanding
+
+Strong Areas
+✓ ...
+
+Needs Reinforcement
+⚠ ...
+
+Misconceptions
+⚠ ...
+
+Recommended Next Step
+→ ...
+
+Evidence
+→ ...
+
+Avoid giant paragraphs.
+
+==================================================
+PHASE 7 — ADAPTIVITY PROOF
+==================================================
+
+Make the UI make the adaptation visible.
+
+For example:
+
+Student struggles with carbon valence.
+
+Show:
+
+"KEA noticed you are struggling with carbon valence."
+
+Then:
+
+"Generating a targeted scaffold..."
+
+Then new generated practice.
+
+Similarly:
+
+Strong learner:
+
+"Your recent answers show strong mastery."
+→ harder generated challenge.
+
+This should make the core product idea obvious to a judge.
+
+==================================================
+PHASE 8 — FINAL GOLDEN DEMO PATH
+==================================================
+
+Choose ONE stable demo scenario.
+
+Recommended:
+
+Topic:
+Organic Chemistry
+
+Use a realistic learner with moderate mastery.
+
+Demonstrate:
+
+1. Enter topic
+2. AI generates plan
+3. Diagnostic
+4. Enter concept
+5. AI Practice
+6. Deliberate wrong answer
+7. KEA identifies gap
+8. AI remediation
+9. New practice
+10. AI Mock Test
+11. Submit
+12. Results
+13. AI Oral Defense
+14. Answer by typing OR voice
+15. AI contextual follow-up
+16. Complete interview
+17. Summary
+18. Evidence/mastery
+19. Facilitator intervention if triggered
+20. Continue/advance
+
+The complete path should be possible without obscure navigation.
+
+==================================================
+PHASE 9 — FACILITATOR DEMO PATH
+==================================================
+
+The facilitator view must clearly communicate:
+
+Student
+Problem
+Concept
+Evidence
+Recommended intervention
+Current state
+
+The facilitator should be able to:
+
+Acknowledge
+→ Apply Intervention
+→ Resolve
+
+without unrelated controls.
+
+==================================================
+PHASE 10 — ORGANIC CHEMISTRY MAP
+==================================================
+
+The 5-stage map should communicate state clearly:
+
+Stage 1
+Stage 2
+Stage 3
+Stage 4
+Stage 5
+
+Use states:
+
+LOCKED
+AVAILABLE
+CURRENT
+MASTERED
+REMEDIATION
+
+Ensure no stage can visually appear unlocked when deterministic gating says locked.
+
+==================================================
+PHASE 11 — MOBILE FINAL CHECK
+==================================================
+
+Check narrow viewport behavior.
+
+Verify:
+- topic entry
+- stage navigation
+- chemistry map
+- AI Practice
+- Mock Test
+- Interview
+- Summary
+- facilitator cards
+
+No:
+- horizontal overflow
+- clipped buttons
+- hidden primary controls
+- modal overlap
+- unreachable content
+
+==================================================
+PHASE 12 — SERVER / RUNTIME CLEANUP
+==================================================
+
+Before verification:
+
+1. stop stale Next.js processes
+2. confirm port 3000 is free
+3. build fresh
+4. start one production server
+5. verify correct build
+6. verify environment loaded
+
+Do not leave multiple Next.js servers running.
+
+==================================================
+PHASE 13 — TESTS
+==================================================
+
+Run:
+
+npx tsc --noEmit
+npm run lint
+npm test
+npm run build
+
+Do not weaken tests to make them pass.
+
+Target:
+
+ALL CURRENT TESTS PASS.
+
+==================================================
+PHASE 14 — SECURITY RECHECK
+==================================================
+
+Verify:
+
+- no API keys in client
+- no answer key leakage
+- no client-controlled mastery
+- no client-controlled interview history
+- no client-controlled stage unlock
+- no raw provider errors shown to learners
+
+==================================================
+PHASE 15 — BROWSER VERIFICATION
+==================================================
+
+Attempt browser automation once/bounded.
+
+If browser automation remains unavailable:
+
+DO NOT waste time repeatedly downloading Playwright.
+
+Instead use:
+- live production runtime
+- HTTP tests
+- SSR/DOM checks
+- component tests
+- E2E scripts
+
+Then clearly mark:
+
+AUTOMATED_BROWSER_LIMITATION
+
+==================================================
+PHASE 16 — FIX ONLY REAL PROBLEMS
+==================================================
+
+Do not change working code for aesthetics alone.
+
+Any fix must have:
+
+Problem
+→ Cause
+→ Minimal fix
+→ Verification
+
+Do not refactor stable systems without cause.
+
+==================================================
+PHASE 17 — DOCUMENTATION
+==================================================
+
+Update only:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Do not create documentation churn.
+
+==================================================
+FINAL REPORT
+==================================================
+
+## FINAL PRE-MANUAL TEST STATUS
+READY / BLOCKED
+
+## Critical Issues Found
+...
+
+## Issues Fixed
+...
+
+## Golden Loop
+PASS / FAIL
+
+## AI Practice
+PASS / FAIL
+
+## AI Mock Test
+PASS / FAIL
+
+## AI Interview
+PASS / FAIL
+
+## Interview Summary
+PASS / FAIL
+
+## Facilitator Flow
+PASS / FAIL
+
+## Organic Chemistry Stages 1–5
+PASS / FAIL
+
+## Live AI
+Provider:
+Model:
+Verified:
+
+## Demo Mode
+PASS / FAIL
+
+## Responsive UI
+PASS / FAIL
+
+## Security
+PASS / FAIL
+
+## Tests
+X passed / Y total
+
+## Typecheck
+PASS / FAIL
+
+## Lint
+PASS / FAIL
+
+## Build
+PASS / FAIL
+
+## Browser Automation
+PASS / FAIL / UNAVAILABLE
+
+## Manual Testing Instructions
+Give the user ONLY the exact manual flow they should test next.
+
+## Remaining Issues
+...
+
+## Final Decision
+
+Choose exactly one:
+
+READY_FOR_MANUAL_TESTING
+BLOCKED
+NEEDS_TARGETED_FIXES
+
+DO NOT ADD NEW FEATURES.
+DO NOT COMMIT.
+DO NOT PUSH.
+STOP.
