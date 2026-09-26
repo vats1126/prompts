@@ -1,0 +1,537 @@
+KEA — NEXT MILESTONE: DETERMINISTIC MASTERY ENGINE
+HARD EXECUTION PROMPT
+
+CURRENT VERIFIED PRODUCT STATE
+==============================
+
+COMPLETED:
+- Next.js + shadcn foundation
+- Knowledge Graph engine
+- Topic Entry experience
+- Topic → AI Learning Plan generation
+- Gemini server-side integration
+- Structured AI output validation
+- Knowledge Graph validation
+- Dynamic stage generation
+- Dynamic topic graph UI
+
+The current working product flow is:
+
+USER ENTERS TOPIC
+        ↓
+AI UNDERSTANDS TOPIC
+        ↓
+AI GENERATES STAGES + CONCEPTS + PREREQUISITES
+        ↓
+SCHEMA VALIDATION
+        ↓
+KNOWLEDGE GRAPH VALIDATION
+        ↓
+STAGE-WISE PLAN + GRAPH UI
+
+The latest implementation explicitly confirms that diagnostic assessment, mastery updates, practice, remediation, re-theming, and facilitator intervention are NOT yet implemented.
+
+CURRENT TASK:
+
+Build the deterministic concept-level MASTERY ENGINE.
+
+============================================================
+CRITICAL PRODUCT RULE
+============================================================
+
+KEA is NOT a Class 4 / Fractions system.
+
+The mastery engine MUST be completely topic-agnostic.
+
+It must work for:
+
+Python
+Calculus
+Machine Learning
+Photosynthesis
+Cybersecurity
+Fractions
+or any future AI-generated topic.
+
+The only thing the engine knows is:
+
+CONCEPT
++
+ASSESSMENT EVIDENCE
++
+MASTERY STATE
+
+Do NOT hardcode:
+- Class
+- Grade
+- Subject
+- Chapter
+- Fractions
+- Python
+- any specific curriculum
+
+============================================================
+MANDATORY MULTI-AGENT MODE
+============================================================
+
+YOU MUST USE ANTIGRAVITY'S MULTI-AGENT/SUBAGENT SYSTEM.
+
+MAIN AGENT = ORCHESTRATOR
+
+Before implementation, run:
+
+------------------------------------------------------------
+AGENT 1 — LEARNING / MASTERY SPECIALIST
+------------------------------------------------------------
+
+Design the simplest defensible evidence-based mastery model.
+
+Analyze:
+- practice evidence
+- written assessment evidence
+- oral assessment evidence
+- repeated success/failure
+- partial understanding
+- mastery threshold
+- remediation threshold
+- state transitions
+
+Requirements:
+- deterministic
+- concept-level
+- explainable
+- auditable
+- no ML
+- no LLM-controlled mastery
+
+------------------------------------------------------------
+AGENT 2 — ALGORITHM / TYPESCRIPT SPECIALIST
+------------------------------------------------------------
+
+Design:
+- types
+- evidence aggregation
+- weighted scoring
+- EMM update
+- score clamping
+- deterministic transitions
+- APIs/functions
+- compatibility with the existing KnowledgeGraphEngine
+
+Prefer pure functions.
+
+------------------------------------------------------------
+AGENT 3 — AI BOUNDARY / ARCHITECTURE AGENT
+------------------------------------------------------------
+
+Verify that:
+
+AI:
+- generates content
+- interprets open-ended/oral responses
+- can propose a structured signal
+
+BUT:
+
+DETERMINISTIC ENGINE:
+- owns mastery score
+- owns mastery state
+- owns progression eligibility inputs
+- never trusts raw LLM text as a score
+
+------------------------------------------------------------
+AGENT 4 — ADVERSARIAL TEST AGENT
+------------------------------------------------------------
+
+Try to break the design using:
+
+- empty evidence
+- perfect score
+- poor score
+- mixed evidence
+- conflicting evidence
+- exact threshold
+- just below threshold
+- just above threshold
+- negative scores
+- >100 scores
+- duplicate evidence
+- repeated evidence
+- unknown concept
+- locked concept
+- deterministic replay
+
+------------------------------------------------------------
+AGENT 5 — HACKATHON SPEED AGENT
+------------------------------------------------------------
+
+Reject:
+- ML frameworks
+- probabilistic mastery systems
+- databases
+- analytics platforms
+- unnecessary abstractions
+- queues
+- background jobs
+- external services
+
+Keep the implementation small enough to finish quickly and explain to judges.
+
+MAIN AGENT MUST SYNTHESIZE ALL FINDINGS BEFORE CODING.
+
+Do not let multiple agents edit the same files simultaneously.
+
+============================================================
+CONTEXT-EFFICIENT INSPECTION
+============================================================
+
+Read only:
+
+1. docs/TASK_BOARD.md
+2. relevant mastery sections of docs/ARCHITECTURE.md
+3. src/lib/knowledge-graph/types.ts
+4. src/lib/knowledge-graph/engine.ts
+5. src/lib/knowledge-graph/index.ts
+6. src/lib/ai/types.ts
+7. src/lib/ai/topic-plan-validator.ts
+8. src/types/topic-path.ts
+9. existing mastery-related files, if any
+
+Do NOT reread the entire repository.
+
+============================================================
+IMPLEMENTATION
+============================================================
+
+Create a clean domain module:
+
+src/lib/mastery/
+
+Suggested:
+
+src/lib/mastery/
+├── types.ts
+├── constants.ts
+├── engine.ts
+├── index.ts
+└── __tests__/
+    └── engine.test.ts
+
+Adjust only if the existing architecture suggests a better structure.
+
+============================================================
+EVIDENCE MODEL
+============================================================
+
+Support these MVP evidence types:
+
+- practice
+- written
+- oral
+
+Use a minimal structured model.
+
+Conceptually:
+
+AssessmentEvidence:
+- conceptId
+- assessmentType
+- score
+- optional attempt/correctness metadata where needed
+
+Do not store arbitrary prose inside the mastery engine.
+
+AI-generated explanations/transcripts belong outside the core mastery calculation.
+
+============================================================
+MASTERY MODEL
+============================================================
+
+Implement a transparent Weighted Exponential Moving Mastery model.
+
+Use:
+
+newMastery =
+    oldMastery
+    + alpha × (weightedEvidenceScore - oldMastery)
+
+Requirements:
+
+- oldMastery ∈ [0,100]
+- evidenceScore ∈ [0,100]
+- final mastery ∈ [0,100]
+- alpha is an explicit named constant
+- evidence weights are explicit named constants
+- thresholds are explicit named constants
+
+DO NOT scatter magic numbers through the code.
+
+The exact weights and thresholds MUST be chosen after the multi-agent review.
+
+============================================================
+STATE MODEL
+============================================================
+
+Support:
+
+locked
+unlocked
+in_progress
+mastered
+remediation
+
+These states represent the concept's CURRENT learning state.
+
+Do NOT create permanent learner identity labels.
+
+Never use:
+"weak learner"
+"slow learner"
+"poor learner"
+"fast learner"
+
+============================================================
+SEPARATION OF RESPONSIBILITIES
+============================================================
+
+Knowledge Graph:
+
+"What depends on what?"
+
+Mastery Engine:
+
+"How well does the learner currently understand this concept?"
+
+Future Adaptive Engine:
+
+"What should the learner do next?"
+
+Do NOT combine these.
+
+Do NOT let the mastery engine modify graph structure.
+
+============================================================
+GRAPH COMPATIBILITY
+============================================================
+
+The engine must consume generic concept IDs.
+
+Example:
+
+Topic:
+Python
+
+Concept:
+py_variables
+
+or:
+
+Topic:
+Photosynthesis
+
+Concept:
+photo_light_reactions
+
+The mastery engine must not care what the topic is.
+
+Reuse the existing graph engine.
+
+DO NOT create another graph implementation.
+
+============================================================
+INITIAL STATE
+============================================================
+
+For a concept with no assessment evidence:
+
+- score must be deterministic
+- it must NOT be mastered
+- actual unlock eligibility remains determined by graph/prerequisites
+
+Keep this behavior compatible with the current KnowledgeGraphEngine.
+
+============================================================
+AUDITABILITY
+============================================================
+
+The result of a mastery calculation should provide enough structured information to explain:
+
+- previous mastery
+- evidence used
+- weights
+- resulting evidence score
+- new mastery score
+- resulting status
+
+Example conceptual output:
+
+{
+  previousScore,
+  evidenceScore,
+  newScore,
+  status,
+  evidenceSummary
+}
+
+Do not expose internal implementation noise.
+
+============================================================
+TESTS
+============================================================
+
+Add deterministic tests for:
+
+1. Empty evidence
+2. Practice evidence
+3. Written evidence
+4. Oral evidence
+5. Mixed evidence
+6. Weighted evidence aggregation
+7. EMM update from previous mastery
+8. Score clamping to 0–100
+9. Exact mastery threshold
+10. Just below mastery threshold
+11. Just above mastery threshold
+12. Repeated strong evidence
+13. Repeated weak evidence
+14. Remediation transition
+15. Negative score rejected
+16. >100 score rejected
+17. Unknown concept handled safely
+18. Locked concept remains separate from mastery
+19. Identical inputs produce identical outputs
+20. Realistic progression:
+    unlocked → in_progress → mastered
+21. Realistic struggle:
+    unlocked → in_progress → remediation
+
+Also verify the engine works with generic concepts from the existing dynamic topic plan model.
+
+============================================================
+NO UI
+============================================================
+
+DO NOT build the diagnostic UI yet.
+
+DO NOT build the learning workspace yet.
+
+DO NOT build facilitator features.
+
+Do not add new visible product features.
+
+The deliverable is the domain engine + tests.
+
+============================================================
+NO EXTRA TECHNOLOGY
+============================================================
+
+DO NOT add:
+
+- Python
+- FastAPI
+- database
+- Supabase
+- Neo4j
+- vector database
+- RAG
+- ML frameworks
+- new AI providers
+
+============================================================
+VALIDATION
+============================================================
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+Then inspect:
+
+git diff
+git status --short
+
+Confirm:
+- existing AI topic planner still works
+- existing graph tests still pass
+- no graph logic changed accidentally
+- no API secrets exposed
+- no unrelated files modified
+
+Fix all failures before completion.
+
+============================================================
+DOCUMENTATION SYNC
+============================================================
+
+After validation succeeds:
+
+Update docs/TASK_BOARD.md:
+- mark the mastery-engine milestone COMPLETE
+- clearly set the next task to Diagnostic / Prerequisite Assessment
+- preserve the existing AI Topic Plan milestone
+
+Update docs/DEVELOPMENT_LOG.md:
+Add ONE concise milestone entry covering:
+- mastery model
+- weights
+- thresholds
+- state transitions
+- tests
+- multi-agent findings
+- validation
+
+Update docs/ARCHITECTURE.md ONLY if the actual mastery design adds important architectural details not already documented.
+
+Do NOT rewrite PRD.md unless something is genuinely inconsistent.
+
+============================================================
+GIT
+============================================================
+
+DO NOT commit.
+DO NOT push.
+
+We will inspect the result first.
+
+============================================================
+STRICT STOP CONDITION
+============================================================
+
+STOP after the deterministic mastery engine is complete.
+
+DO NOT implement:
+
+- prerequisite diagnostic UI
+- diagnostic scoring flow
+- learning activities
+- AI mock tests
+- AI re-theming
+- remediation UI
+- facilitator intervention
+- facilitator dashboard
+- pace system
+
+============================================================
+FINAL REPORT
+============================================================
+
+Return:
+
+1. Multi-agent roles used
+2. Findings from each agent
+3. Final mastery formula
+4. Evidence weights
+5. Alpha
+6. Thresholds
+7. State transitions
+8. Files created/modified
+9. Tests added
+10. Validation results
+11. Confirmation dynamic topic compatibility
+12. Confirmation AI topic-planner still works
+13. Confirmation no future feature was implemented
+
+Then STOP.
