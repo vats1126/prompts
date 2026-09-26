@@ -1,0 +1,551 @@
+You are the MAIN ORCHESTRATOR for the KEA — Adaptive Learning & Real-Time Intervention Platform.
+
+We are in a time-critical 24-hour hackathon. Optimize for:
+1. Working software
+2. Deterministic behavior
+3. Explainability
+4. Fast implementation
+5. Minimal dependencies
+6. Clean architecture
+7. A reliable 5-minute judge demo
+
+CURRENT VERIFIED STATE
+======================
+
+P0-01 — Next.js + shadcn Foundation       ✅ COMPLETE
+P0-02 — Knowledge Graph + Seed Data       ✅ COMPLETE
+P0-03 — Deterministic Mastery Engine      ⏭️ CURRENT TASK
+P0-04 — AI Re-theming                     ⏸ NOT STARTED
+P0-05 — Student Learning Canvas           ⏸ NOT STARTED
+P0-06 — Struggle Detection                ⏸ NOT STARTED
+P0-07 — Facilitator Cockpit               ⏸ NOT STARTED
+P0-08 — Golden Loop Integration           ⏸ NOT STARTED
+
+DO NOT redo P0-01 or P0-02.
+DO NOT implement P0-04 or anything after it.
+
+============================================================
+1. MANDATORY MULTI-AGENT MODE
+============================================================
+
+You MUST use Antigravity's multi-agent/subagent system for this milestone.
+
+MAIN ORCHESTRATOR:
+- owns the final decision
+- delegates analysis
+- resolves disagreements
+- implements the final design
+- validates the implementation
+
+Run these agents BEFORE implementation.
+
+------------------------------------------------------------
+AGENT A — MASTERY / LEARNING SYSTEMS SPECIALIST
+------------------------------------------------------------
+
+Task:
+Design the simplest defensible deterministic mastery model for Class 4 students.
+
+Analyze:
+- practice evidence
+- written assessment evidence
+- oral assessment evidence
+- repeated success/failure
+- mastery threshold
+- remediation threshold
+- state transitions
+- how mastery interacts with prerequisite gating
+
+Constraints:
+- Must be explainable to a judge in under 30 seconds.
+- Must NOT use machine learning.
+- Must NOT use an LLM to calculate mastery.
+- Must NOT permanently label students.
+- Mastery must be concept-specific and current.
+
+Return:
+- recommended evidence model
+- recommended weights
+- recommended thresholds
+- recommended state transitions
+- reasoning
+
+------------------------------------------------------------
+AGENT B — ALGORITHM / TYPESCRIPT SPECIALIST
+------------------------------------------------------------
+
+Inspect the existing P0-02 knowledge graph implementation.
+
+Design the cleanest TypeScript implementation for:
+- evidence records
+- weighted mastery calculation
+- score clamping
+- status transitions
+- deterministic updates
+- integration with concept IDs
+
+Check:
+- separation of domain logic from React
+- immutability where useful
+- simple APIs
+- future compatibility with P0-06
+
+Return:
+- proposed interfaces/types
+- functions
+- formula
+- edge cases
+
+------------------------------------------------------------
+AGENT C — ARCHITECTURE SPECIALIST
+------------------------------------------------------------
+
+Review:
+- existing architecture
+- existing knowledge graph
+- existing domain types
+
+Ensure:
+
+Knowledge Graph
+    ↓
+Prerequisite structure
+
+Mastery Engine
+    ↓
+Student demonstrated understanding
+
+These must remain separate responsibilities.
+
+The Mastery Engine must NOT:
+- modify graph structure
+- contain React logic
+- make API calls
+- depend on UI state
+- depend on a database
+- depend on an LLM
+
+Return any architectural corrections required before implementation.
+
+------------------------------------------------------------
+AGENT D — ADVERSARIAL TEST / REVIEW SPECIALIST
+------------------------------------------------------------
+
+Try to break the proposed mastery system.
+
+Test mentally for:
+- empty evidence
+- perfect performance
+- repeated failure
+- mixed strong/weak evidence
+- score exactly at threshold
+- score just below threshold
+- score just above threshold
+- invalid scores
+- negative scores
+- scores above 100
+- duplicate evidence
+- unknown concept IDs
+- locked concepts
+- repeated updates
+- deterministic repeatability
+
+Return:
+- required tests
+- potential bugs
+- ambiguous rules that must be resolved
+
+============================================================
+2. AGENT SYNTHESIS — REQUIRED
+============================================================
+
+After all agents finish:
+
+DO NOT immediately code.
+
+MAIN ORCHESTRATOR must produce an internal synthesis:
+
+A. Final evidence model
+B. Final weights
+C. Final formula
+D. Final thresholds
+E. Final state machine
+F. Final TypeScript API
+G. Test plan
+
+If agents disagree:
+- choose the simplest deterministic design
+- prefer explainability
+- prefer compatibility with P0-02
+- avoid unnecessary complexity
+
+Do NOT create an ML model.
+
+Do NOT create a complicated adaptive algorithm.
+
+============================================================
+3. CONTEXT-EFFICIENT INSPECTION
+============================================================
+
+Read ONLY what is necessary.
+
+FIRST:
+- docs/TASK_BOARD.md
+- relevant section of docs/ARCHITECTURE.md
+
+THEN inspect:
+- src/lib/knowledge-graph/types.ts
+- src/lib/knowledge-graph/engine.ts
+- src/lib/knowledge-graph/seed-data.ts
+- src/lib/knowledge-graph/index.ts
+- existing shared domain types relevant to mastery
+
+Read other files only if required.
+
+Do NOT reread every project file.
+
+============================================================
+4. P0-03 IMPLEMENTATION
+============================================================
+
+Implement a PURE TYPESCRIPT mastery domain module.
+
+Recommended location:
+
+src/lib/mastery/
+
+Use a clean structure such as:
+
+src/lib/mastery/
+├── types.ts
+├── engine.ts
+├── constants.ts
+├── index.ts
+└── __tests__/
+    └── engine.test.ts
+
+Adjust the structure if the existing architecture has a better convention.
+
+The engine must support:
+
+1. Structured evidence
+2. Weighted evidence aggregation
+3. Mastery score from 0–100
+4. Deterministic status calculation
+5. State transitions
+6. Concept-specific mastery
+7. Compatibility with P0-02 concept IDs
+8. Audit/explanation information
+
+============================================================
+5. EVIDENCE MODEL
+============================================================
+
+Support exactly these MVP evidence types:
+
+- practice
+- written
+- oral
+
+An evidence record should contain only information actually needed.
+
+For example:
+
+conceptId
+assessmentType
+score
+attempt metadata where required
+
+Avoid unnecessary fields.
+
+Scores must be normalized and validated.
+
+Do not allow invalid scores to silently corrupt mastery.
+
+============================================================
+6. MASTERY FORMULA
+============================================================
+
+The formula MUST be:
+
+- deterministic
+- bounded
+- transparent
+- easy to explain
+- configurable through named constants
+
+Do NOT hard-code unexplained magic numbers throughout the code.
+
+Use explicit constants for:
+
+- evidence weights
+- mastery threshold
+- in-progress threshold
+- remediation/failure threshold, if required
+
+The final weights and thresholds must come from the multi-agent synthesis.
+
+Document the final formula in code comments and DEVELOPMENT_LOG.md.
+
+Do NOT overfit the algorithm.
+
+This is a hackathon MVP, not a research paper.
+
+============================================================
+7. STATE MACHINE
+============================================================
+
+Implement explicit state transitions.
+
+At minimum support:
+
+locked
+unlocked
+in_progress
+mastered
+remediation
+
+The engine must make transitions deterministic.
+
+Important:
+
+A child should NOT become `mastered` merely because a downstream concept has been evaluated.
+
+Prerequisites and mastery remain separate.
+
+A concept's mastery should be based on evidence for that concept.
+
+Do not permanently classify a student as:
+- slow
+- weak
+- poor
+- fast
+
+Those are not mastery states.
+
+============================================================
+8. KNOWLEDGE GRAPH INTEGRATION
+============================================================
+
+Reuse P0-02.
+
+Do NOT rewrite the graph engine.
+
+The mastery engine should consume concept IDs and mastery state.
+
+The eventual relationship is:
+
+Student Evidence
+       ↓
+Mastery Engine
+       ↓
+Concept Mastery State
+       ↓
+Knowledge Graph Gating
+       ↓
+Next Eligible Concept
+
+P0-03 only implements the Mastery Engine portion.
+
+Do NOT implement the complete adaptive loop yet.
+
+============================================================
+9. TEST-FIRST VALIDATION
+============================================================
+
+Create focused deterministic unit tests.
+
+MUST test:
+
+1. Empty evidence
+2. Single practice evidence
+3. Single written evidence
+4. Single oral evidence
+5. Mixed evidence
+6. Weighted aggregation
+7. Score clamping
+8. Invalid score rejection
+9. Mastery threshold
+10. Below-mastery threshold
+11. In-progress transition
+12. Remediation transition
+13. Repeated failures
+14. Deterministic repeatability
+15. Unknown concept handling
+16. Locked concept handling
+17. Existing P0-02 concept compatibility
+18. Boundary values exactly at thresholds
+
+Also test at least one complete realistic student journey:
+
+Example:
+
+initial
+→ unlocked
+→ practice
+→ in_progress
+→ additional evidence
+→ mastered
+
+And one struggle journey:
+
+initial
+→ unlocked
+→ repeated failures
+→ remediation
+
+Use the existing project testing approach.
+
+Do not add a large testing framework.
+
+============================================================
+10. NO UNNECESSARY TECHNOLOGY
+============================================================
+
+DO NOT add:
+
+Python
+FastAPI
+Supabase
+Neo4j
+PostgreSQL
+vector DB
+RAG
+LLM API
+Gemini API
+authentication
+external ML frameworks
+
+P0-03 must be locally deterministic TypeScript.
+
+============================================================
+11. OPTIONAL UI RULE
+============================================================
+
+Do NOT build the student learning UI.
+
+Do NOT build the facilitator dashboard.
+
+A tiny developer-only verification surface is acceptable ONLY if needed to verify the engine visually.
+
+Prefer tests over UI for this milestone.
+
+============================================================
+12. VALIDATION
+============================================================
+
+After implementation run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+Then inspect:
+
+git diff
+git status
+
+Confirm:
+- no secrets
+- no accidental P0-04 work
+- no unnecessary dependencies
+- no architecture violations
+
+If anything fails:
+FIX IT before reporting completion.
+
+============================================================
+13. DOCUMENTATION SYNC
+============================================================
+
+ONLY after all validation passes:
+
+Update:
+
+docs/TASK_BOARD.md
+
+Set:
+P0-03 → COMPLETED
+
+Keep:
+P0-04 → NEXT / PENDING
+
+Update:
+
+docs/DEVELOPMENT_LOG.md
+
+Add ONE concise milestone entry containing:
+- mastery model
+- evidence weights
+- formula
+- thresholds
+- state transitions
+- multi-agent findings
+- implementation
+- validation results
+
+Update:
+
+docs/ARCHITECTURE.md
+
+ONLY if the actual implementation introduces an architectural detail not already documented.
+
+Do NOT modify PRD.md unless a real product requirement changed.
+
+Do NOT create additional documentation files.
+
+============================================================
+14. GIT
+============================================================
+
+DO NOT commit.
+
+DO NOT push.
+
+We will review the milestone first.
+
+============================================================
+15. ABSOLUTE STOP CONDITION
+============================================================
+
+STOP after P0-03.
+
+DO NOT implement:
+
+P0-04 AI Re-theming
+P0-05 Student Learning Canvas
+P0-06 Struggle Detection
+P0-07 Facilitator Cockpit
+P0-08 Golden Loop
+P1 features
+P2 features
+
+Do not "prepare" future features by implementing them early.
+
+Only expose clean interfaces needed for future integration.
+
+============================================================
+16. FINAL REPORT
+============================================================
+
+Return a concise but complete report:
+
+1. Agents used
+2. Findings from each agent
+3. Final mastery formula
+4. Evidence weights
+5. Thresholds
+6. State machine
+7. Files created/modified
+8. Tests added
+9. Validation results
+10. Dependencies added
+11. Documentation updated
+12. Any issues
+13. Confirmation P0-03 acceptance criteria passed
+14. Confirmation P0-04 was NOT started
+
+Then STOP.
+
+WAIT FOR THE NEXT HUMAN INSTRUCTION.
