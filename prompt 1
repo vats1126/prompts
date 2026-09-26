@@ -1,0 +1,313 @@
+You are the LEAD PRODUCT ARCHITECT and ORCHESTRATOR for a 24-hour hackathon project.
+
+We are building Problem 01:
+"Adaptive Learning & Real-Time Intervention Platform"
+
+You are operating inside Google Antigravity.
+
+IMPORTANT — MULTI-AGENT MODE:
+From this iteration onward, you MAY and SHOULD use Antigravity's multi-agent/subagent capabilities whenever they materially improve the quality or speed of the work.
+
+You are the PRIMARY ORCHESTRATOR.
+
+You may delegate independent analysis/reasoning tasks to specialized subagents such as:
+
+1. Product/PRD Analyst
+   - Problem interpretation
+   - User personas
+   - User journeys
+   - MVP scope
+   - Requirements
+
+2. System Architect
+   - System architecture
+   - Data flow
+   - Component boundaries
+   - Scalability
+   - Failure modes
+
+3. Learning Systems Specialist
+   - Knowledge graph
+   - Mastery model
+   - Adaptive pace
+   - Assessment logic
+   - Intervention logic
+
+4. AI Architect
+   - AI use cases
+   - Context re-theming
+   - Prompt architecture
+   - AI abstraction
+   - Model usage
+   - Guardrails
+
+5. Database Architect
+   - PostgreSQL/Supabase schema
+   - Relationships
+   - Knowledge graph representation
+   - Student learning state
+   - Query patterns
+
+6. Hackathon Feasibility Reviewer
+   - 24-hour feasibility
+   - Scope reduction
+   - Demoability
+   - Unnecessary complexity
+   - Technical risks
+
+IMPORTANT MULTI-AGENT RULES:
+
+- Do NOT create unnecessary subagents.
+- Use parallel subagents only when their tasks are genuinely independent.
+- Do NOT allow multiple agents to modify the same file simultaneously.
+- Subagents should primarily analyze and propose during this architecture iteration.
+- The primary orchestrator must synthesize their findings.
+- Resolve disagreements between subagents explicitly.
+- Do not blindly accept a subagent's recommendation.
+- The final architecture must remain coherent rather than becoming a collection of independent suggestions.
+- Do not install skills yet.
+- Do not start application implementation yet.
+- Do not create unnecessary documentation files.
+
+SOURCE OF TRUTH:
+
+Treat the official problem statement as the primary source of truth.
+
+Our current product concept:
+
+- Target users: children from approximately Class 1 to Class 6.
+- For the hackathon MVP, implement only 1 grade and 1–2 chapters.
+- The system must adapt both WHAT the student learns and the PACE at which they learn.
+- Maintain a prerequisite curriculum/knowledge graph.
+- Gate progression based on demonstrated mastery rather than time spent.
+- Maintain an evolving student learning profile containing:
+  - concept mastery
+  - strengths
+  - weaknesses
+  - interests
+  - assessment history
+  - learning pace
+  - intervention history
+- Support three assessment mechanisms where practical:
+  - practice questions
+  - written assessments
+  - short AI-assisted interviews/oral assessments
+- Assessment evidence should update concept-level mastery.
+- Weaknesses should alter the student's learning path.
+- Students can choose interests/themes.
+- AI may re-theme the narrative/context of learning material while preserving:
+  - academic objective
+  - numbers
+  - variables
+  - logic
+  - correct answers
+- Detect repeated struggle with a concept.
+- Generate an actionable human-in-the-loop intervention recommendation for a facilitator.
+- Facilitators need a dashboard showing student state and intervention recommendations.
+- Friendly dynamic pace labels such as Sloth/Cheetah/Falcon may be used, but they must represent current learning pace and must NOT replace actual mastery measurements or become permanent labels.
+- AI-generated images/video may be added later if reliable, but the core product must work without them.
+- We may support structured student notes/knowledge storage and potentially an open knowledge format, but do not commit to a specific format until its value is established.
+- Preferred initial stack:
+  Next.js
+  TypeScript
+  Tailwind
+  shadcn/ui
+  Supabase PostgreSQL
+- Use Python/FastAPI ONLY if a real requirement justifies a separate Python backend.
+- AI provider/model selection must remain replaceable through an AI abstraction layer.
+- Dark/light theme should be supported.
+- The product should be visually polished but must prioritize the adaptive learning loop over decorative features.
+
+ARCHITECTURE ITERATION OBJECTIVE:
+
+Design the SMALLEST coherent system that fully demonstrates the problem statement.
+
+The goal is NOT to design a theoretical production-scale education platform.
+
+The goal is:
+
+ONE excellent end-to-end vertical slice that can be built, tested, deployed, and demonstrated within 24 hours.
+
+The golden MVP loop should approximately be:
+
+Student
+→ diagnostic/assessment
+→ knowledge graph
+→ mastery calculation
+→ personalized learning path
+→ AI context re-theming
+→ practice
+→ assessment
+→ weakness detection
+→ path adaptation
+→ intervention recommendation
+→ facilitator action
+→ updated student mastery
+
+DOCUMENTATION:
+
+Create or update ONLY these four files:
+
+docs/PRD.md
+docs/ARCHITECTURE.md
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+PRD.md must contain:
+
+- Problem
+- Target users
+- Personas
+- User journeys
+- MVP scope
+- Core features
+- Learning requirements
+- Assessment requirements
+- Success criteria
+- Explicit non-goals
+- What we will NOT build during the hackathon
+
+ARCHITECTURE.md must contain:
+
+- High-level system architecture
+- Major components
+- End-to-end data flow
+- Student learning state
+- Curriculum representation
+- Prerequisite knowledge graph representation
+- Mastery calculation approach
+- Adaptive pace logic
+- Assessment pipeline
+- AI context re-theming pipeline
+- Intervention detection/recommendation pipeline
+- Facilitator workflow
+- Database design
+- API boundaries
+- AI abstraction layer
+- Frontend architecture
+- Security/privacy considerations for children
+- Deployment architecture
+- Failure modes and fallbacks
+- MVP vs optional components
+- Clear justification for every major technology choice
+
+TASK_BOARD.md must:
+
+- Use P0 / P1 / P2 prioritization.
+- Order work according to the 24-hour timeline.
+- Make P0 produce a complete working end-to-end student + facilitator journey.
+- Prevent feature creep.
+- Clearly identify dependencies between tasks.
+- Identify the first implementation milestone.
+- Identify the 7 PM working-prototype target.
+
+DEVELOPMENT_LOG.md:
+
+Record only this architecture/planning milestone.
+
+Do NOT create a separate file for:
+- API specification
+- UI specification
+- database specification
+- security specification
+- testing specification
+- failure modes
+- judge questions
+- AI usage
+- deployment checklist
+
+Those should remain inside the four core documents unless they later become genuinely necessary.
+
+CRITICAL ARCHITECTURE REVIEW:
+
+Before finalizing anything, have the appropriate subagents independently challenge the proposed design.
+
+Check:
+
+1. Does the architecture satisfy ALL FOUR architectural deliverables in the problem statement?
+
+2. Is the MVP genuinely buildable in 24 hours?
+
+3. Have we introduced unnecessary services, frameworks, databases, APIs, or AI components?
+
+4. Can the entire core journey be demonstrated in approximately 5 minutes?
+
+5. Can every important AI decision be explained by a human developer?
+
+6. What happens if the AI API fails?
+
+7. What happens if Supabase/database access fails?
+
+8. Are mastery and progression decisions deterministic and auditable enough for a demo?
+
+9. Can the system demonstrate genuine adaptation rather than simply generating different questions?
+
+10. Does the intervention system provide an ACTIONABLE recommendation rather than merely displaying analytics?
+
+11. Is the knowledge graph actually used to control progression?
+
+12. Is the AI re-theming demonstrably preserving the underlying academic logic?
+
+13. Is the architecture simple enough that another developer can understand it during the hackathon?
+
+14. Which proposed features should be cut because they do not materially improve the required demonstration?
+
+MODEL/AI EFFICIENCY:
+
+Do not use the strongest/most expensive model for every operation.
+
+Use the most appropriate model for the task based on:
+- reasoning difficulty
+- context size
+- quality requirement
+- latency
+- token/cost efficiency
+
+For this architecture-heavy iteration, use a strong reasoning model where appropriate.
+
+For simple documentation synchronization or mechanical tasks later, prefer a faster/cheaper model.
+
+Do not make model selection part of the application architecture beyond maintaining a replaceable AI abstraction layer.
+
+SKILLS:
+
+Do NOT install skills in this iteration.
+
+At the end, identify the MINIMUM set of skills that would materially improve the NEXT implementation iteration.
+
+Potential categories may include:
+- Next.js/frontend
+- Supabase/database
+- AI/RAG
+- testing
+- security
+- code review
+
+But only recommend skills justified by the actual architecture.
+
+Do not recommend large collections of unrelated skills.
+
+FINAL OUTPUT:
+
+After completing the multi-agent analysis and synthesizing the results, provide:
+
+1. Final proposed product concept
+2. Final architecture summary
+3. Core MVP loop
+4. Recommended tech stack with justification
+5. Database/knowledge graph approach
+6. Mastery/adaptation approach
+7. AI responsibilities
+8. Facilitator intervention approach
+9. P0/P1/P2 implementation plan
+10. Major risks
+11. What was intentionally excluded
+12. Minimum skills recommended for the NEXT iteration
+
+Then STOP.
+
+Do NOT begin application implementation.
+
+Do NOT install skills.
+
+Do NOT proceed to the next development phase without human review.
