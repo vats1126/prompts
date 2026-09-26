@@ -1,0 +1,528 @@
+HARD TASK — SINGLE MILESTONE
+MODEL: GEMINI 3.8 FLASH — HIGH
+
+MANDATORY MULTI-AGENT SYSTEM.
+Use an orchestrator + exactly 4 specialist agents.
+
+============================================================
+AGENT SYSTEM
+============================================================
+
+ORCHESTRATOR
+- Own integration and final decisions.
+- Read specialist findings before implementation.
+- Prevent duplicate logic.
+- Do not rewrite working engines.
+- Run final validation.
+- Do not commit or push.
+
+AGENT 1 — EXISTING SYSTEM AUDITOR
+Inspect only:
+- KnowledgeGraph
+- MasteryEngine
+- chemistry domain
+- visual-learning-workspace
+- organic-chemistry-map
+- topic-experience-shell
+- current Stage 1 implementation
+
+Determine exactly how Stage 1 completion currently affects:
+- evidence
+- mastery
+- concept status
+- graph unlock state
+
+Identify the smallest safe path for true Stage 2 unlocking.
+
+STOP after reporting findings.
+
+AGENT 2 — CHEMISTRY CURRICULUM / VISUAL DESIGNER
+Design Stage 2:
+
+HYDROCARBON FOUNDATIONS
+
+Concepts:
+- hydrocarbons
+- alkanes
+- alkenes
+- alkynes
+- saturated vs unsaturated
+- single/double/triple bonds
+- carbon chains
+
+Design visual activities only.
+
+AGENT 3 — FRONTEND VISUAL ENGINEER
+Implement Stage 2 interactive visual learning.
+
+AGENT 4 — QA / JUDGE REVIEW
+Verify:
+- Stage 1 → Stage 2 progression
+- all interactions
+- mobile
+- accessibility
+- regressions
+- visual quality
+
+============================================================
+MILESTONE
+============================================================
+
+Build:
+
+ORGANIC CHEMISTRY
+↓
+Stage 1 Carbon Fundamentals
+↓
+MASTERED
+↓
+Stage 2 Hydrocarbon Foundations UNLOCKS
+↓
+interactive Stage 2 learning experience
+
+Do NOT implement Stage 3–5 yet.
+
+============================================================
+PART 1 — REAL STAGE PROGRESSION
+============================================================
+
+Make the milestone graph functional.
+
+Required behavior:
+
+Initially:
+
+Stage 1 = AVAILABLE
+Stage 2 = LOCKED
+Stage 3 = LOCKED
+Stage 4 = LOCKED
+Stage 5 = LOCKED
+
+After Stage 1 mastery condition is actually satisfied:
+
+Stage 1 = MASTERED
+Stage 2 = AVAILABLE
+Stage 3 = LOCKED
+Stage 4 = LOCKED
+Stage 5 = LOCKED
+
+Use the EXISTING KnowledgeGraphEngine.
+
+Use the EXISTING MasteryEngine.
+
+Do NOT create a parallel unlock system.
+
+Clicking Stage 2 before unlock:
+- show prerequisite explanation.
+
+Clicking Stage 2 after unlock:
+- opens Stage 2 workspace.
+
+============================================================
+PART 2 — STAGE 2 VISUAL EXPERIENCE
+============================================================
+
+Stage title:
+
+"Hydrocarbon Foundations"
+
+Subtitle:
+
+"See how carbon chains become different kinds of hydrocarbons."
+
+THIS MUST BE VISUAL.
+
+No paragraph-heavy lesson.
+
+Build these modules.
+
+------------------------------------------------------------
+MODULE A — SATURATED VS UNSATURATED
+------------------------------------------------------------
+
+Show two molecules visually:
+
+ALKANE
+C — C — C
+
+ALKENE
+C = C — C
+
+Make the comparison interactive.
+
+When switching:
+
+- molecular drawing changes
+- bond order changes
+- labels change
+- saturation state changes
+- explanation updates
+
+Use actual SVG molecular drawings.
+
+------------------------------------------------------------
+MODULE B — ALKANE BUILDER
+------------------------------------------------------------
+
+Interactive carbon-chain builder.
+
+Allow:
+
+C1 → C2 → C3 → C4 → C5 → C6
+
+Show:
+
+- carbon atoms
+- C-C bonds
+- hydrogen count
+- molecular formula
+- chain growth animation
+
+Examples:
+
+CH4
+C2H6
+C3H8
+C4H10
+C5H12
+C6H14
+
+Use deterministic formula calculation.
+
+Guard carbon valence.
+
+Reuse the existing chemistry domain model.
+
+Do NOT duplicate the molecule validator.
+
+------------------------------------------------------------
+MODULE C — ALKENE BUILDER
+------------------------------------------------------------
+
+Take a carbon chain and allow the student to introduce a double bond.
+
+Example:
+
+C — C — C
+
+→
+
+C = C — C
+
+Show:
+
+- bond change
+- molecular formula change
+- unsaturation indicator
+- visual distinction
+
+Make the actual bond rendering change.
+
+------------------------------------------------------------
+MODULE D — ALKYNE BUILDER
+------------------------------------------------------------
+
+Same concept:
+
+C — C — C
+
+→
+
+C ≡ C — C
+
+Show:
+
+- triple bond
+- formula change
+- visual bond multiplicity
+- structural difference
+
+Again:
+actual SVG state must change.
+
+------------------------------------------------------------
+MODULE E — "WHAT DID I BUILD?"
+------------------------------------------------------------
+
+Create a visual classification challenge.
+
+Give the student one molecule.
+
+Example:
+
+C — C — C
+
+Ask:
+
+"What type of hydrocarbon is this?"
+
+Choices:
+
+ALKANE
+ALKENE
+ALKYNE
+
+Then additional examples.
+
+Validation must be deterministic.
+
+Do NOT let AI decide correctness.
+
+Correct:
+- visual success
+- evidence emitted
+
+Incorrect:
+- highlight relevant bond
+- show visual hint
+- allow retry
+
+============================================================
+PART 3 — STAGE 2 EVIDENCE
+============================================================
+
+Every interactive activity produces structured evidence compatible with
+the existing mastery system.
+
+Example:
+
+{
+  conceptId,
+  activityId,
+  evidenceType: "practice",
+  score,
+  attempts,
+  timestamp
+}
+
+Do NOT directly set mastery.
+
+Flow:
+
+visual activity
+→ evidence
+→ existing MasteryEngine
+→ concept mastery
+→ stage progression
+
+============================================================
+PART 4 — LEARNING MAP
+============================================================
+
+Update the visual graph so that states are obvious:
+
+MASTERED
+AVAILABLE
+CURRENT
+LOCKED
+
+Use visual differences beyond color:
+
+- icon
+- border
+- label
+- connector state
+- progress indicator
+
+When Stage 2 becomes available:
+animate/transition the unlock subtly.
+
+Do not make the graph decorative.
+
+============================================================
+PART 5 — REUSE EXISTING CHEMISTRY ENGINE
+============================================================
+
+Reuse:
+
+- Atom
+- Bond
+- Molecule
+- BondOrder
+- Molecule validation
+- evidence model
+
+Do NOT create another chemistry model.
+
+Do NOT create another valence system.
+
+Do NOT create another mastery system.
+
+============================================================
+PART 6 — VISUAL QUALITY
+============================================================
+
+Use the existing Stage 1 visual system as the foundation.
+
+Maintain:
+
+- SVG-first scientific visuals
+- interactive controls
+- live state transitions
+- compact explanations
+- formulas
+- responsive layout
+- accessibility
+- subtle motion
+
+The learning canvas should feel like a scientific interactive tool.
+
+Avoid:
+
+- generic cards everywhere
+- huge text blocks
+- static images
+- emoji molecules
+- fake interaction
+
+============================================================
+PART 7 — RESPONSIVENESS
+============================================================
+
+Desktop:
+- learning map left
+- Stage 2 visual workspace right
+
+Mobile:
+- learning map becomes compact/sheet-style
+- molecule builders remain usable
+- controls are touch friendly
+- no horizontal overflow
+
+============================================================
+PART 8 — TESTS
+============================================================
+
+Add deterministic tests for:
+
+1. alkane classification
+2. alkene classification
+3. alkyne classification
+4. alkane formula calculation
+5. alkene formula calculation
+6. alkyne formula calculation
+7. carbon valence protection
+8. valid chain construction
+9. invalid chain rejected
+10. Stage 1 mastery causes Stage 2 availability
+11. Stage 2 remains locked before prerequisite mastery
+12. visual activity emits valid evidence
+
+Run:
+
+npm test
+npx tsc --noEmit
+npm run lint
+npm run build
+
+All must pass.
+
+============================================================
+PART 9 — FRACTION CONTROL
+============================================================
+
+Do NOT reintroduce Fractions into the primary experience.
+
+Fractions remain only as:
+- regression fixtures
+- legacy demo/test infrastructure
+
+Organic Chemistry remains the main visible demo.
+
+============================================================
+PART 10 — TOKEN EFFICIENCY
+============================================================
+
+Use context efficiently.
+
+Do not repeatedly reread the entire repository.
+
+Do not redesign:
+- topic planner
+- mastery engine
+- graph engine
+- diagnostic engine
+- intervention engine
+
+Do not implement:
+- Stage 3
+- Stage 4
+- Stage 5
+- SerpAPI
+- databases
+- auth
+- RAG
+- Neo4j
+- PostgreSQL
+- deployment
+
+Spend tokens only on this milestone.
+
+============================================================
+DOCUMENTATION
+============================================================
+
+After implementation:
+
+Update:
+
+docs/TASK_BOARD.md
+docs/DEVELOPMENT_LOG.md
+
+Update docs/ARCHITECTURE.md only if actual architecture changed.
+
+Do not rewrite PRD.md.
+
+============================================================
+FINAL QA
+============================================================
+
+Before stopping:
+
+1. Open the real application.
+2. Enter Organic Chemistry.
+3. Verify Stage 1 is initially available.
+4. Complete Stage 1 using the actual UI.
+5. Verify mastery/evidence changes.
+6. Verify Stage 2 becomes available.
+7. Open Stage 2.
+8. Test all Stage 2 visual manipulatives.
+9. Test an incorrect classification.
+10. Test a correct classification.
+11. Test mobile layout.
+12. Check keyboard accessibility.
+13. Confirm no obvious Fractions-first presentation.
+14. Run all test/build/typecheck/lint commands.
+
+============================================================
+STOP CONDITION
+============================================================
+
+STOP after Stage 2 is fully implemented and integrated.
+
+Do NOT continue into Stage 3.
+
+The milestone is complete when:
+
+Stage 1 mastery
+→ real graph unlock
+→ Stage 2 opens
+→ Stage 2 visually teaches hydrocarbons
+→ activities emit evidence
+→ existing mastery engine receives evidence.
+
+FINAL RESPONSE:
+Be concise.
+
+Report:
+- agents used
+- files changed
+- Stage 2 features
+- graph progression behavior
+- tests
+- typecheck
+- lint
+- build
+- remaining limitations
+
+DO NOT COMMIT OR PUSH.
